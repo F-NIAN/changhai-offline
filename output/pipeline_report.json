@@ -1,0 +1,137 @@
+{
+  "status": "completed",
+  "device": "cpu",
+  "pipeline": "data_transfer -> dataset split -> OfflineSegmenter train/validate -> SegmentFact -> FactLedger",
+  "feature_store": "F:\\暑期实习\\offline_model_baseline\\output\\feature_store",
+  "task_ids": [
+    50,
+    51,
+    52,
+    53,
+    54,
+    55,
+    56,
+    58,
+    59
+  ],
+  "feature_dim": 62,
+  "classes": [
+    "background",
+    "long_brush_cleaning",
+    "short_brush_cleaning"
+  ],
+  "split": {
+    "train_task_ids": [
+      58,
+      54,
+      50,
+      55,
+      53,
+      51,
+      59
+    ],
+    "val_task_ids": [
+      56,
+      52
+    ],
+    "test_task_ids": []
+  },
+  "models": {
+    "ms_tcn": {
+      "train": {
+        "history": [
+          {
+            "epoch": 1,
+            "loss": 1.471445
+          }
+        ],
+        "class_support_frames": {
+          "background": 4236,
+          "long_brush_cleaning": 201,
+          "short_brush_cleaning": 1191
+        }
+      },
+      "validation": [
+        {
+          "task_id": 56,
+          "frame_metrics": {
+            "frame_accuracy": 1.0,
+            "per_class": {
+              "background": {
+                "support_frames": 1865,
+                "pred_frames": 1865,
+                "iou": 1.0
+              },
+              "long_brush_cleaning": {
+                "support_frames": 0,
+                "pred_frames": 0,
+                "iou": null
+              },
+              "short_brush_cleaning": {
+                "support_frames": 0,
+                "pred_frames": 0,
+                "iou": null
+              }
+            },
+            "target_macro_iou": null
+          },
+          "segment_f1@0.25": 0.0,
+          "gt_segments": [],
+          "pred_segments": []
+        },
+        {
+          "task_id": 52,
+          "frame_metrics": {
+            "frame_accuracy": 1.0,
+            "per_class": {
+              "background": {
+                "support_frames": 372,
+                "pred_frames": 372,
+                "iou": 1.0
+              },
+              "long_brush_cleaning": {
+                "support_frames": 0,
+                "pred_frames": 0,
+                "iou": null
+              },
+              "short_brush_cleaning": {
+                "support_frames": 0,
+                "pred_frames": 0,
+                "iou": null
+              }
+            },
+            "target_macro_iou": null
+          },
+          "segment_f1@0.25": 0.0,
+          "gt_segments": [],
+          "pred_segments": []
+        }
+      ],
+      "mean_segment_f1@0.25": 0.0,
+      "model_path": "F:\\暑期实习\\offline_model_baseline\\output\\models\\ms_tcn_offline_segmenter.pt",
+      "segment_facts": "F:\\暑期实习\\offline_model_baseline\\output\\ms_tcn_segment_facts.jsonl",
+      "fact_ledger": "F:\\暑期实习\\offline_model_baseline\\output\\ms_tcn_fact_ledger.jsonl",
+      "segment_count": 0,
+      "ledger_rows": 0
+    }
+  },
+  "ranking": [
+    {
+      "model": "ms_tcn",
+      "mean_segment_f1@0.25": 0.0,
+      "segment_count": 0
+    }
+  ],
+  "selected_model": "ms_tcn",
+  "outputs_for_downstream": {
+    "qa_reference": "F:\\暑期实习\\offline_model_baseline\\output\\ms_tcn_segment_facts.jsonl",
+    "fact_ledger": "F:\\暑期实习\\offline_model_baseline\\output\\ms_tcn_fact_ledger.jsonl",
+    "model_path": "F:\\暑期实习\\offline_model_baseline\\output\\models\\ms_tcn_offline_segmenter.pt",
+    "prediction_dir": "F:\\暑期实习\\offline_model_baseline\\output\\predictions"
+  },
+  "notes": [
+    "当前实现是能跑通的 baseline 仓本，不是完整论文级 MS-TCN/ASFormer 复现。",
+    "Label Studio 转换会同时使用 bbox 特征和 timeline 标签；YOLO CSV 转换当前只提供检测特征，标签需要另行合并。",
+    "SegmentFact 是动作片段事实，FactLedger 是用于离线复算幂等 upsert 的账本行。"
+  ]
+}
