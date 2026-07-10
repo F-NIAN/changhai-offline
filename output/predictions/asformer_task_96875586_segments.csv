@@ -1,0 +1,12 @@
+fact_id,task_id,step_id,label,start_frame,end_frame,start_ms,end_ms,confidence,source
+96875586:1:asformer_offline_segmenter:1:16:flush,96875586,1,flush,1,16,0,2133,0.30445,asformer_offline_segmenter
+96875586:1:asformer_offline_segmenter:17:42:long_brush_withdraw,96875586,1,long_brush_withdraw,17,42,2133,5600,0.3703,asformer_offline_segmenter
+96875586:1:asformer_offline_segmenter:43:53:long_brush_insert,96875586,1,long_brush_insert,43,53,5600,7067,0.39695,asformer_offline_segmenter
+96875586:1:asformer_offline_segmenter:54:59:long_brush_withdraw,96875586,1,long_brush_withdraw,54,59,7067,7867,0.37362,asformer_offline_segmenter
+96875586:1:asformer_offline_segmenter:62:163:flush,96875586,1,flush,62,163,8133,21733,0.35465,asformer_offline_segmenter
+96875586:1:asformer_offline_segmenter:164:167:air_injection,96875586,1,air_injection,164,167,21733,22267,0.28804,asformer_offline_segmenter
+96875586:1:asformer_offline_segmenter:170:204:flush,96875586,1,flush,170,204,22533,27200,0.4207,asformer_offline_segmenter
+96875586:1:asformer_offline_segmenter:211:221:flush,96875586,1,flush,211,221,28000,29467,0.38563,asformer_offline_segmenter
+96875586:1:asformer_offline_segmenter:222:226:short_brush_cleaning,96875586,1,short_brush_cleaning,222,226,29467,30133,0.26643,asformer_offline_segmenter
+96875586:1:asformer_offline_segmenter:227:242:long_brush_withdraw,96875586,1,long_brush_withdraw,227,242,30133,32267,0.55758,asformer_offline_segmenter
+96875586:1:asformer_offline_segmenter:243:284:flush,96875586,1,flush,243,284,32267,37867,0.34524,asformer_offline_segmenter

@@ -36,6 +36,17 @@ offline_model_baseline/
 python run_pipeline.py --models ms_tcn asformer bigru --epochs 5
 ```
 
+如果想直接接入 ModelScope 数据集并把原始文件下载到工作区：
+
+```bash
+python run_pipeline.py --models ms_tcn asformer bigru --epochs 3 --dataset-root input/modelscope --dataset-name lhh010/cleansight-ActionMixed
+```
+
+此时脚本会：
+- 把数据集下载到 input/modelscope/lhh010__cleansight-ActionMixed；
+- 将其转换为 FeatureStore-like npz，写入 output/feature_store；
+- 继续走训练、验证与结果输出流程。
+
 如果只想快速 smoke test：
 
 ```bash

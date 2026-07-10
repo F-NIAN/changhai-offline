@@ -1,40 +1,148 @@
 {
   "status": "completed",
   "device": "cpu",
-  "pipeline": "data_transfer -> dataset split -> OfflineSegmenter train/validate -> SegmentFact -> FactLedger",
-  "feature_store": "F:\\暑期实习\\offline_model_baseline\\output\\feature_store",
+  "epochs": 1,
+  "input_source": "actionmixed",
+  "input_desc": "actionmixed:F:\\暑期实习\\changhai-offline\\input\\modelscope\\lhh010__cleansight-ActionMixed",
+  "pipeline": "data_transfer -> FeatureStore.load -> OfflineSegmenter -> SegmentFact -> FactLedger",
+  "feature_store": "output\\feature_store",
+  "report_path": "output\\pipeline_report.json",
+  "training_summary_report": "output\\training_summary_report.md",
   "task_ids": [
-    50,
-    51,
-    52,
-    53,
-    54,
-    55,
-    56,
-    58,
-    59
+    21640639,
+    29122705,
+    41021743,
+    41489043,
+    46980329,
+    49449012,
+    52983940,
+    62327733,
+    63569651,
+    66090143,
+    76442803,
+    77519758,
+    81774999,
+    81943919,
+    92929062,
+    96875586
   ],
   "feature_dim": 62,
   "classes": [
-    "background",
-    "long_brush_cleaning",
-    "short_brush_cleaning"
+    "idle",
+    "long_brush_insert",
+    "long_brush_withdraw",
+    "short_brush_cleaning",
+    "flush",
+    "air_injection"
   ],
+  "model_class_to_id": {
+    "idle": 0,
+    "long_brush_insert": 1,
+    "long_brush_withdraw": 2,
+    "short_brush_cleaning": 3,
+    "flush": 4,
+    "air_injection": 5
+  },
+  "raw_action_classes": {
+    "0": "idle",
+    "1": "air_injection",
+    "2": "flush",
+    "3": "long_brush_insert",
+    "4": "long_brush_withdraw",
+    "5": "short_brush_cleaning"
+  },
+  "raw_to_model_action_mapping": {
+    "0": {
+      "raw_label": "idle",
+      "model_label": "idle",
+      "model_id": 0
+    },
+    "1": {
+      "raw_label": "air_injection",
+      "model_label": "air_injection",
+      "model_id": 5
+    },
+    "2": {
+      "raw_label": "flush",
+      "model_label": "flush",
+      "model_id": 4
+    },
+    "3": {
+      "raw_label": "long_brush_insert",
+      "model_label": "long_brush_insert",
+      "model_id": 1
+    },
+    "4": {
+      "raw_label": "long_brush_withdraw",
+      "model_label": "long_brush_withdraw",
+      "model_id": 2
+    },
+    "5": {
+      "raw_label": "short_brush_cleaning",
+      "model_label": "short_brush_cleaning",
+      "model_id": 3
+    }
+  },
+  "label_distribution": {
+    "total_frames": 4501,
+    "total": {
+      "idle": 906,
+      "long_brush_insert": 1105,
+      "long_brush_withdraw": 763,
+      "short_brush_cleaning": 252,
+      "flush": 1109,
+      "air_injection": 366
+    },
+    "by_split": {
+      "test": {
+        "idle": 83,
+        "long_brush_insert": 359,
+        "long_brush_withdraw": 0,
+        "short_brush_cleaning": 0,
+        "flush": 48,
+        "air_injection": 0
+      },
+      "train": {
+        "idle": 638,
+        "long_brush_insert": 466,
+        "long_brush_withdraw": 635,
+        "short_brush_cleaning": 115,
+        "flush": 743,
+        "air_injection": 366
+      },
+      "val": {
+        "idle": 185,
+        "long_brush_insert": 280,
+        "long_brush_withdraw": 128,
+        "short_brush_cleaning": 137,
+        "flush": 318,
+        "air_injection": 0
+      }
+    }
+  },
   "split": {
     "train_task_ids": [
-      58,
-      54,
-      50,
-      55,
-      53,
-      51,
-      59
+      46980329,
+      63569651,
+      81774999,
+      81943919,
+      92929062,
+      77519758,
+      29122705,
+      76442803
     ],
     "val_task_ids": [
-      56,
-      52
+      41021743,
+      49449012,
+      52983940,
+      62327733,
+      66090143,
+      96875586
     ],
-    "test_task_ids": []
+    "test_task_ids": [
+      21640639,
+      41489043
+    ]
   },
   "models": {
     "ms_tcn": {
@@ -42,96 +150,1920 @@
         "history": [
           {
             "epoch": 1,
-            "loss": 1.471445
+            "loss": 1.79008
           }
         ],
         "class_support_frames": {
-          "background": 4236,
-          "long_brush_cleaning": 201,
-          "short_brush_cleaning": 1191
+          "idle": 638,
+          "long_brush_insert": 466,
+          "long_brush_withdraw": 635,
+          "short_brush_cleaning": 115,
+          "flush": 743,
+          "air_injection": 366
         }
       },
       "validation": [
         {
-          "task_id": 56,
+          "task_id": 41021743,
+          "split": "val",
+          "video_ref": "af0e7803-clip_1781584048438_1781584063735.mp4",
           "frame_metrics": {
-            "frame_accuracy": 1.0,
+            "frame_accuracy": 0.0,
             "per_class": {
-              "background": {
-                "support_frames": 1865,
-                "pred_frames": 1865,
-                "iou": 1.0
-              },
-              "long_brush_cleaning": {
-                "support_frames": 0,
+              "idle": {
+                "support_frames": 33,
                 "pred_frames": 0,
-                "iou": null
+                "iou": 0.0
+              },
+              "long_brush_insert": {
+                "support_frames": 82,
+                "pred_frames": 0,
+                "iou": 0.0
+              },
+              "long_brush_withdraw": {
+                "support_frames": 0,
+                "pred_frames": 115,
+                "iou": 0.0
               },
               "short_brush_cleaning": {
                 "support_frames": 0,
                 "pred_frames": 0,
                 "iou": null
+              },
+              "flush": {
+                "support_frames": 0,
+                "pred_frames": 0,
+                "iou": null
+              },
+              "air_injection": {
+                "support_frames": 0,
+                "pred_frames": 0,
+                "iou": null
               }
             },
-            "target_macro_iou": null
+            "target_macro_iou": 0.0
           },
           "segment_f1@0.25": 0.0,
-          "gt_segments": [],
-          "pred_segments": []
+          "gt_segments": [
+            {
+              "fact_id": "41021743:1:actionmixed_ground_truth:17:98:long_brush_insert",
+              "task_id": 41021743,
+              "step_id": 1,
+              "label": "long_brush_insert",
+              "start_frame": 17,
+              "end_frame": 98,
+              "start_ms": 2133,
+              "end_ms": 13067,
+              "confidence": 1.0,
+              "source": "actionmixed_ground_truth"
+            }
+          ],
+          "pred_segments": [
+            {
+              "fact_id": "41021743:1:ms_tcn_validation:1:115:long_brush_withdraw",
+              "task_id": 41021743,
+              "step_id": 1,
+              "label": "long_brush_withdraw",
+              "start_frame": 1,
+              "end_frame": 115,
+              "start_ms": 0,
+              "end_ms": 15333,
+              "confidence": 0.47621,
+              "source": "ms_tcn_validation"
+            }
+          ]
         },
         {
-          "task_id": 52,
+          "task_id": 49449012,
+          "split": "val",
+          "video_ref": "65d70028-clip_1781661552468_1781661702909.mp4",
           "frame_metrics": {
-            "frame_accuracy": 1.0,
+            "frame_accuracy": 0.308411214953271,
             "per_class": {
-              "background": {
-                "support_frames": 372,
-                "pred_frames": 372,
-                "iou": 1.0
+              "idle": {
+                "support_frames": 14,
+                "pred_frames": 0,
+                "iou": 0.0
               },
-              "long_brush_cleaning": {
+              "long_brush_insert": {
                 "support_frames": 0,
                 "pred_frames": 0,
                 "iou": null
+              },
+              "long_brush_withdraw": {
+                "support_frames": 33,
+                "pred_frames": 107,
+                "iou": 0.308411214953271
               },
               "short_brush_cleaning": {
                 "support_frames": 0,
                 "pred_frames": 0,
                 "iou": null
+              },
+              "flush": {
+                "support_frames": 60,
+                "pred_frames": 0,
+                "iou": 0.0
+              },
+              "air_injection": {
+                "support_frames": 0,
+                "pred_frames": 0,
+                "iou": null
               }
             },
-            "target_macro_iou": null
+            "target_macro_iou": 0.1542056074766355
+          },
+          "segment_f1@0.25": 0.6666666666666666,
+          "gt_segments": [
+            {
+              "fact_id": "49449012:1:actionmixed_ground_truth:3:35:long_brush_withdraw",
+              "task_id": 49449012,
+              "step_id": 1,
+              "label": "long_brush_withdraw",
+              "start_frame": 3,
+              "end_frame": 35,
+              "start_ms": 267,
+              "end_ms": 4667,
+              "confidence": 1.0,
+              "source": "actionmixed_ground_truth"
+            },
+            {
+              "fact_id": "49449012:1:actionmixed_ground_truth:47:106:flush",
+              "task_id": 49449012,
+              "step_id": 1,
+              "label": "flush",
+              "start_frame": 47,
+              "end_frame": 106,
+              "start_ms": 6133,
+              "end_ms": 14133,
+              "confidence": 1.0,
+              "source": "actionmixed_ground_truth"
+            }
+          ],
+          "pred_segments": [
+            {
+              "fact_id": "49449012:1:ms_tcn_validation:1:107:long_brush_withdraw",
+              "task_id": 49449012,
+              "step_id": 1,
+              "label": "long_brush_withdraw",
+              "start_frame": 1,
+              "end_frame": 107,
+              "start_ms": 0,
+              "end_ms": 14267,
+              "confidence": 0.33581,
+              "source": "ms_tcn_validation"
+            }
+          ]
+        },
+        {
+          "task_id": 52983940,
+          "split": "val",
+          "video_ref": "218f9117-clip_1781583985044_1781584006285.mp4",
+          "frame_metrics": {
+            "frame_accuracy": 0.0,
+            "per_class": {
+              "idle": {
+                "support_frames": 0,
+                "pred_frames": 0,
+                "iou": null
+              },
+              "long_brush_insert": {
+                "support_frames": 67,
+                "pred_frames": 0,
+                "iou": 0.0
+              },
+              "long_brush_withdraw": {
+                "support_frames": 0,
+                "pred_frames": 67,
+                "iou": 0.0
+              },
+              "short_brush_cleaning": {
+                "support_frames": 0,
+                "pred_frames": 0,
+                "iou": null
+              },
+              "flush": {
+                "support_frames": 0,
+                "pred_frames": 0,
+                "iou": null
+              },
+              "air_injection": {
+                "support_frames": 0,
+                "pred_frames": 0,
+                "iou": null
+              }
+            },
+            "target_macro_iou": 0.0
           },
           "segment_f1@0.25": 0.0,
-          "gt_segments": [],
-          "pred_segments": []
+          "gt_segments": [
+            {
+              "fact_id": "52983940:1:actionmixed_ground_truth:1:67:long_brush_insert",
+              "task_id": 52983940,
+              "step_id": 1,
+              "label": "long_brush_insert",
+              "start_frame": 1,
+              "end_frame": 67,
+              "start_ms": 0,
+              "end_ms": 8933,
+              "confidence": 1.0,
+              "source": "actionmixed_ground_truth"
+            }
+          ],
+          "pred_segments": [
+            {
+              "fact_id": "52983940:1:ms_tcn_validation:1:67:long_brush_withdraw",
+              "task_id": 52983940,
+              "step_id": 1,
+              "label": "long_brush_withdraw",
+              "start_frame": 1,
+              "end_frame": 67,
+              "start_ms": 0,
+              "end_ms": 8933,
+              "confidence": 0.39124,
+              "source": "ms_tcn_validation"
+            }
+          ]
+        },
+        {
+          "task_id": 62327733,
+          "split": "val",
+          "video_ref": "2c635ddc-clip_1782695261284_1782695331171.mp4",
+          "frame_metrics": {
+            "frame_accuracy": 0.0,
+            "per_class": {
+              "idle": {
+                "support_frames": 37,
+                "pred_frames": 0,
+                "iou": 0.0
+              },
+              "long_brush_insert": {
+                "support_frames": 0,
+                "pred_frames": 0,
+                "iou": null
+              },
+              "long_brush_withdraw": {
+                "support_frames": 0,
+                "pred_frames": 174,
+                "iou": 0.0
+              },
+              "short_brush_cleaning": {
+                "support_frames": 137,
+                "pred_frames": 0,
+                "iou": 0.0
+              },
+              "flush": {
+                "support_frames": 0,
+                "pred_frames": 0,
+                "iou": null
+              },
+              "air_injection": {
+                "support_frames": 0,
+                "pred_frames": 0,
+                "iou": null
+              }
+            },
+            "target_macro_iou": 0.0
+          },
+          "segment_f1@0.25": 0.0,
+          "gt_segments": [
+            {
+              "fact_id": "62327733:1:actionmixed_ground_truth:4:140:short_brush_cleaning",
+              "task_id": 62327733,
+              "step_id": 1,
+              "label": "short_brush_cleaning",
+              "start_frame": 4,
+              "end_frame": 140,
+              "start_ms": 400,
+              "end_ms": 18667,
+              "confidence": 1.0,
+              "source": "actionmixed_ground_truth"
+            }
+          ],
+          "pred_segments": [
+            {
+              "fact_id": "62327733:1:ms_tcn_validation:1:174:long_brush_withdraw",
+              "task_id": 62327733,
+              "step_id": 1,
+              "label": "long_brush_withdraw",
+              "start_frame": 1,
+              "end_frame": 174,
+              "start_ms": 0,
+              "end_ms": 23200,
+              "confidence": 0.5196,
+              "source": "ms_tcn_validation"
+            }
+          ]
+        },
+        {
+          "task_id": 66090143,
+          "split": "val",
+          "video_ref": "4807dbbe-clip_1781659328328_1781659467929.mp4",
+          "frame_metrics": {
+            "frame_accuracy": 0.31561461794019935,
+            "per_class": {
+              "idle": {
+                "support_frames": 75,
+                "pred_frames": 0,
+                "iou": 0.0
+              },
+              "long_brush_insert": {
+                "support_frames": 131,
+                "pred_frames": 0,
+                "iou": 0.0
+              },
+              "long_brush_withdraw": {
+                "support_frames": 95,
+                "pred_frames": 301,
+                "iou": 0.31561461794019935
+              },
+              "short_brush_cleaning": {
+                "support_frames": 0,
+                "pred_frames": 0,
+                "iou": null
+              },
+              "flush": {
+                "support_frames": 0,
+                "pred_frames": 0,
+                "iou": null
+              },
+              "air_injection": {
+                "support_frames": 0,
+                "pred_frames": 0,
+                "iou": null
+              }
+            },
+            "target_macro_iou": 0.15780730897009967
+          },
+          "segment_f1@0.25": 0.0,
+          "gt_segments": [
+            {
+              "fact_id": "66090143:1:actionmixed_ground_truth:12:49:long_brush_withdraw",
+              "task_id": 66090143,
+              "step_id": 1,
+              "label": "long_brush_withdraw",
+              "start_frame": 12,
+              "end_frame": 49,
+              "start_ms": 1467,
+              "end_ms": 6533,
+              "confidence": 1.0,
+              "source": "actionmixed_ground_truth"
+            },
+            {
+              "fact_id": "66090143:1:actionmixed_ground_truth:70:200:long_brush_insert",
+              "task_id": 66090143,
+              "step_id": 1,
+              "label": "long_brush_insert",
+              "start_frame": 70,
+              "end_frame": 200,
+              "start_ms": 9200,
+              "end_ms": 26667,
+              "confidence": 1.0,
+              "source": "actionmixed_ground_truth"
+            },
+            {
+              "fact_id": "66090143:1:actionmixed_ground_truth:217:273:long_brush_withdraw",
+              "task_id": 66090143,
+              "step_id": 1,
+              "label": "long_brush_withdraw",
+              "start_frame": 217,
+              "end_frame": 273,
+              "start_ms": 28800,
+              "end_ms": 36400,
+              "confidence": 1.0,
+              "source": "actionmixed_ground_truth"
+            }
+          ],
+          "pred_segments": [
+            {
+              "fact_id": "66090143:1:ms_tcn_validation:1:301:long_brush_withdraw",
+              "task_id": 66090143,
+              "step_id": 1,
+              "label": "long_brush_withdraw",
+              "start_frame": 1,
+              "end_frame": 301,
+              "start_ms": 0,
+              "end_ms": 40133,
+              "confidence": 0.39511,
+              "source": "ms_tcn_validation"
+            }
+          ]
+        },
+        {
+          "task_id": 96875586,
+          "split": "val",
+          "video_ref": "63a848d5-clip_1782695363948_1782695590302.mp4",
+          "frame_metrics": {
+            "frame_accuracy": 0.0,
+            "per_class": {
+              "idle": {
+                "support_frames": 26,
+                "pred_frames": 0,
+                "iou": 0.0
+              },
+              "long_brush_insert": {
+                "support_frames": 0,
+                "pred_frames": 0,
+                "iou": null
+              },
+              "long_brush_withdraw": {
+                "support_frames": 0,
+                "pred_frames": 284,
+                "iou": 0.0
+              },
+              "short_brush_cleaning": {
+                "support_frames": 0,
+                "pred_frames": 0,
+                "iou": null
+              },
+              "flush": {
+                "support_frames": 258,
+                "pred_frames": 0,
+                "iou": 0.0
+              },
+              "air_injection": {
+                "support_frames": 0,
+                "pred_frames": 0,
+                "iou": null
+              }
+            },
+            "target_macro_iou": 0.0
+          },
+          "segment_f1@0.25": 0.0,
+          "gt_segments": [
+            {
+              "fact_id": "96875586:1:actionmixed_ground_truth:3:71:flush",
+              "task_id": 96875586,
+              "step_id": 1,
+              "label": "flush",
+              "start_frame": 3,
+              "end_frame": 71,
+              "start_ms": 267,
+              "end_ms": 9467,
+              "confidence": 1.0,
+              "source": "actionmixed_ground_truth"
+            },
+            {
+              "fact_id": "96875586:1:actionmixed_ground_truth:75:121:flush",
+              "task_id": 96875586,
+              "step_id": 1,
+              "label": "flush",
+              "start_frame": 75,
+              "end_frame": 121,
+              "start_ms": 9867,
+              "end_ms": 16133,
+              "confidence": 1.0,
+              "source": "actionmixed_ground_truth"
+            },
+            {
+              "fact_id": "96875586:1:actionmixed_ground_truth:125:168:flush",
+              "task_id": 96875586,
+              "step_id": 1,
+              "label": "flush",
+              "start_frame": 125,
+              "end_frame": 168,
+              "start_ms": 16533,
+              "end_ms": 22400,
+              "confidence": 1.0,
+              "source": "actionmixed_ground_truth"
+            },
+            {
+              "fact_id": "96875586:1:actionmixed_ground_truth:171:226:flush",
+              "task_id": 96875586,
+              "step_id": 1,
+              "label": "flush",
+              "start_frame": 171,
+              "end_frame": 226,
+              "start_ms": 22667,
+              "end_ms": 30133,
+              "confidence": 1.0,
+              "source": "actionmixed_ground_truth"
+            },
+            {
+              "fact_id": "96875586:1:actionmixed_ground_truth:239:280:flush",
+              "task_id": 96875586,
+              "step_id": 1,
+              "label": "flush",
+              "start_frame": 239,
+              "end_frame": 280,
+              "start_ms": 31733,
+              "end_ms": 37333,
+              "confidence": 1.0,
+              "source": "actionmixed_ground_truth"
+            }
+          ],
+          "pred_segments": [
+            {
+              "fact_id": "96875586:1:ms_tcn_validation:1:284:long_brush_withdraw",
+              "task_id": 96875586,
+              "step_id": 1,
+              "label": "long_brush_withdraw",
+              "start_frame": 1,
+              "end_frame": 284,
+              "start_ms": 0,
+              "end_ms": 37867,
+              "confidence": 0.30091,
+              "source": "ms_tcn_validation"
+            }
+          ]
         }
       ],
-      "mean_segment_f1@0.25": 0.0,
-      "model_path": "F:\\暑期实习\\offline_model_baseline\\output\\models\\ms_tcn_offline_segmenter.pt",
-      "segment_facts": "F:\\暑期实习\\offline_model_baseline\\output\\ms_tcn_segment_facts.jsonl",
-      "fact_ledger": "F:\\暑期实习\\offline_model_baseline\\output\\ms_tcn_fact_ledger.jsonl",
-      "segment_count": 0,
-      "ledger_rows": 0
+      "mean_segment_f1@0.25": 0.1111111111111111,
+      "model_path": "output\\models\\ms_tcn_offline_segmenter.pt",
+      "segment_facts": "output\\ms_tcn_segment_facts.jsonl",
+      "fact_ledger": "output\\ms_tcn_fact_ledger.jsonl",
+      "segment_count": 16,
+      "ledger_rows": 16
+    },
+    "asformer": {
+      "train": {
+        "history": [
+          {
+            "epoch": 1,
+            "loss": 1.687787
+          }
+        ],
+        "class_support_frames": {
+          "idle": 638,
+          "long_brush_insert": 466,
+          "long_brush_withdraw": 635,
+          "short_brush_cleaning": 115,
+          "flush": 743,
+          "air_injection": 366
+        }
+      },
+      "validation": [
+        {
+          "task_id": 41021743,
+          "split": "val",
+          "video_ref": "af0e7803-clip_1781584048438_1781584063735.mp4",
+          "frame_metrics": {
+            "frame_accuracy": 0.0,
+            "per_class": {
+              "idle": {
+                "support_frames": 33,
+                "pred_frames": 0,
+                "iou": 0.0
+              },
+              "long_brush_insert": {
+                "support_frames": 82,
+                "pred_frames": 0,
+                "iou": 0.0
+              },
+              "long_brush_withdraw": {
+                "support_frames": 0,
+                "pred_frames": 115,
+                "iou": 0.0
+              },
+              "short_brush_cleaning": {
+                "support_frames": 0,
+                "pred_frames": 0,
+                "iou": null
+              },
+              "flush": {
+                "support_frames": 0,
+                "pred_frames": 0,
+                "iou": null
+              },
+              "air_injection": {
+                "support_frames": 0,
+                "pred_frames": 0,
+                "iou": null
+              }
+            },
+            "target_macro_iou": 0.0
+          },
+          "segment_f1@0.25": 0.0,
+          "gt_segments": [
+            {
+              "fact_id": "41021743:1:actionmixed_ground_truth:17:98:long_brush_insert",
+              "task_id": 41021743,
+              "step_id": 1,
+              "label": "long_brush_insert",
+              "start_frame": 17,
+              "end_frame": 98,
+              "start_ms": 2133,
+              "end_ms": 13067,
+              "confidence": 1.0,
+              "source": "actionmixed_ground_truth"
+            }
+          ],
+          "pred_segments": [
+            {
+              "fact_id": "41021743:1:asformer_validation:1:115:long_brush_withdraw",
+              "task_id": 41021743,
+              "step_id": 1,
+              "label": "long_brush_withdraw",
+              "start_frame": 1,
+              "end_frame": 115,
+              "start_ms": 0,
+              "end_ms": 15333,
+              "confidence": 0.77943,
+              "source": "asformer_validation"
+            }
+          ]
+        },
+        {
+          "task_id": 49449012,
+          "split": "val",
+          "video_ref": "65d70028-clip_1781661552468_1781661702909.mp4",
+          "frame_metrics": {
+            "frame_accuracy": 0.308411214953271,
+            "per_class": {
+              "idle": {
+                "support_frames": 14,
+                "pred_frames": 0,
+                "iou": 0.0
+              },
+              "long_brush_insert": {
+                "support_frames": 0,
+                "pred_frames": 0,
+                "iou": null
+              },
+              "long_brush_withdraw": {
+                "support_frames": 33,
+                "pred_frames": 107,
+                "iou": 0.308411214953271
+              },
+              "short_brush_cleaning": {
+                "support_frames": 0,
+                "pred_frames": 0,
+                "iou": null
+              },
+              "flush": {
+                "support_frames": 60,
+                "pred_frames": 0,
+                "iou": 0.0
+              },
+              "air_injection": {
+                "support_frames": 0,
+                "pred_frames": 0,
+                "iou": null
+              }
+            },
+            "target_macro_iou": 0.1542056074766355
+          },
+          "segment_f1@0.25": 0.6666666666666666,
+          "gt_segments": [
+            {
+              "fact_id": "49449012:1:actionmixed_ground_truth:3:35:long_brush_withdraw",
+              "task_id": 49449012,
+              "step_id": 1,
+              "label": "long_brush_withdraw",
+              "start_frame": 3,
+              "end_frame": 35,
+              "start_ms": 267,
+              "end_ms": 4667,
+              "confidence": 1.0,
+              "source": "actionmixed_ground_truth"
+            },
+            {
+              "fact_id": "49449012:1:actionmixed_ground_truth:47:106:flush",
+              "task_id": 49449012,
+              "step_id": 1,
+              "label": "flush",
+              "start_frame": 47,
+              "end_frame": 106,
+              "start_ms": 6133,
+              "end_ms": 14133,
+              "confidence": 1.0,
+              "source": "actionmixed_ground_truth"
+            }
+          ],
+          "pred_segments": [
+            {
+              "fact_id": "49449012:1:asformer_validation:1:107:long_brush_withdraw",
+              "task_id": 49449012,
+              "step_id": 1,
+              "label": "long_brush_withdraw",
+              "start_frame": 1,
+              "end_frame": 107,
+              "start_ms": 0,
+              "end_ms": 14267,
+              "confidence": 0.64995,
+              "source": "asformer_validation"
+            }
+          ]
+        },
+        {
+          "task_id": 52983940,
+          "split": "val",
+          "video_ref": "218f9117-clip_1781583985044_1781584006285.mp4",
+          "frame_metrics": {
+            "frame_accuracy": 0.0,
+            "per_class": {
+              "idle": {
+                "support_frames": 0,
+                "pred_frames": 0,
+                "iou": null
+              },
+              "long_brush_insert": {
+                "support_frames": 67,
+                "pred_frames": 0,
+                "iou": 0.0
+              },
+              "long_brush_withdraw": {
+                "support_frames": 0,
+                "pred_frames": 67,
+                "iou": 0.0
+              },
+              "short_brush_cleaning": {
+                "support_frames": 0,
+                "pred_frames": 0,
+                "iou": null
+              },
+              "flush": {
+                "support_frames": 0,
+                "pred_frames": 0,
+                "iou": null
+              },
+              "air_injection": {
+                "support_frames": 0,
+                "pred_frames": 0,
+                "iou": null
+              }
+            },
+            "target_macro_iou": 0.0
+          },
+          "segment_f1@0.25": 0.0,
+          "gt_segments": [
+            {
+              "fact_id": "52983940:1:actionmixed_ground_truth:1:67:long_brush_insert",
+              "task_id": 52983940,
+              "step_id": 1,
+              "label": "long_brush_insert",
+              "start_frame": 1,
+              "end_frame": 67,
+              "start_ms": 0,
+              "end_ms": 8933,
+              "confidence": 1.0,
+              "source": "actionmixed_ground_truth"
+            }
+          ],
+          "pred_segments": [
+            {
+              "fact_id": "52983940:1:asformer_validation:1:67:long_brush_withdraw",
+              "task_id": 52983940,
+              "step_id": 1,
+              "label": "long_brush_withdraw",
+              "start_frame": 1,
+              "end_frame": 67,
+              "start_ms": 0,
+              "end_ms": 8933,
+              "confidence": 0.88617,
+              "source": "asformer_validation"
+            }
+          ]
+        },
+        {
+          "task_id": 62327733,
+          "split": "val",
+          "video_ref": "2c635ddc-clip_1782695261284_1782695331171.mp4",
+          "frame_metrics": {
+            "frame_accuracy": 0.0,
+            "per_class": {
+              "idle": {
+                "support_frames": 37,
+                "pred_frames": 0,
+                "iou": 0.0
+              },
+              "long_brush_insert": {
+                "support_frames": 0,
+                "pred_frames": 0,
+                "iou": null
+              },
+              "long_brush_withdraw": {
+                "support_frames": 0,
+                "pred_frames": 62,
+                "iou": 0.0
+              },
+              "short_brush_cleaning": {
+                "support_frames": 137,
+                "pred_frames": 0,
+                "iou": 0.0
+              },
+              "flush": {
+                "support_frames": 0,
+                "pred_frames": 80,
+                "iou": 0.0
+              },
+              "air_injection": {
+                "support_frames": 0,
+                "pred_frames": 32,
+                "iou": 0.0
+              }
+            },
+            "target_macro_iou": 0.0
+          },
+          "segment_f1@0.25": 0.0,
+          "gt_segments": [
+            {
+              "fact_id": "62327733:1:actionmixed_ground_truth:4:140:short_brush_cleaning",
+              "task_id": 62327733,
+              "step_id": 1,
+              "label": "short_brush_cleaning",
+              "start_frame": 4,
+              "end_frame": 140,
+              "start_ms": 400,
+              "end_ms": 18667,
+              "confidence": 1.0,
+              "source": "actionmixed_ground_truth"
+            }
+          ],
+          "pred_segments": [
+            {
+              "fact_id": "62327733:1:asformer_validation:1:4:air_injection",
+              "task_id": 62327733,
+              "step_id": 1,
+              "label": "air_injection",
+              "start_frame": 1,
+              "end_frame": 4,
+              "start_ms": 0,
+              "end_ms": 533,
+              "confidence": 0.26783,
+              "source": "asformer_validation"
+            },
+            {
+              "fact_id": "62327733:1:asformer_validation:5:16:flush",
+              "task_id": 62327733,
+              "step_id": 1,
+              "label": "flush",
+              "start_frame": 5,
+              "end_frame": 16,
+              "start_ms": 533,
+              "end_ms": 2133,
+              "confidence": 0.25838,
+              "source": "asformer_validation"
+            },
+            {
+              "fact_id": "62327733:1:asformer_validation:17:66:long_brush_withdraw",
+              "task_id": 62327733,
+              "step_id": 1,
+              "label": "long_brush_withdraw",
+              "start_frame": 17,
+              "end_frame": 66,
+              "start_ms": 2133,
+              "end_ms": 8800,
+              "confidence": 0.43875,
+              "source": "asformer_validation"
+            },
+            {
+              "fact_id": "62327733:1:asformer_validation:67:71:flush",
+              "task_id": 62327733,
+              "step_id": 1,
+              "label": "flush",
+              "start_frame": 67,
+              "end_frame": 71,
+              "start_ms": 8800,
+              "end_ms": 9467,
+              "confidence": 0.27577,
+              "source": "asformer_validation"
+            },
+            {
+              "fact_id": "62327733:1:asformer_validation:72:75:long_brush_withdraw",
+              "task_id": 62327733,
+              "step_id": 1,
+              "label": "long_brush_withdraw",
+              "start_frame": 72,
+              "end_frame": 75,
+              "start_ms": 9467,
+              "end_ms": 10000,
+              "confidence": 0.29587,
+              "source": "asformer_validation"
+            },
+            {
+              "fact_id": "62327733:1:asformer_validation:76:99:flush",
+              "task_id": 62327733,
+              "step_id": 1,
+              "label": "flush",
+              "start_frame": 76,
+              "end_frame": 99,
+              "start_ms": 10000,
+              "end_ms": 13200,
+              "confidence": 0.31512,
+              "source": "asformer_validation"
+            },
+            {
+              "fact_id": "62327733:1:asformer_validation:100:103:long_brush_withdraw",
+              "task_id": 62327733,
+              "step_id": 1,
+              "label": "long_brush_withdraw",
+              "start_frame": 100,
+              "end_frame": 103,
+              "start_ms": 13200,
+              "end_ms": 13733,
+              "confidence": 0.29964,
+              "source": "asformer_validation"
+            },
+            {
+              "fact_id": "62327733:1:asformer_validation:104:128:flush",
+              "task_id": 62327733,
+              "step_id": 1,
+              "label": "flush",
+              "start_frame": 104,
+              "end_frame": 128,
+              "start_ms": 13733,
+              "end_ms": 17067,
+              "confidence": 0.28683,
+              "source": "asformer_validation"
+            },
+            {
+              "fact_id": "62327733:1:asformer_validation:129:132:long_brush_withdraw",
+              "task_id": 62327733,
+              "step_id": 1,
+              "label": "long_brush_withdraw",
+              "start_frame": 129,
+              "end_frame": 132,
+              "start_ms": 17067,
+              "end_ms": 17600,
+              "confidence": 0.26966,
+              "source": "asformer_validation"
+            },
+            {
+              "fact_id": "62327733:1:asformer_validation:133:146:flush",
+              "task_id": 62327733,
+              "step_id": 1,
+              "label": "flush",
+              "start_frame": 133,
+              "end_frame": 146,
+              "start_ms": 17600,
+              "end_ms": 19467,
+              "confidence": 0.31343,
+              "source": "asformer_validation"
+            },
+            {
+              "fact_id": "62327733:1:asformer_validation:147:174:air_injection",
+              "task_id": 62327733,
+              "step_id": 1,
+              "label": "air_injection",
+              "start_frame": 147,
+              "end_frame": 174,
+              "start_ms": 19467,
+              "end_ms": 23200,
+              "confidence": 0.37231,
+              "source": "asformer_validation"
+            }
+          ]
+        },
+        {
+          "task_id": 66090143,
+          "split": "val",
+          "video_ref": "4807dbbe-clip_1781659328328_1781659467929.mp4",
+          "frame_metrics": {
+            "frame_accuracy": 0.31561461794019935,
+            "per_class": {
+              "idle": {
+                "support_frames": 75,
+                "pred_frames": 0,
+                "iou": 0.0
+              },
+              "long_brush_insert": {
+                "support_frames": 131,
+                "pred_frames": 0,
+                "iou": 0.0
+              },
+              "long_brush_withdraw": {
+                "support_frames": 95,
+                "pred_frames": 301,
+                "iou": 0.31561461794019935
+              },
+              "short_brush_cleaning": {
+                "support_frames": 0,
+                "pred_frames": 0,
+                "iou": null
+              },
+              "flush": {
+                "support_frames": 0,
+                "pred_frames": 0,
+                "iou": null
+              },
+              "air_injection": {
+                "support_frames": 0,
+                "pred_frames": 0,
+                "iou": null
+              }
+            },
+            "target_macro_iou": 0.15780730897009967
+          },
+          "segment_f1@0.25": 0.0,
+          "gt_segments": [
+            {
+              "fact_id": "66090143:1:actionmixed_ground_truth:12:49:long_brush_withdraw",
+              "task_id": 66090143,
+              "step_id": 1,
+              "label": "long_brush_withdraw",
+              "start_frame": 12,
+              "end_frame": 49,
+              "start_ms": 1467,
+              "end_ms": 6533,
+              "confidence": 1.0,
+              "source": "actionmixed_ground_truth"
+            },
+            {
+              "fact_id": "66090143:1:actionmixed_ground_truth:70:200:long_brush_insert",
+              "task_id": 66090143,
+              "step_id": 1,
+              "label": "long_brush_insert",
+              "start_frame": 70,
+              "end_frame": 200,
+              "start_ms": 9200,
+              "end_ms": 26667,
+              "confidence": 1.0,
+              "source": "actionmixed_ground_truth"
+            },
+            {
+              "fact_id": "66090143:1:actionmixed_ground_truth:217:273:long_brush_withdraw",
+              "task_id": 66090143,
+              "step_id": 1,
+              "label": "long_brush_withdraw",
+              "start_frame": 217,
+              "end_frame": 273,
+              "start_ms": 28800,
+              "end_ms": 36400,
+              "confidence": 1.0,
+              "source": "actionmixed_ground_truth"
+            }
+          ],
+          "pred_segments": [
+            {
+              "fact_id": "66090143:1:asformer_validation:1:301:long_brush_withdraw",
+              "task_id": 66090143,
+              "step_id": 1,
+              "label": "long_brush_withdraw",
+              "start_frame": 1,
+              "end_frame": 301,
+              "start_ms": 0,
+              "end_ms": 40133,
+              "confidence": 0.67473,
+              "source": "asformer_validation"
+            }
+          ]
+        },
+        {
+          "task_id": 96875586,
+          "split": "val",
+          "video_ref": "63a848d5-clip_1782695363948_1782695590302.mp4",
+          "frame_metrics": {
+            "frame_accuracy": 0.6830985915492958,
+            "per_class": {
+              "idle": {
+                "support_frames": 26,
+                "pred_frames": 10,
+                "iou": 0.02857142857142857
+              },
+              "long_brush_insert": {
+                "support_frames": 0,
+                "pred_frames": 11,
+                "iou": 0.0
+              },
+              "long_brush_withdraw": {
+                "support_frames": 0,
+                "pred_frames": 48,
+                "iou": 0.0
+              },
+              "short_brush_cleaning": {
+                "support_frames": 0,
+                "pred_frames": 5,
+                "iou": 0.0
+              },
+              "flush": {
+                "support_frames": 258,
+                "pred_frames": 206,
+                "iou": 0.7121771217712177
+              },
+              "air_injection": {
+                "support_frames": 0,
+                "pred_frames": 4,
+                "iou": 0.0
+              }
+            },
+            "target_macro_iou": 0.14243542435424356
+          },
+          "segment_f1@0.25": 0.37499999999999994,
+          "gt_segments": [
+            {
+              "fact_id": "96875586:1:actionmixed_ground_truth:3:71:flush",
+              "task_id": 96875586,
+              "step_id": 1,
+              "label": "flush",
+              "start_frame": 3,
+              "end_frame": 71,
+              "start_ms": 267,
+              "end_ms": 9467,
+              "confidence": 1.0,
+              "source": "actionmixed_ground_truth"
+            },
+            {
+              "fact_id": "96875586:1:actionmixed_ground_truth:75:121:flush",
+              "task_id": 96875586,
+              "step_id": 1,
+              "label": "flush",
+              "start_frame": 75,
+              "end_frame": 121,
+              "start_ms": 9867,
+              "end_ms": 16133,
+              "confidence": 1.0,
+              "source": "actionmixed_ground_truth"
+            },
+            {
+              "fact_id": "96875586:1:actionmixed_ground_truth:125:168:flush",
+              "task_id": 96875586,
+              "step_id": 1,
+              "label": "flush",
+              "start_frame": 125,
+              "end_frame": 168,
+              "start_ms": 16533,
+              "end_ms": 22400,
+              "confidence": 1.0,
+              "source": "actionmixed_ground_truth"
+            },
+            {
+              "fact_id": "96875586:1:actionmixed_ground_truth:171:226:flush",
+              "task_id": 96875586,
+              "step_id": 1,
+              "label": "flush",
+              "start_frame": 171,
+              "end_frame": 226,
+              "start_ms": 22667,
+              "end_ms": 30133,
+              "confidence": 1.0,
+              "source": "actionmixed_ground_truth"
+            },
+            {
+              "fact_id": "96875586:1:actionmixed_ground_truth:239:280:flush",
+              "task_id": 96875586,
+              "step_id": 1,
+              "label": "flush",
+              "start_frame": 239,
+              "end_frame": 280,
+              "start_ms": 31733,
+              "end_ms": 37333,
+              "confidence": 1.0,
+              "source": "actionmixed_ground_truth"
+            }
+          ],
+          "pred_segments": [
+            {
+              "fact_id": "96875586:1:asformer_validation:1:16:flush",
+              "task_id": 96875586,
+              "step_id": 1,
+              "label": "flush",
+              "start_frame": 1,
+              "end_frame": 16,
+              "start_ms": 0,
+              "end_ms": 2133,
+              "confidence": 0.30445,
+              "source": "asformer_validation"
+            },
+            {
+              "fact_id": "96875586:1:asformer_validation:17:42:long_brush_withdraw",
+              "task_id": 96875586,
+              "step_id": 1,
+              "label": "long_brush_withdraw",
+              "start_frame": 17,
+              "end_frame": 42,
+              "start_ms": 2133,
+              "end_ms": 5600,
+              "confidence": 0.3703,
+              "source": "asformer_validation"
+            },
+            {
+              "fact_id": "96875586:1:asformer_validation:43:53:long_brush_insert",
+              "task_id": 96875586,
+              "step_id": 1,
+              "label": "long_brush_insert",
+              "start_frame": 43,
+              "end_frame": 53,
+              "start_ms": 5600,
+              "end_ms": 7067,
+              "confidence": 0.39695,
+              "source": "asformer_validation"
+            },
+            {
+              "fact_id": "96875586:1:asformer_validation:54:59:long_brush_withdraw",
+              "task_id": 96875586,
+              "step_id": 1,
+              "label": "long_brush_withdraw",
+              "start_frame": 54,
+              "end_frame": 59,
+              "start_ms": 7067,
+              "end_ms": 7867,
+              "confidence": 0.37362,
+              "source": "asformer_validation"
+            },
+            {
+              "fact_id": "96875586:1:asformer_validation:62:163:flush",
+              "task_id": 96875586,
+              "step_id": 1,
+              "label": "flush",
+              "start_frame": 62,
+              "end_frame": 163,
+              "start_ms": 8133,
+              "end_ms": 21733,
+              "confidence": 0.35465,
+              "source": "asformer_validation"
+            },
+            {
+              "fact_id": "96875586:1:asformer_validation:164:167:air_injection",
+              "task_id": 96875586,
+              "step_id": 1,
+              "label": "air_injection",
+              "start_frame": 164,
+              "end_frame": 167,
+              "start_ms": 21733,
+              "end_ms": 22267,
+              "confidence": 0.28804,
+              "source": "asformer_validation"
+            },
+            {
+              "fact_id": "96875586:1:asformer_validation:170:204:flush",
+              "task_id": 96875586,
+              "step_id": 1,
+              "label": "flush",
+              "start_frame": 170,
+              "end_frame": 204,
+              "start_ms": 22533,
+              "end_ms": 27200,
+              "confidence": 0.4207,
+              "source": "asformer_validation"
+            },
+            {
+              "fact_id": "96875586:1:asformer_validation:211:221:flush",
+              "task_id": 96875586,
+              "step_id": 1,
+              "label": "flush",
+              "start_frame": 211,
+              "end_frame": 221,
+              "start_ms": 28000,
+              "end_ms": 29467,
+              "confidence": 0.38563,
+              "source": "asformer_validation"
+            },
+            {
+              "fact_id": "96875586:1:asformer_validation:222:226:short_brush_cleaning",
+              "task_id": 96875586,
+              "step_id": 1,
+              "label": "short_brush_cleaning",
+              "start_frame": 222,
+              "end_frame": 226,
+              "start_ms": 29467,
+              "end_ms": 30133,
+              "confidence": 0.26643,
+              "source": "asformer_validation"
+            },
+            {
+              "fact_id": "96875586:1:asformer_validation:227:242:long_brush_withdraw",
+              "task_id": 96875586,
+              "step_id": 1,
+              "label": "long_brush_withdraw",
+              "start_frame": 227,
+              "end_frame": 242,
+              "start_ms": 30133,
+              "end_ms": 32267,
+              "confidence": 0.55758,
+              "source": "asformer_validation"
+            },
+            {
+              "fact_id": "96875586:1:asformer_validation:243:284:flush",
+              "task_id": 96875586,
+              "step_id": 1,
+              "label": "flush",
+              "start_frame": 243,
+              "end_frame": 284,
+              "start_ms": 32267,
+              "end_ms": 37867,
+              "confidence": 0.34524,
+              "source": "asformer_validation"
+            }
+          ]
+        }
+      ],
+      "mean_segment_f1@0.25": 0.17361111111111108,
+      "model_path": "output\\models\\asformer_offline_segmenter.pt",
+      "segment_facts": "output\\asformer_segment_facts.jsonl",
+      "fact_ledger": "output\\asformer_fact_ledger.jsonl",
+      "segment_count": 132,
+      "ledger_rows": 132
+    },
+    "bigru": {
+      "train": {
+        "history": [
+          {
+            "epoch": 1,
+            "loss": 1.719854
+          }
+        ],
+        "class_support_frames": {
+          "idle": 638,
+          "long_brush_insert": 466,
+          "long_brush_withdraw": 635,
+          "short_brush_cleaning": 115,
+          "flush": 743,
+          "air_injection": 366
+        }
+      },
+      "validation": [
+        {
+          "task_id": 41021743,
+          "split": "val",
+          "video_ref": "af0e7803-clip_1781584048438_1781584063735.mp4",
+          "frame_metrics": {
+            "frame_accuracy": 0.0,
+            "per_class": {
+              "idle": {
+                "support_frames": 33,
+                "pred_frames": 0,
+                "iou": 0.0
+              },
+              "long_brush_insert": {
+                "support_frames": 82,
+                "pred_frames": 0,
+                "iou": 0.0
+              },
+              "long_brush_withdraw": {
+                "support_frames": 0,
+                "pred_frames": 115,
+                "iou": 0.0
+              },
+              "short_brush_cleaning": {
+                "support_frames": 0,
+                "pred_frames": 0,
+                "iou": null
+              },
+              "flush": {
+                "support_frames": 0,
+                "pred_frames": 0,
+                "iou": null
+              },
+              "air_injection": {
+                "support_frames": 0,
+                "pred_frames": 0,
+                "iou": null
+              }
+            },
+            "target_macro_iou": 0.0
+          },
+          "segment_f1@0.25": 0.0,
+          "gt_segments": [
+            {
+              "fact_id": "41021743:1:actionmixed_ground_truth:17:98:long_brush_insert",
+              "task_id": 41021743,
+              "step_id": 1,
+              "label": "long_brush_insert",
+              "start_frame": 17,
+              "end_frame": 98,
+              "start_ms": 2133,
+              "end_ms": 13067,
+              "confidence": 1.0,
+              "source": "actionmixed_ground_truth"
+            }
+          ],
+          "pred_segments": [
+            {
+              "fact_id": "41021743:1:bigru_validation:1:115:long_brush_withdraw",
+              "task_id": 41021743,
+              "step_id": 1,
+              "label": "long_brush_withdraw",
+              "start_frame": 1,
+              "end_frame": 115,
+              "start_ms": 0,
+              "end_ms": 15333,
+              "confidence": 0.38681,
+              "source": "bigru_validation"
+            }
+          ]
+        },
+        {
+          "task_id": 49449012,
+          "split": "val",
+          "video_ref": "65d70028-clip_1781661552468_1781661702909.mp4",
+          "frame_metrics": {
+            "frame_accuracy": 0.308411214953271,
+            "per_class": {
+              "idle": {
+                "support_frames": 14,
+                "pred_frames": 0,
+                "iou": 0.0
+              },
+              "long_brush_insert": {
+                "support_frames": 0,
+                "pred_frames": 0,
+                "iou": null
+              },
+              "long_brush_withdraw": {
+                "support_frames": 33,
+                "pred_frames": 107,
+                "iou": 0.308411214953271
+              },
+              "short_brush_cleaning": {
+                "support_frames": 0,
+                "pred_frames": 0,
+                "iou": null
+              },
+              "flush": {
+                "support_frames": 60,
+                "pred_frames": 0,
+                "iou": 0.0
+              },
+              "air_injection": {
+                "support_frames": 0,
+                "pred_frames": 0,
+                "iou": null
+              }
+            },
+            "target_macro_iou": 0.1542056074766355
+          },
+          "segment_f1@0.25": 0.6666666666666666,
+          "gt_segments": [
+            {
+              "fact_id": "49449012:1:actionmixed_ground_truth:3:35:long_brush_withdraw",
+              "task_id": 49449012,
+              "step_id": 1,
+              "label": "long_brush_withdraw",
+              "start_frame": 3,
+              "end_frame": 35,
+              "start_ms": 267,
+              "end_ms": 4667,
+              "confidence": 1.0,
+              "source": "actionmixed_ground_truth"
+            },
+            {
+              "fact_id": "49449012:1:actionmixed_ground_truth:47:106:flush",
+              "task_id": 49449012,
+              "step_id": 1,
+              "label": "flush",
+              "start_frame": 47,
+              "end_frame": 106,
+              "start_ms": 6133,
+              "end_ms": 14133,
+              "confidence": 1.0,
+              "source": "actionmixed_ground_truth"
+            }
+          ],
+          "pred_segments": [
+            {
+              "fact_id": "49449012:1:bigru_validation:1:107:long_brush_withdraw",
+              "task_id": 49449012,
+              "step_id": 1,
+              "label": "long_brush_withdraw",
+              "start_frame": 1,
+              "end_frame": 107,
+              "start_ms": 0,
+              "end_ms": 14267,
+              "confidence": 0.26988,
+              "source": "bigru_validation"
+            }
+          ]
+        },
+        {
+          "task_id": 52983940,
+          "split": "val",
+          "video_ref": "218f9117-clip_1781583985044_1781584006285.mp4",
+          "frame_metrics": {
+            "frame_accuracy": 0.0,
+            "per_class": {
+              "idle": {
+                "support_frames": 0,
+                "pred_frames": 0,
+                "iou": null
+              },
+              "long_brush_insert": {
+                "support_frames": 67,
+                "pred_frames": 0,
+                "iou": 0.0
+              },
+              "long_brush_withdraw": {
+                "support_frames": 0,
+                "pred_frames": 67,
+                "iou": 0.0
+              },
+              "short_brush_cleaning": {
+                "support_frames": 0,
+                "pred_frames": 0,
+                "iou": null
+              },
+              "flush": {
+                "support_frames": 0,
+                "pred_frames": 0,
+                "iou": null
+              },
+              "air_injection": {
+                "support_frames": 0,
+                "pred_frames": 0,
+                "iou": null
+              }
+            },
+            "target_macro_iou": 0.0
+          },
+          "segment_f1@0.25": 0.0,
+          "gt_segments": [
+            {
+              "fact_id": "52983940:1:actionmixed_ground_truth:1:67:long_brush_insert",
+              "task_id": 52983940,
+              "step_id": 1,
+              "label": "long_brush_insert",
+              "start_frame": 1,
+              "end_frame": 67,
+              "start_ms": 0,
+              "end_ms": 8933,
+              "confidence": 1.0,
+              "source": "actionmixed_ground_truth"
+            }
+          ],
+          "pred_segments": [
+            {
+              "fact_id": "52983940:1:bigru_validation:1:67:long_brush_withdraw",
+              "task_id": 52983940,
+              "step_id": 1,
+              "label": "long_brush_withdraw",
+              "start_frame": 1,
+              "end_frame": 67,
+              "start_ms": 0,
+              "end_ms": 8933,
+              "confidence": 0.32998,
+              "source": "bigru_validation"
+            }
+          ]
+        },
+        {
+          "task_id": 62327733,
+          "split": "val",
+          "video_ref": "2c635ddc-clip_1782695261284_1782695331171.mp4",
+          "frame_metrics": {
+            "frame_accuracy": 0.21264367816091953,
+            "per_class": {
+              "idle": {
+                "support_frames": 37,
+                "pred_frames": 0,
+                "iou": 0.0
+              },
+              "long_brush_insert": {
+                "support_frames": 0,
+                "pred_frames": 0,
+                "iou": null
+              },
+              "long_brush_withdraw": {
+                "support_frames": 0,
+                "pred_frames": 129,
+                "iou": 0.0
+              },
+              "short_brush_cleaning": {
+                "support_frames": 137,
+                "pred_frames": 45,
+                "iou": 0.25517241379310346
+              },
+              "flush": {
+                "support_frames": 0,
+                "pred_frames": 0,
+                "iou": null
+              },
+              "air_injection": {
+                "support_frames": 0,
+                "pred_frames": 0,
+                "iou": null
+              }
+            },
+            "target_macro_iou": 0.12758620689655173
+          },
+          "segment_f1@0.25": 0.0,
+          "gt_segments": [
+            {
+              "fact_id": "62327733:1:actionmixed_ground_truth:4:140:short_brush_cleaning",
+              "task_id": 62327733,
+              "step_id": 1,
+              "label": "short_brush_cleaning",
+              "start_frame": 4,
+              "end_frame": 140,
+              "start_ms": 400,
+              "end_ms": 18667,
+              "confidence": 1.0,
+              "source": "actionmixed_ground_truth"
+            }
+          ],
+          "pred_segments": [
+            {
+              "fact_id": "62327733:1:bigru_validation:1:12:short_brush_cleaning",
+              "task_id": 62327733,
+              "step_id": 1,
+              "label": "short_brush_cleaning",
+              "start_frame": 1,
+              "end_frame": 12,
+              "start_ms": 0,
+              "end_ms": 1600,
+              "confidence": 0.28433,
+              "source": "bigru_validation"
+            },
+            {
+              "fact_id": "62327733:1:bigru_validation:13:93:long_brush_withdraw",
+              "task_id": 62327733,
+              "step_id": 1,
+              "label": "long_brush_withdraw",
+              "start_frame": 13,
+              "end_frame": 93,
+              "start_ms": 1600,
+              "end_ms": 12400,
+              "confidence": 0.30877,
+              "source": "bigru_validation"
+            },
+            {
+              "fact_id": "62327733:1:bigru_validation:94:121:short_brush_cleaning",
+              "task_id": 62327733,
+              "step_id": 1,
+              "label": "short_brush_cleaning",
+              "start_frame": 94,
+              "end_frame": 121,
+              "start_ms": 12400,
+              "end_ms": 16133,
+              "confidence": 0.28901,
+              "source": "bigru_validation"
+            },
+            {
+              "fact_id": "62327733:1:bigru_validation:122:147:long_brush_withdraw",
+              "task_id": 62327733,
+              "step_id": 1,
+              "label": "long_brush_withdraw",
+              "start_frame": 122,
+              "end_frame": 147,
+              "start_ms": 16133,
+              "end_ms": 19600,
+              "confidence": 0.30234,
+              "source": "bigru_validation"
+            },
+            {
+              "fact_id": "62327733:1:bigru_validation:148:152:short_brush_cleaning",
+              "task_id": 62327733,
+              "step_id": 1,
+              "label": "short_brush_cleaning",
+              "start_frame": 148,
+              "end_frame": 152,
+              "start_ms": 19600,
+              "end_ms": 20267,
+              "confidence": 0.27843,
+              "source": "bigru_validation"
+            },
+            {
+              "fact_id": "62327733:1:bigru_validation:153:174:long_brush_withdraw",
+              "task_id": 62327733,
+              "step_id": 1,
+              "label": "long_brush_withdraw",
+              "start_frame": 153,
+              "end_frame": 174,
+              "start_ms": 20267,
+              "end_ms": 23200,
+              "confidence": 0.30201,
+              "source": "bigru_validation"
+            }
+          ]
+        },
+        {
+          "task_id": 66090143,
+          "split": "val",
+          "video_ref": "4807dbbe-clip_1781659328328_1781659467929.mp4",
+          "frame_metrics": {
+            "frame_accuracy": 0.31561461794019935,
+            "per_class": {
+              "idle": {
+                "support_frames": 75,
+                "pred_frames": 0,
+                "iou": 0.0
+              },
+              "long_brush_insert": {
+                "support_frames": 131,
+                "pred_frames": 0,
+                "iou": 0.0
+              },
+              "long_brush_withdraw": {
+                "support_frames": 95,
+                "pred_frames": 301,
+                "iou": 0.31561461794019935
+              },
+              "short_brush_cleaning": {
+                "support_frames": 0,
+                "pred_frames": 0,
+                "iou": null
+              },
+              "flush": {
+                "support_frames": 0,
+                "pred_frames": 0,
+                "iou": null
+              },
+              "air_injection": {
+                "support_frames": 0,
+                "pred_frames": 0,
+                "iou": null
+              }
+            },
+            "target_macro_iou": 0.15780730897009967
+          },
+          "segment_f1@0.25": 0.0,
+          "gt_segments": [
+            {
+              "fact_id": "66090143:1:actionmixed_ground_truth:12:49:long_brush_withdraw",
+              "task_id": 66090143,
+              "step_id": 1,
+              "label": "long_brush_withdraw",
+              "start_frame": 12,
+              "end_frame": 49,
+              "start_ms": 1467,
+              "end_ms": 6533,
+              "confidence": 1.0,
+              "source": "actionmixed_ground_truth"
+            },
+            {
+              "fact_id": "66090143:1:actionmixed_ground_truth:70:200:long_brush_insert",
+              "task_id": 66090143,
+              "step_id": 1,
+              "label": "long_brush_insert",
+              "start_frame": 70,
+              "end_frame": 200,
+              "start_ms": 9200,
+              "end_ms": 26667,
+              "confidence": 1.0,
+              "source": "actionmixed_ground_truth"
+            },
+            {
+              "fact_id": "66090143:1:actionmixed_ground_truth:217:273:long_brush_withdraw",
+              "task_id": 66090143,
+              "step_id": 1,
+              "label": "long_brush_withdraw",
+              "start_frame": 217,
+              "end_frame": 273,
+              "start_ms": 28800,
+              "end_ms": 36400,
+              "confidence": 1.0,
+              "source": "actionmixed_ground_truth"
+            }
+          ],
+          "pred_segments": [
+            {
+              "fact_id": "66090143:1:bigru_validation:1:301:long_brush_withdraw",
+              "task_id": 66090143,
+              "step_id": 1,
+              "label": "long_brush_withdraw",
+              "start_frame": 1,
+              "end_frame": 301,
+              "start_ms": 0,
+              "end_ms": 40133,
+              "confidence": 0.32649,
+              "source": "bigru_validation"
+            }
+          ]
+        },
+        {
+          "task_id": 96875586,
+          "split": "val",
+          "video_ref": "63a848d5-clip_1782695363948_1782695590302.mp4",
+          "frame_metrics": {
+            "frame_accuracy": 0.0,
+            "per_class": {
+              "idle": {
+                "support_frames": 26,
+                "pred_frames": 0,
+                "iou": 0.0
+              },
+              "long_brush_insert": {
+                "support_frames": 0,
+                "pred_frames": 0,
+                "iou": null
+              },
+              "long_brush_withdraw": {
+                "support_frames": 0,
+                "pred_frames": 284,
+                "iou": 0.0
+              },
+              "short_brush_cleaning": {
+                "support_frames": 0,
+                "pred_frames": 0,
+                "iou": null
+              },
+              "flush": {
+                "support_frames": 258,
+                "pred_frames": 0,
+                "iou": 0.0
+              },
+              "air_injection": {
+                "support_frames": 0,
+                "pred_frames": 0,
+                "iou": null
+              }
+            },
+            "target_macro_iou": 0.0
+          },
+          "segment_f1@0.25": 0.0,
+          "gt_segments": [
+            {
+              "fact_id": "96875586:1:actionmixed_ground_truth:3:71:flush",
+              "task_id": 96875586,
+              "step_id": 1,
+              "label": "flush",
+              "start_frame": 3,
+              "end_frame": 71,
+              "start_ms": 267,
+              "end_ms": 9467,
+              "confidence": 1.0,
+              "source": "actionmixed_ground_truth"
+            },
+            {
+              "fact_id": "96875586:1:actionmixed_ground_truth:75:121:flush",
+              "task_id": 96875586,
+              "step_id": 1,
+              "label": "flush",
+              "start_frame": 75,
+              "end_frame": 121,
+              "start_ms": 9867,
+              "end_ms": 16133,
+              "confidence": 1.0,
+              "source": "actionmixed_ground_truth"
+            },
+            {
+              "fact_id": "96875586:1:actionmixed_ground_truth:125:168:flush",
+              "task_id": 96875586,
+              "step_id": 1,
+              "label": "flush",
+              "start_frame": 125,
+              "end_frame": 168,
+              "start_ms": 16533,
+              "end_ms": 22400,
+              "confidence": 1.0,
+              "source": "actionmixed_ground_truth"
+            },
+            {
+              "fact_id": "96875586:1:actionmixed_ground_truth:171:226:flush",
+              "task_id": 96875586,
+              "step_id": 1,
+              "label": "flush",
+              "start_frame": 171,
+              "end_frame": 226,
+              "start_ms": 22667,
+              "end_ms": 30133,
+              "confidence": 1.0,
+              "source": "actionmixed_ground_truth"
+            },
+            {
+              "fact_id": "96875586:1:actionmixed_ground_truth:239:280:flush",
+              "task_id": 96875586,
+              "step_id": 1,
+              "label": "flush",
+              "start_frame": 239,
+              "end_frame": 280,
+              "start_ms": 31733,
+              "end_ms": 37333,
+              "confidence": 1.0,
+              "source": "actionmixed_ground_truth"
+            }
+          ],
+          "pred_segments": [
+            {
+              "fact_id": "96875586:1:bigru_validation:1:284:long_brush_withdraw",
+              "task_id": 96875586,
+              "step_id": 1,
+              "label": "long_brush_withdraw",
+              "start_frame": 1,
+              "end_frame": 284,
+              "start_ms": 0,
+              "end_ms": 37867,
+              "confidence": 0.27507,
+              "source": "bigru_validation"
+            }
+          ]
+        }
+      ],
+      "mean_segment_f1@0.25": 0.1111111111111111,
+      "model_path": "output\\models\\bigru_offline_segmenter.pt",
+      "segment_facts": "output\\bigru_segment_facts.jsonl",
+      "fact_ledger": "output\\bigru_fact_ledger.jsonl",
+      "segment_count": 25,
+      "ledger_rows": 25
     }
   },
   "ranking": [
     {
+      "model": "asformer",
+      "mean_segment_f1@0.25": 0.17361111111111108,
+      "segment_count": 132
+    },
+    {
       "model": "ms_tcn",
-      "mean_segment_f1@0.25": 0.0,
-      "segment_count": 0
+      "mean_segment_f1@0.25": 0.1111111111111111,
+      "segment_count": 16
+    },
+    {
+      "model": "bigru",
+      "mean_segment_f1@0.25": 0.1111111111111111,
+      "segment_count": 25
     }
   ],
-  "selected_model": "ms_tcn",
+  "selected_model": "asformer",
   "outputs_for_downstream": {
-    "qa_reference": "F:\\暑期实习\\offline_model_baseline\\output\\ms_tcn_segment_facts.jsonl",
-    "fact_ledger": "F:\\暑期实习\\offline_model_baseline\\output\\ms_tcn_fact_ledger.jsonl",
-    "model_path": "F:\\暑期实习\\offline_model_baseline\\output\\models\\ms_tcn_offline_segmenter.pt",
-    "prediction_dir": "F:\\暑期实习\\offline_model_baseline\\output\\predictions"
+    "qa_reference": "output\\asformer_segment_facts.jsonl",
+    "fact_ledger": "output\\asformer_fact_ledger.jsonl",
+    "model_path": "output\\models\\asformer_offline_segmenter.pt",
+    "prediction_dir": "output\\predictions"
   },
   "notes": [
-    "当前实现是能跑通的 baseline 仓本，不是完整论文级 MS-TCN/ASFormer 复现。",
-    "Label Studio 转换会同时使用 bbox 特征和 timeline 标签；YOLO CSV 转换当前只提供检测特征，标签需要另行合并。",
-    "SegmentFact 是动作片段事实，FactLedger 是用于离线复算幂等 upsert 的账本行。"
+    "当前实现是用于打通离线时序分割链路的 baseline，不是论文级 MS-TCN/ASFormer 完整复现。",
+    "ActionMixed 原始动作 ID 与模型内部类别 ID 不同，本流程按动作名称显式映射到 idle + 五类动作标签。",
+    "模型输入由 YOLO bbox 聚合出的 62 维逐帧几何/运动/关系特征和逐帧动作标签组成。",
+    "SegmentFact 是动作片段事实，FactLedger 是用于离线复核与幂等 upsert 的账本行。"
   ]
 }

@@ -1,15 +1,18 @@
 # CleanSight 离线时序分割 Baseline 说明
 
-本文档说明当前 `changhai-offline` 仓库中的离线时序分割 baseline，包括完整流程、三种模型、输入输出数据格式，以及后续可以继续完善的方向。
+本文档说明当前 `changhai-offline` 仓库中的离线时序分割 baseline，包括完整流程、三种模型、输入输出数据格式，以及本轮接入 ModelScope ActionMixed 数据集后的更新内容。
 
 ## 1. 任务目标
 
-本 baseline 面向内镜清洗视频的离线动作分割任务，当前只做三分类：
+本 baseline 面向内镜清洗视频的离线动作分割任务，当前实验版已经从原来的三分类扩展为六类逐帧动作分类：
 
 ```text
-0 background
-1 long_brush_cleaning
-2 short_brush_cleaning
+0 idle
+1 long_brush_insert
+2 long_brush_withdraw
+3 short_brush_cleaning
+4 flush
+5 air_injection
 ```
 
 目标不是实时告警，而是离线处理完整序列，尽量得到更稳定的动作片段边界。整体定位对应原需求：
@@ -255,6 +258,68 @@ segment_facts_to_fact_ledger(facts, model_version)
 ```
 
 这样同一模型版本、同一动作片段重复复算时，可以根据 `idem_key` 做 upsert，避免重复插入。
+
+## 3.7 接入 ActionMixed 数据集
+
+本轮已经把数据源从原先的 Label Studio 结果拓展到 ModelScope 的 ActionMixed 数据集，数据目录位于：
+
+```text
+input/modelscope/lhh010__cleansight-ActionMixed/
+```
+
+数据集的组织形式如下：
+
+```text
+labels/{train,val,test}/{video}.txt
+  每行格式为 frame_id action_id
+  记录每个采样帧对应的动作真值。
+
+frames/{train,val,test}/{video}.mp4-{frame_id}.txt
+  每行格式为 class_id cx cy w h
+  记录同一帧上的 YOLO 检测框信息。
+```
+
+转换流程如下：
+
+```text
+1. 读取每个视频片段实际存在的采样帧号。
+2. 按 frame_id 读取动作标签，未覆盖到的帧默认记为 idle。
+3. 将原始 action_id 映射为统一的动作名称，再映射到模型内部类别顺序。
+4. 对每一帧的检测框做聚合，生成 count / cx / cy / area / speed 等特征。
+5. 补充 hand-to-short_brush、air_gun-to-scope_distal_end、syringe-to-scope_distal_end 等关系特征。
+6. 加入 t_norm / t_sin / t_cos 时间位置特征。
+7. 最终形成 features [T, 62] 和 labels [T]，写成 FeatureStore-like .npz 文件。
+```
+
+本轮生成的样本统计如下：
+
+```text
+16 条序列样本
+4501 个采样帧
+特征维度 62
+训练/验证/测试划分分别为 8 / 6 / 2
+```
+
+### 3.8 初步训练结果分析
+
+本轮分别训练了 `ms_tcn`、`asformer`、`bigru` 三个 baseline，评估使用片段级 `Segment F1@0.25`。当前结果显示：
+
+```text
+ms_tcn   val F1@0.25 = 0.1111
+asformer val F1@0.25 = 0.1736
+bigru    val F1@0.25 = 0.1111
+```
+
+从结果看，`asformer` 在当前条件下表现最好，但整体指标仍然偏低，这说明：
+
+```text
+1. 当前训练轮数较少，仍属于初步验证阶段，尚未充分收敛。
+2. 新增的动作类别带来更明显的类别不平衡，尤其 short_brush_cleaning 样本相对较少。
+3. 现有特征主要来自 YOLO 检测框，信息密度有限，仍有提升空间。
+4. 片段级评估对边界误差敏感，容易放大轻微错分和过分割现象。
+```
+
+因此，这轮结果更像是验证数据链路和训练流程是否通畅，而不是最终上线版本的性能上限。后续可以继续优化特征质量、类别权重、训练轮数和后处理规则。
 
 ## 4. 输入数据格式
 

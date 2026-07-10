@@ -1,0 +1,7 @@
+{
+  "dataset_name": "lhh010/cleansight-ActionMixed",
+  "download_dir": "input\\modelscope\\lhh010__cleansight-ActionMixed",
+  "feature_dir": "output\\feature_store",
+  "sample_count": 15,
+  "source": "modelscope"
+}

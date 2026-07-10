@@ -1,0 +1,2 @@
+fact_id,task_id,step_id,label,start_frame,end_frame,start_ms,end_ms,confidence,source
+52983940:1:asformer_offline_segmenter:1:67:long_brush_withdraw,52983940,1,long_brush_withdraw,1,67,0,8933,0.88617,asformer_offline_segmenter

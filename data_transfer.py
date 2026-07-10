@@ -13,7 +13,7 @@
 
 npz 字段：
     features: float32 [time, feature_dim]
-    labels: int64 [time]，0 表示 background
+    labels: int64 [time]，0 表示 idle / 无动作
     fps, frames, duration_s, feature_names, task_id, step_id
 """
 
@@ -28,20 +28,30 @@ from typing import Any, Iterable
 
 import numpy as np
 
-CLASSES = ["background", "long_brush_cleaning", "short_brush_cleaning"]
+CLASSES = [
+    "idle",
+    "long_brush_insert",
+    "long_brush_withdraw",
+    "short_brush_cleaning",
+    "flush",
+    "air_injection",
+]
 CLASS_TO_ID = {name: idx for idx, name in enumerate(CLASSES)}
 
 ACTION_MAP = {
-    "long_brush_insert": "long_brush_cleaning",
-    "long_brush_withdraw": "long_brush_cleaning",
-    "long_brush_cleaning": "long_brush_cleaning",
-    "长毛刷清洗": "long_brush_cleaning",
+    "long_brush_insert": "long_brush_insert",
+    "long_brush_withdraw": "long_brush_withdraw",
+    "long_brush_cleaning": "long_brush_insert",
+    "长毛刷清洗": "long_brush_insert",
     "short_brush_cleaning": "short_brush_cleaning",
     "短毛刷清洗": "short_brush_cleaning",
-    "flush": "background",
-    "air_injection": "background",
-    "background": "background",
-    "背景/空闲": "background",
+    "flush": "flush",
+    "air_injection": "air_injection",
+    "idle": "idle",
+    "background": "idle",
+    "背景/空闲": "idle",
+    "空闲": "idle",
+    "无动作": "idle",
 }
 
 OBJECT_MAP = {
@@ -259,6 +269,8 @@ def save_feature_sequence(item: dict[str, Any], feature_dir: Path) -> Path:
         feature_names=np.array(item["feature_names"]),
         file_upload=np.array([item.get("file_upload", "")]),
         video_ref=np.array([item.get("video_ref", "")]),
+        source=np.array([item.get("source", "")]),
+        split=np.array([item.get("split", "")]),
     )
     return path
 
@@ -289,7 +301,7 @@ def yolo_csv_to_feature_store(yolo_csv: Path, feature_dir: Path, step_id: int = 
     """YOLO CSV 转换占位实现。
 
     期望字段：task_id, frame, fps, label, x1, y1, x2, y2，可选 width/height/track_id。
-    这里只生成检测特征，labels 默认为 background；真实训练标签需再合并人工时间段。
+    这里只生成检测特征，labels 默认为 idle；真实训练标签需再合并人工时间段。
     """
     rows = list(csv.DictReader(yolo_csv.open("r", encoding="utf-8-sig")))
     grouped: dict[int, list[dict[str, str]]] = defaultdict(list)
@@ -362,9 +374,10 @@ class FeatureStore:
             "feature_names": [str(x) for x in data["feature_names"]],
             "file_upload": str(data["file_upload"][0]) if "file_upload" in data else "",
             "video_ref": str(data["video_ref"][0]) if "video_ref" in data else "",
+            "source": str(data["source"][0]) if "source" in data else "",
+            "split": str(data["split"][0]) if "split" in data else "",
             "sources": sources or ["bbox", "geometry", "motion"],
         }
 
     def load_all(self) -> list[dict[str, Any]]:
         return [self.load(task_id, step_id) for task_id, step_id in self.list_task_steps()]
-

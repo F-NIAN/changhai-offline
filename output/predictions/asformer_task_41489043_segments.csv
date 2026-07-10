@@ -1,0 +1,7 @@
+fact_id,task_id,step_id,label,start_frame,end_frame,start_ms,end_ms,confidence,source
+41489043:1:asformer_offline_segmenter:1:12:flush,41489043,1,flush,1,12,0,1600,0.28516,asformer_offline_segmenter
+41489043:1:asformer_offline_segmenter:13:42:long_brush_withdraw,41489043,1,long_brush_withdraw,13,42,1600,5600,0.38678,asformer_offline_segmenter
+41489043:1:asformer_offline_segmenter:43:53:long_brush_insert,41489043,1,long_brush_insert,43,53,5600,7067,0.4316,asformer_offline_segmenter
+41489043:1:asformer_offline_segmenter:54:142:long_brush_withdraw,41489043,1,long_brush_withdraw,54,142,7067,18933,0.50307,asformer_offline_segmenter
+41489043:1:asformer_offline_segmenter:143:146:flush,41489043,1,flush,143,146,18933,19467,0.28313,asformer_offline_segmenter
+41489043:1:asformer_offline_segmenter:147:194:long_brush_withdraw,41489043,1,long_brush_withdraw,147,194,19467,25867,0.50362,asformer_offline_segmenter
