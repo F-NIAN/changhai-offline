@@ -24,7 +24,7 @@ import numpy as np
 import torch
 import torch.nn as nn
 
-from data_transfer import CLASS_TO_ID, CLASSES, FeatureStore, labelstudio_to_feature_store, yolo_csv_to_feature_store
+from data_transfer import CLASS_TO_ID, CLASSES, FEATURE_VERSION, FeatureStore, labelstudio_to_feature_store, yolo_csv_to_feature_store
 from dataset import (
     ACTIONMIXED_DATASET,
     ACTIONMIXED_ACTION_CLASSES,
@@ -142,7 +142,7 @@ class OfflineSegmenter:
         pred = drop_short_segments(smooth_labels(pred), max(3, int(round(item["fps"] * 0.25))))
         return pred, probs
 
-    def save(self, path: Path, feature_names: list[str]) -> None:
+    def save(self, path: Path, feature_names: list[str], feature_version: str = FEATURE_VERSION) -> None:
         """保存模型权重、类别名、特征名和归一化参数。"""
         path.parent.mkdir(parents=True, exist_ok=True)
         torch.save(
@@ -151,6 +151,7 @@ class OfflineSegmenter:
                 "model_name": self.model_name,
                 "class_names": CLASSES,
                 "feature_names": feature_names,
+                "feature_version": feature_version,
                 "normalizer_mean": self.mean,
                 "normalizer_std": self.std,
             },
@@ -340,14 +341,21 @@ def write_training_summary_report(
         "### 3.3 逐帧检测框特征",
         "",
         (
-            "每一帧的 YOLO 检测框先按业务对象聚合。`hand` 使用 top-2 独立槽位，避免两只手被加权合并；"
-            "其它对象生成 `count/cx/cy/area/speed` 5 个特征。`count` 表示该对象检测数量，"
-            "`cx/cy/area` 是检测框中心和面积的聚合值，`speed` 是相邻采样帧中心点位移按 fps 归一化后的运动量。"
+            "每一帧的 YOLO 检测框先按业务对象转换为 v2 特征。`hand` 使用 top-2 独立槽位，"
+            "避免两只手被加权合并；其它对象按 `confidence * sqrt(area)` 和跨帧位置稳定性选择 top-1，"
+            "不再把同类多框加权平均成一个可能不存在的中心点。"
         ),
         "",
         (
-            "随后为关键对象对补充 `valid/dist` 关系特征，例如 `hand` 到 `short_brush`、`air_gun` 到 `scope_distal_end`、"
-            "`syringe` 到 `scope_distal_end` 的可见性和距离。最后加入 `t_norm/t_sin/t_cos` 三个时间位置特征。"
+            "单目标特征包含候选数量、真实可见性、置信度、中心点、面积、速度、连续缺失时长 `missing_age` "
+            "和短遮挡补全标记 `imputed`。短缺失段会做轻量线性插值或短尾部前向填充，但补全帧的 "
+            "`present` 仍为 0，只通过 `imputed=1` 告诉模型这是推测值。"
+        ),
+        "",
+        (
+            "随后为关键对象对补充 `valid/dist/delta` 关系特征，例如 `hand` 到 `short_brush`、"
+            "`air_gun` 到 `scope_distal_end`、`syringe` 到 `scope_distal_end` 的可用性、距离和距离变化。"
+            "最后加入 `t_norm/t_sin/t_cos` 三个时间位置特征。"
         ),
         "",
         (
@@ -582,7 +590,7 @@ def main() -> None:
             )
 
         model_path = args.out_dir / "models" / f"{model_name}_offline_segmenter.pt"
-        segmenter.save(model_path, items[0]["feature_names"])
+        segmenter.save(model_path, items[0]["feature_names"], items[0].get("feature_version", FEATURE_VERSION))
         facts_path = args.out_dir / f"{model_name}_segment_facts.jsonl"
         ledger_path = args.out_dir / f"{model_name}_fact_ledger.jsonl"
         write_jsonl(facts_path, all_facts)
@@ -625,6 +633,7 @@ def main() -> None:
         "training_summary_report": str(summary_path),
         "task_ids": [item["task_id"] for item in items],
         "feature_dim": in_dim,
+        "feature_version": items[0].get("feature_version", FEATURE_VERSION),
         "classes": CLASSES,
         "model_class_to_id": CLASS_TO_ID,
         "raw_action_classes": ACTIONMIXED_ACTION_CLASSES,
@@ -654,7 +663,7 @@ def main() -> None:
         "notes": [
             "当前实现是用于打通离线时序分割链路的工程 baseline，不等同于论文官方代码复现。",
             "ActionMixed 原始动作 ID 与模型内部类别 ID 不同，本流程按动作名称显式映射到 idle + 五类动作标签。",
-            "模型输入由 YOLO bbox 聚合出的 68 维逐帧几何/运动/关系特征和逐帧动作标签组成。",
+            f"模型输入由 YOLO bbox 转换出的 {in_dim} 维逐帧几何/置信度/遮挡/运动/关系特征和逐帧动作标签组成。",
             "SegmentFact 是动作片段事实，FactLedger 是用于离线复核与幂等 upsert 的账本行。",
         ],
     }

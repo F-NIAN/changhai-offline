@@ -1,0 +1,14 @@
+fact_id,task_id,step_id,label,start_frame,end_frame,start_ms,end_ms,confidence,source
+77519758:1:bigru_offline_segmenter:1:18:long_brush_insert,77519758,1,long_brush_insert,1,18,0,2400,0.19879,bigru_offline_segmenter
+77519758:1:bigru_offline_segmenter:19:152:long_brush_withdraw,77519758,1,long_brush_withdraw,19,152,2400,20267,0.19164,bigru_offline_segmenter
+77519758:1:bigru_offline_segmenter:153:408:long_brush_insert,77519758,1,long_brush_insert,153,408,20267,54400,0.30977,bigru_offline_segmenter
+77519758:1:bigru_offline_segmenter:409:441:long_brush_withdraw,77519758,1,long_brush_withdraw,409,441,54400,58800,0.20869,bigru_offline_segmenter
+77519758:1:bigru_offline_segmenter:442:587:long_brush_insert,77519758,1,long_brush_insert,442,587,58800,78267,0.30418,bigru_offline_segmenter
+77519758:1:bigru_offline_segmenter:588:779:long_brush_withdraw,77519758,1,long_brush_withdraw,588,779,78267,103867,0.19667,bigru_offline_segmenter
+77519758:1:bigru_offline_segmenter:780:839:long_brush_insert,77519758,1,long_brush_insert,780,839,103867,111867,0.28506,bigru_offline_segmenter
+77519758:1:bigru_offline_segmenter:840:866:long_brush_withdraw,77519758,1,long_brush_withdraw,840,866,111867,115467,0.19339,bigru_offline_segmenter
+77519758:1:bigru_offline_segmenter:867:891:long_brush_insert,77519758,1,long_brush_insert,867,891,115467,118800,0.24939,bigru_offline_segmenter
+77519758:1:bigru_offline_segmenter:892:908:long_brush_withdraw,77519758,1,long_brush_withdraw,892,908,118800,121067,0.19487,bigru_offline_segmenter
+77519758:1:bigru_offline_segmenter:909:934:long_brush_insert,77519758,1,long_brush_insert,909,934,121067,124533,0.30806,bigru_offline_segmenter
+77519758:1:bigru_offline_segmenter:935:968:long_brush_withdraw,77519758,1,long_brush_withdraw,935,968,124533,129067,0.19282,bigru_offline_segmenter
+77519758:1:bigru_offline_segmenter:969:999:long_brush_insert,77519758,1,long_brush_insert,969,999,129067,133200,0.30394,bigru_offline_segmenter

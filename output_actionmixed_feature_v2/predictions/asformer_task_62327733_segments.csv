@@ -1,0 +1,12 @@
+fact_id,task_id,step_id,label,start_frame,end_frame,start_ms,end_ms,confidence,source
+62327733:1:asformer_offline_segmenter:3:65:long_brush_withdraw,62327733,1,long_brush_withdraw,3,65,267,8667,0.49391,asformer_offline_segmenter
+62327733:1:asformer_offline_segmenter:66:101:short_brush_cleaning,62327733,1,short_brush_cleaning,66,101,8667,13467,0.52745,asformer_offline_segmenter
+62327733:1:asformer_offline_segmenter:102:109:long_brush_withdraw,62327733,1,long_brush_withdraw,102,109,13467,14533,0.47255,asformer_offline_segmenter
+62327733:1:asformer_offline_segmenter:110:114:short_brush_cleaning,62327733,1,short_brush_cleaning,110,114,14533,15200,0.47672,asformer_offline_segmenter
+62327733:1:asformer_offline_segmenter:115:138:long_brush_withdraw,62327733,1,long_brush_withdraw,115,138,15200,18400,0.4695,asformer_offline_segmenter
+62327733:1:asformer_offline_segmenter:139:151:short_brush_cleaning,62327733,1,short_brush_cleaning,139,151,18400,20133,0.45881,asformer_offline_segmenter
+62327733:1:asformer_offline_segmenter:152:155:long_brush_withdraw,62327733,1,long_brush_withdraw,152,155,20133,20667,0.32998,asformer_offline_segmenter
+62327733:1:asformer_offline_segmenter:156:163:short_brush_cleaning,62327733,1,short_brush_cleaning,156,163,20667,21733,0.48617,asformer_offline_segmenter
+62327733:1:asformer_offline_segmenter:164:176:long_brush_withdraw,62327733,1,long_brush_withdraw,164,176,21733,23467,0.50114,asformer_offline_segmenter
+62327733:1:asformer_offline_segmenter:177:181:short_brush_cleaning,62327733,1,short_brush_cleaning,177,181,23467,24133,0.48179,asformer_offline_segmenter
+62327733:1:asformer_offline_segmenter:182:193:long_brush_withdraw,62327733,1,long_brush_withdraw,182,193,24133,25733,0.4945,asformer_offline_segmenter

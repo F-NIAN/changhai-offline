@@ -1,0 +1,2 @@
+fact_id,task_id,step_id,label,start_frame,end_frame,start_ms,end_ms,confidence,source
+3037576:1:ms_tcn_offline_segmenter:1:183:long_brush_insert,3037576,1,long_brush_insert,1,183,0,24400,0.18847,ms_tcn_offline_segmenter

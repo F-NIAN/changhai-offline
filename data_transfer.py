@@ -38,6 +38,8 @@ CLASSES = [
 ]
 CLASS_TO_ID = {name: idx for idx, name in enumerate(CLASSES)}
 
+FEATURE_VERSION = "clean_bbox_v2_top1_impute"
+
 ACTION_MAP = {
     "long_brush_insert": "long_brush_insert",
     "long_brush_withdraw": "long_brush_withdraw",
@@ -137,8 +139,11 @@ def _fill_mask_from_sequence(sequence: list[dict[str, Any]], frames: int) -> np.
 
 
 def _fill_box_sequence(sequence: list[dict[str, Any]], frames: int) -> np.ndarray:
-    """把视频 bbox 展开成 [present, cx, cy, area] 的逐帧数组。"""
-    arr = np.zeros((frames, 4), dtype=np.float32)
+    """把视频 bbox 展开成 [present, cx, cy, area, conf] 的逐帧数组。
+
+    Label Studio 标注框没有检测置信度，这里用 1.0 表示人工标注可信。
+    """
+    arr = np.zeros((frames, 5), dtype=np.float32)
     points = sorted(sequence, key=lambda p: int(round(float(p.get("frame", 1)))))
     for idx, point in enumerate(points):
         start = max(0, int(round(float(point.get("frame", 1)))) - 1)
@@ -151,7 +156,7 @@ def _fill_box_sequence(sequence: list[dict[str, Any]], frames: int) -> np.ndarra
         y = float(point.get("y", 0.0)) / 100.0
         w = float(point.get("width", 0.0)) / 100.0
         h = float(point.get("height", 0.0)) / 100.0
-        arr[start:end] = (1.0, x + w / 2.0, y + h / 2.0, max(0.0, w * h))
+        arr[start:end] = (1.0, x + w / 2.0, y + h / 2.0, max(0.0, w * h), 1.0)
     return arr
 
 
@@ -166,85 +171,197 @@ def _mark_action_range(labels: np.ndarray, start: float, end: float, cls: str, f
     labels[max(0, s) : max(0, min(frames, e))] = CLASS_TO_ID[cls]
 
 
-def _build_feature_matrix(object_arrays: dict[str, list[np.ndarray]], frames: int, fps: float) -> tuple[np.ndarray, list[str]]:
-    """把目标框序列汇总为多维时序特征。
+def _as_box5(row: np.ndarray) -> np.ndarray:
+    """兼容历史 [present,cx,cy,area] 和 v2 [present,cx,cy,area,conf]。"""
+    if row.shape[0] >= 5:
+        return row[:5].astype(np.float32)
+    out = np.zeros(5, dtype=np.float32)
+    out[: min(4, row.shape[0])] = row[:4]
+    out[4] = 1.0 if out[0] > 0 else 0.0
+    return out
 
-    与后端 `segmenters/clean.py` 对齐：
-    - hand 使用 top-2 独立槽位，不把两只手加权合成一个中心点；
-    - 其它对象仍按存在框加权聚合为 count/cx/cy/area/speed；
-    - 输出维度为 68。
+
+def _box_score(row: np.ndarray, prev_center: np.ndarray | None = None) -> float:
+    """候选框排序分数：置信度和面积优先，轻微惩罚跨帧跳变。"""
+    present, cx, cy, area, conf = [float(x) for x in _as_box5(row)]
+    if present <= 0:
+        return -1.0
+    score = conf * math.sqrt(max(area, 1e-6))
+    if prev_center is not None:
+        score -= 0.15 * min(math.dist((cx, cy), tuple(prev_center)), math.sqrt(2.0))
+    return score
+
+
+def _missing_age(raw_present: np.ndarray, max_gap: int) -> np.ndarray:
+    """连续缺失帧数归一化，帮助模型区分短遮挡和长期不存在。"""
+    out = np.zeros(len(raw_present), dtype=np.float32)
+    age = 0
+    for idx, flag in enumerate(raw_present > 0):
+        if flag:
+            age = 0
+        else:
+            age += 1
+        out[idx] = min(age, max_gap) / max(1, max_gap)
+    return out
+
+
+def _impute_short_gaps(raw: np.ndarray, fps: float, max_gap: int = 6) -> tuple[np.ndarray, np.ndarray]:
+    """对短时遮挡做轻量补全。
+
+    输入 raw:
+        [T,5] = present/cx/cy/area/conf，present 只表示真实检测是否出现。
+
+    输出:
+        features [T,8] = present/conf/cx/cy/area/speed/missing_age/imputed。
+        active mask 表示坐标可用于关系特征：真实 present 或短缺失补全。
+
+    设计取舍:
+        - 缺失段两端都有真实检测且长度 <= max_gap 时，线性插值；
+        - 序列尾部短缺失时，使用 last known 状态前向填充；
+        - 补全帧 present 仍为 0，另用 imputed=1 标记，避免把预测框伪装成真实检测。
+    """
+    time_len = raw.shape[0]
+    present = raw[:, 0].astype(np.float32)
+    conf = raw[:, 4].astype(np.float32)
+    cx = raw[:, 1].astype(np.float32).copy()
+    cy = raw[:, 2].astype(np.float32).copy()
+    area = raw[:, 3].astype(np.float32).copy()
+    imputed = np.zeros(time_len, dtype=np.float32)
+
+    detected = np.where(present > 0)[0]
+    if len(detected):
+        for left, right in zip(detected[:-1], detected[1:]):
+            gap = int(right - left - 1)
+            if 0 < gap <= max_gap:
+                for offset, idx in enumerate(range(left + 1, right), start=1):
+                    ratio = offset / (gap + 1)
+                    cx[idx] = (1 - ratio) * cx[left] + ratio * cx[right]
+                    cy[idx] = (1 - ratio) * cy[left] + ratio * cy[right]
+                    area[idx] = (1 - ratio) * area[left] + ratio * area[right]
+                    conf[idx] = 0.5 * ((1 - ratio) * conf[left] + ratio * conf[right])
+                    imputed[idx] = 1.0
+        last = int(detected[-1])
+        tail_gap = min(max_gap, time_len - last - 1)
+        if tail_gap > 0:
+            for idx in range(last + 1, last + tail_gap + 1):
+                cx[idx], cy[idx], area[idx] = cx[last], cy[last], area[last]
+                conf[idx] = 0.5 * conf[last]
+                imputed[idx] = 1.0
+
+    active = (present > 0) | (imputed > 0)
+    coords = np.stack([cx, cy], axis=1)
+    speed = np.zeros(time_len, dtype=np.float32)
+    if time_len > 1:
+        speed[1:] = np.clip(np.linalg.norm(np.diff(coords, axis=0), axis=1) * fps, 0.0, 5.0) / 5.0
+        speed[~active] = 0.0
+
+    feature = np.stack(
+        [present, conf, cx, cy, area, speed, _missing_age(present, max_gap), imputed],
+        axis=1,
+    ).astype(np.float32)
+    feature[~active, 1:6] = 0.0
+    return feature, active
+
+
+def _select_hand_slots(hand_arrs: list[np.ndarray], frames: int) -> tuple[np.ndarray, list[np.ndarray]]:
+    """hand 保留 top-2，因为两只手是不同实体。"""
+    hand_count = np.zeros(frames, dtype=np.float32)
+    slots = [np.zeros((frames, 5), dtype=np.float32), np.zeros((frames, 5), dtype=np.float32)]
+    if not hand_arrs:
+        return hand_count, slots
+
+    prev_centers: list[np.ndarray | None] = [None, None]
+    for t in range(frames):
+        candidates = [_as_box5(arr[t]) for arr in hand_arrs if _as_box5(arr[t])[0] > 0]
+        hand_count[t] = len(candidates)
+        candidates.sort(key=lambda row: _box_score(row), reverse=True)
+        for slot_idx, row in enumerate(candidates[:2]):
+            slots[slot_idx][t] = row
+            prev_centers[slot_idx] = row[1:3]
+    return hand_count, slots
+
+
+def _select_top1_slot(arrs: list[np.ndarray], frames: int) -> tuple[np.ndarray, np.ndarray]:
+    """单实例目标用 top-1，不再做同类多框加权平均。"""
+    count = np.zeros(frames, dtype=np.float32)
+    slot = np.zeros((frames, 5), dtype=np.float32)
+    prev_center: np.ndarray | None = None
+    for t in range(frames):
+        candidates = [_as_box5(arr[t]) for arr in arrs if _as_box5(arr[t])[0] > 0]
+        count[t] = len(candidates)
+        if not candidates:
+            continue
+        candidates.sort(key=lambda row: _box_score(row, prev_center), reverse=True)
+        slot[t] = candidates[0]
+        prev_center = slot[t, 1:3]
+    return count, slot
+
+
+def _build_feature_matrix(object_arrays: dict[str, list[np.ndarray]], frames: int, fps: float) -> tuple[np.ndarray, list[str]]:
+    """把目标框序列汇总为 v2 多维时序特征。
+
+    v2 目标:
+    - hand 保留 top-2；
+    - 其它对象按 top-1 + candidate_count 表示，不做同类多框加权平均；
+    - 增加 conf/missing_age/imputed，支持短时遮挡补全；
+    - 关系特征使用真实或短时补全坐标，并额外记录距离变化 delta。
     """
     blocks: list[np.ndarray] = []
     names: list[str] = []
     centers: dict[str, np.ndarray] = {}
     present: dict[str, np.ndarray] = {}
+    active: dict[str, np.ndarray] = {}
+    previous_dist: dict[tuple[str, str], np.ndarray] = {}
 
-    hand_arrs = object_arrays.get("hand", [])
-    hand_count = np.zeros(frames, dtype=np.float32)
-    hand_slots = [np.zeros((frames, 4), dtype=np.float32), np.zeros((frames, 4), dtype=np.float32)]
-    if hand_arrs:
-        hand_stack = np.stack(hand_arrs, axis=0)
-        hand_count = hand_stack[:, :, 0].sum(axis=0).astype(np.float32)
-        for t in range(frames):
-            candidates = []
-            for arr in hand_arrs:
-                if arr[t, 0] > 0:
-                    # arr[t] = [present, cx, cy, area]；按面积选 top-2。
-                    candidates.append(arr[t].copy())
-            candidates.sort(key=lambda row: float(row[3]), reverse=True)
-            for slot_idx, row in enumerate(candidates[:2]):
-                hand_slots[slot_idx][t] = row
-
+    hand_count, hand_slots = _select_hand_slots(object_arrays.get("hand", []), frames)
     blocks.append((np.clip(hand_count, 0, 3) / 3.0)[:, None].astype(np.float32))
     names.append("hand_count")
     hand_centers = []
+    hand_active = []
     for slot_idx, slot in enumerate(hand_slots, start=1):
-        coords = slot[:, 1:3]
-        speed = np.zeros(frames, dtype=np.float32)
-        if frames > 1:
-            speed[1:] = np.clip(np.linalg.norm(np.diff(coords, axis=0), axis=1) * fps, 0.0, 5.0) / 5.0
-            speed[slot[:, 0] <= 0] = 0.0
-        blocks.append(np.stack([slot[:, 0], slot[:, 1], slot[:, 2], slot[:, 3], speed], axis=1).astype(np.float32))
+        feature, slot_active = _impute_short_gaps(slot, fps)
+        blocks.append(feature)
         names += [
             f"hand_top{slot_idx}_present",
+            f"hand_top{slot_idx}_conf",
             f"hand_top{slot_idx}_cx",
             f"hand_top{slot_idx}_cy",
             f"hand_top{slot_idx}_area",
             f"hand_top{slot_idx}_speed",
+            f"hand_top{slot_idx}_missing_age",
+            f"hand_top{slot_idx}_imputed",
         ]
-        hand_centers.append(coords)
+        hand_centers.append(feature[:, 2:4])
+        hand_active.append(slot_active)
     centers["hand"] = np.stack(hand_centers, axis=0)  # [2, T, 2]
     present["hand"] = hand_count > 0
+    active["hand"] = np.logical_or.reduce(hand_active) if hand_active else np.zeros(frames, dtype=bool)
 
     for obj in OBJECTS:
         if obj == "hand":
             continue
         arrs = object_arrays.get(obj, [])
-        if arrs:
-            stack = np.stack(arrs, axis=0)
-            count = stack[:, :, 0].sum(axis=0)
-            denom = np.maximum(count, 1.0)
-            cx = (stack[:, :, 1] * stack[:, :, 0]).sum(axis=0) / denom
-            cy = (stack[:, :, 2] * stack[:, :, 0]).sum(axis=0) / denom
-            area = (stack[:, :, 3] * stack[:, :, 0]).sum(axis=0) / denom
-        else:
-            count = np.zeros(frames, dtype=np.float32)
-            cx = np.zeros(frames, dtype=np.float32)
-            cy = np.zeros(frames, dtype=np.float32)
-            area = np.zeros(frames, dtype=np.float32)
-
-        coords = np.stack([cx, cy], axis=1)
-        speed = np.zeros(frames, dtype=np.float32)
-        if frames > 1:
-            speed[1:] = np.clip(np.linalg.norm(np.diff(coords, axis=0), axis=1) * fps, 0.0, 5.0) / 5.0
-            speed[count <= 0] = 0.0
-        blocks.append(np.stack([np.clip(count, 0, 3) / 3.0, cx, cy, area, speed], axis=1).astype(np.float32))
-        names += [f"{obj}_count", f"{obj}_cx", f"{obj}_cy", f"{obj}_area", f"{obj}_speed"]
-        centers[obj] = coords
+        count, slot = _select_top1_slot(arrs, frames)
+        feature, obj_active = _impute_short_gaps(slot, fps)
+        block = np.concatenate([(np.clip(count, 0, 3) / 3.0)[:, None], feature], axis=1).astype(np.float32)
+        blocks.append(block)
+        names += [
+            f"{obj}_candidate_count",
+            f"{obj}_present",
+            f"{obj}_conf",
+            f"{obj}_cx",
+            f"{obj}_cy",
+            f"{obj}_area",
+            f"{obj}_speed",
+            f"{obj}_missing_age",
+            f"{obj}_imputed",
+        ]
+        centers[obj] = feature[:, 2:4]
         present[obj] = count > 0
+        active[obj] = obj_active
 
     for a, b in PAIR_FEATURES:
-        valid = (present[a] & present[b]).astype(np.float32)
+        valid = (active[a] & active[b]).astype(np.float32)
         dist = np.zeros(frames, dtype=np.float32)
         if a == "hand":
             right = centers[b]
@@ -259,8 +376,13 @@ def _build_feature_matrix(object_arrays: dict[str, list[np.ndarray]], frames: in
         else:
             dist = np.linalg.norm(centers[a] - centers[b], axis=1).astype(np.float32)
         dist = np.where(valid > 0, np.clip(dist, 0.0, math.sqrt(2.0)) / math.sqrt(2.0), 0.0)
-        blocks.append(np.stack([valid, dist], axis=1).astype(np.float32))
-        names += [f"{a}_to_{b}_valid", f"{a}_to_{b}_dist"]
+        delta = np.zeros(frames, dtype=np.float32)
+        if frames > 1:
+            delta[1:] = np.clip(dist[1:] - dist[:-1], -1.0, 1.0)
+            delta[valid <= 0] = 0.0
+        previous_dist[(a, b)] = dist
+        blocks.append(np.stack([valid, dist, delta], axis=1).astype(np.float32))
+        names += [f"{a}_to_{b}_valid", f"{a}_to_{b}_dist", f"{a}_to_{b}_delta"]
 
     t = np.linspace(0.0, 1.0, frames, dtype=np.float32)
     blocks.append(np.stack([t, np.sin(2 * np.pi * t), np.cos(2 * np.pi * t)], axis=1).astype(np.float32))
@@ -305,6 +427,7 @@ def build_sequence_from_labelstudio_task(task: dict[str, Any], step_id: int = 1)
         "frames": int(frames),
         "duration_s": float(duration),
         "feature_names": feature_names,
+        "feature_version": FEATURE_VERSION,
         "file_upload": str(task.get("file_upload") or ""),
         "video_ref": str((task.get("data") or {}).get("video") or ""),
     }
@@ -324,6 +447,7 @@ def save_feature_sequence(item: dict[str, Any], feature_dir: Path) -> Path:
         frames=np.array([item["frames"]], dtype=np.int64),
         duration_s=np.array([item["duration_s"]], dtype=np.float32),
         feature_names=np.array(item["feature_names"]),
+        feature_version=np.array([item.get("feature_version", FEATURE_VERSION)]),
         file_upload=np.array([item.get("file_upload", "")]),
         video_ref=np.array([item.get("video_ref", "")]),
         source=np.array([item.get("source", "")]),
@@ -376,7 +500,7 @@ def yolo_csv_to_feature_store(yolo_csv: Path, feature_dir: Path, step_id: int = 
             if not obj:
                 continue
             key = (obj, row.get("track_id") or "default")
-            arr = by_instance.setdefault(key, np.zeros((frames, 4), dtype=np.float32))
+            arr = by_instance.setdefault(key, np.zeros((frames, 5), dtype=np.float32))
             idx = max(0, min(frames - 1, int(float(row["frame"])) - 1))
             width = float(row.get("width") or 1.0)
             height = float(row.get("height") or 1.0)
@@ -384,7 +508,14 @@ def yolo_csv_to_feature_store(yolo_csv: Path, feature_dir: Path, step_id: int = 
             y1 = float(row["y1"]) / height if height > 1 and float(row["y1"]) > 1 else float(row["y1"])
             x2 = float(row["x2"]) / width if width > 1 and float(row["x2"]) > 1 else float(row["x2"])
             y2 = float(row["y2"]) / height if height > 1 and float(row["y2"]) > 1 else float(row["y2"])
-            arr[idx] = (1.0, (x1 + x2) / 2.0, (y1 + y2) / 2.0, max(0.0, x2 - x1) * max(0.0, y2 - y1))
+            conf = float(row.get("conf") or row.get("confidence") or 1.0)
+            arr[idx] = (
+                1.0,
+                (x1 + x2) / 2.0,
+                (y1 + y2) / 2.0,
+                max(0.0, x2 - x1) * max(0.0, y2 - y1),
+                max(0.0, min(conf, 1.0)),
+            )
         for (obj, _), arr in by_instance.items():
             object_arrays[obj].append(arr)
         features, feature_names = _build_feature_matrix(object_arrays, frames, fps)
@@ -397,6 +528,7 @@ def yolo_csv_to_feature_store(yolo_csv: Path, feature_dir: Path, step_id: int = 
             "frames": frames,
             "duration_s": frames / fps,
             "feature_names": feature_names,
+            "feature_version": FEATURE_VERSION,
             "file_upload": "",
             "video_ref": "",
         }
@@ -429,6 +561,7 @@ class FeatureStore:
             "frames": int(data["frames"][0]),
             "duration_s": float(data["duration_s"][0]),
             "feature_names": [str(x) for x in data["feature_names"]],
+            "feature_version": str(data["feature_version"][0]) if "feature_version" in data else "",
             "file_upload": str(data["file_upload"][0]) if "file_upload" in data else "",
             "video_ref": str(data["video_ref"][0]) if "video_ref" in data else "",
             "source": str(data["source"][0]) if "source" in data else "",

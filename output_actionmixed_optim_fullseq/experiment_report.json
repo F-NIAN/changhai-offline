@@ -1,0 +1,1804 @@
+{
+  "dataset_root": "input\\modelscope\\lhh010__cleansight-ActionMixed",
+  "out_dir": "output_actionmixed_optim_fullseq",
+  "epochs": 3,
+  "models": [
+    "ms_tcn",
+    "asformer",
+    "bigru"
+  ],
+  "feature_methods": [
+    "v2",
+    "window_stats",
+    "business_priors",
+    "window_stats+business_priors"
+  ],
+  "train_modes": [
+    "full_sequence"
+  ],
+  "class_names": [
+    "idle",
+    "long_brush_insert",
+    "long_brush_withdraw",
+    "short_brush_cleaning",
+    "flush",
+    "air_injection"
+  ],
+  "experiments": [
+    {
+      "feature_method": "v2",
+      "train_mode": "full_sequence",
+      "model": "ms_tcn",
+      "epochs": 3,
+      "feature_dim": 113,
+      "train_sequences": 10,
+      "train_samples": 10,
+      "val_sequences": 8,
+      "train": {
+        "history": [
+          {
+            "epoch": 1,
+            "loss": 2.013994
+          },
+          {
+            "epoch": 2,
+            "loss": 1.661425
+          },
+          {
+            "epoch": 3,
+            "loss": 1.470745
+          }
+        ],
+        "class_support_frames": {
+          "idle": 765,
+          "long_brush_insert": 578,
+          "long_brush_withdraw": 635,
+          "short_brush_cleaning": 214,
+          "flush": 743,
+          "air_injection": 366
+        }
+      },
+      "metrics": {
+        "frame": {
+          "accuracy": 0.24656638325703073,
+          "per_class": {
+            "idle": {
+              "support": 322,
+              "predicted": 0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "frame_f1": 0.0
+            },
+            "long_brush_insert": {
+              "support": 388,
+              "predicted": 1031,
+              "precision": 0.28419010669253153,
+              "recall": 0.7551546391752577,
+              "frame_f1": 0.4129668780831572
+            },
+            "long_brush_withdraw": {
+              "support": 157,
+              "predicted": 498,
+              "precision": 0.1686746987951807,
+              "recall": 0.535031847133758,
+              "frame_f1": 0.2564885496183206
+            },
+            "short_brush_cleaning": {
+              "support": 344,
+              "predicted": 0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "frame_f1": 0.0
+            },
+            "flush": {
+              "support": 318,
+              "predicted": 0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "frame_f1": 0.0
+            },
+            "air_injection": {
+              "support": 0,
+              "predicted": 0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "frame_f1": 0.0
+            }
+          },
+          "target_macro_precision": 0.09057296109754245,
+          "target_macro_recall": 0.25803729726180313,
+          "target_macro_frame_f1": 0.13389108554029555
+        },
+        "segment": {
+          "per_class": {
+            "long_brush_insert": {
+              "segment_precision@0.25": 0.375,
+              "segment_recall@0.25": 0.375,
+              "segment_f1@0.25": 0.375,
+              "segment_precision@0.5": 0.375,
+              "segment_recall@0.5": 0.375,
+              "segment_f1@0.5": 0.375
+            },
+            "long_brush_withdraw": {
+              "segment_precision@0.25": 0.25,
+              "segment_recall@0.25": 0.3125,
+              "segment_f1@0.25": 0.2708333333333333,
+              "segment_precision@0.5": 0.1875,
+              "segment_recall@0.5": 0.25,
+              "segment_f1@0.5": 0.20833333333333331
+            },
+            "short_brush_cleaning": {
+              "segment_precision@0.25": 0.0,
+              "segment_recall@0.25": 0.0,
+              "segment_f1@0.25": 0.0,
+              "segment_precision@0.5": 0.0,
+              "segment_recall@0.5": 0.0,
+              "segment_f1@0.5": 0.0
+            },
+            "flush": {
+              "segment_precision@0.25": 0.0,
+              "segment_recall@0.25": 0.0,
+              "segment_f1@0.25": 0.0,
+              "segment_precision@0.5": 0.0,
+              "segment_recall@0.5": 0.0,
+              "segment_f1@0.5": 0.0
+            },
+            "air_injection": {
+              "segment_precision@0.25": 0.0,
+              "segment_recall@0.25": 0.0,
+              "segment_f1@0.25": 0.0,
+              "segment_precision@0.5": 0.0,
+              "segment_recall@0.5": 0.0,
+              "segment_f1@0.5": 0.0
+            }
+          },
+          "target_macro_segment_precision@0.25": 0.125,
+          "target_macro_segment_recall@0.25": 0.1375,
+          "target_macro_segment_f1@0.25": 0.12916666666666665,
+          "target_macro_segment_precision@0.5": 0.1125,
+          "target_macro_segment_recall@0.5": 0.125,
+          "target_macro_segment_f1@0.5": 0.11666666666666665
+        }
+      }
+    },
+    {
+      "feature_method": "v2",
+      "train_mode": "full_sequence",
+      "model": "asformer",
+      "epochs": 3,
+      "feature_dim": 113,
+      "train_sequences": 10,
+      "train_samples": 10,
+      "val_sequences": 8,
+      "train": {
+        "history": [
+          {
+            "epoch": 1,
+            "loss": 1.942076
+          },
+          {
+            "epoch": 2,
+            "loss": 1.120478
+          },
+          {
+            "epoch": 3,
+            "loss": 0.688352
+          }
+        ],
+        "class_support_frames": {
+          "idle": 765,
+          "long_brush_insert": 578,
+          "long_brush_withdraw": 635,
+          "short_brush_cleaning": 214,
+          "flush": 743,
+          "air_injection": 366
+        }
+      },
+      "metrics": {
+        "frame": {
+          "accuracy": 0.6540222367560498,
+          "per_class": {
+            "idle": {
+              "support": 322,
+              "predicted": 35,
+              "precision": 0.3142857142857143,
+              "recall": 0.034161490683229816,
+              "frame_f1": 0.06162464985994398
+            },
+            "long_brush_insert": {
+              "support": 388,
+              "predicted": 512,
+              "precision": 0.59765625,
+              "recall": 0.788659793814433,
+              "frame_f1": 0.68
+            },
+            "long_brush_withdraw": {
+              "support": 157,
+              "predicted": 149,
+              "precision": 0.14093959731543623,
+              "recall": 0.1337579617834395,
+              "frame_f1": 0.1372549019607843
+            },
+            "short_brush_cleaning": {
+              "support": 344,
+              "predicted": 486,
+              "precision": 0.7078189300411523,
+              "recall": 1.0,
+              "frame_f1": 0.8289156626506025
+            },
+            "flush": {
+              "support": 318,
+              "predicted": 347,
+              "precision": 0.9164265129682997,
+              "recall": 1.0,
+              "frame_f1": 0.9563909774436089
+            },
+            "air_injection": {
+              "support": 0,
+              "predicted": 0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "frame_f1": 0.0
+            }
+          },
+          "target_macro_precision": 0.4725682580649776,
+          "target_macro_recall": 0.5844835511195745,
+          "target_macro_frame_f1": 0.5205123084109992
+        },
+        "segment": {
+          "per_class": {
+            "long_brush_insert": {
+              "segment_precision@0.25": 0.16666666666666666,
+              "segment_recall@0.25": 0.25,
+              "segment_f1@0.25": 0.1875,
+              "segment_precision@0.5": 0.16666666666666666,
+              "segment_recall@0.5": 0.25,
+              "segment_f1@0.5": 0.1875
+            },
+            "long_brush_withdraw": {
+              "segment_precision@0.25": 0.125,
+              "segment_recall@0.25": 0.125,
+              "segment_f1@0.25": 0.125,
+              "segment_precision@0.5": 0.0,
+              "segment_recall@0.5": 0.0,
+              "segment_f1@0.5": 0.0
+            },
+            "short_brush_cleaning": {
+              "segment_precision@0.25": 0.25,
+              "segment_recall@0.25": 0.1875,
+              "segment_f1@0.25": 0.20833333333333331,
+              "segment_precision@0.5": 0.125,
+              "segment_recall@0.5": 0.125,
+              "segment_f1@0.5": 0.125
+            },
+            "flush": {
+              "segment_precision@0.25": 0.125,
+              "segment_recall@0.25": 0.125,
+              "segment_f1@0.25": 0.125,
+              "segment_precision@0.5": 0.125,
+              "segment_recall@0.5": 0.125,
+              "segment_f1@0.5": 0.125
+            },
+            "air_injection": {
+              "segment_precision@0.25": 0.0,
+              "segment_recall@0.25": 0.0,
+              "segment_f1@0.25": 0.0,
+              "segment_precision@0.5": 0.0,
+              "segment_recall@0.5": 0.0,
+              "segment_f1@0.5": 0.0
+            }
+          },
+          "target_macro_segment_precision@0.25": 0.13333333333333333,
+          "target_macro_segment_recall@0.25": 0.1375,
+          "target_macro_segment_f1@0.25": 0.12916666666666665,
+          "target_macro_segment_precision@0.5": 0.08333333333333333,
+          "target_macro_segment_recall@0.5": 0.1,
+          "target_macro_segment_f1@0.5": 0.0875
+        }
+      }
+    },
+    {
+      "feature_method": "v2",
+      "train_mode": "full_sequence",
+      "model": "bigru",
+      "epochs": 3,
+      "feature_dim": 113,
+      "train_sequences": 10,
+      "train_samples": 10,
+      "val_sequences": 8,
+      "train": {
+        "history": [
+          {
+            "epoch": 1,
+            "loss": 1.813216
+          },
+          {
+            "epoch": 2,
+            "loss": 1.497448
+          },
+          {
+            "epoch": 3,
+            "loss": 1.154146
+          }
+        ],
+        "class_support_frames": {
+          "idle": 765,
+          "long_brush_insert": 578,
+          "long_brush_withdraw": 635,
+          "short_brush_cleaning": 214,
+          "flush": 743,
+          "air_injection": 366
+        }
+      },
+      "metrics": {
+        "frame": {
+          "accuracy": 0.6762589928057554,
+          "per_class": {
+            "idle": {
+              "support": 322,
+              "predicted": 5,
+              "precision": 0.2,
+              "recall": 0.003105590062111801,
+              "frame_f1": 0.0061162079510703364
+            },
+            "long_brush_insert": {
+              "support": 388,
+              "predicted": 674,
+              "precision": 0.5756676557863502,
+              "recall": 1.0,
+              "frame_f1": 0.7306967984934086
+            },
+            "long_brush_withdraw": {
+              "support": 157,
+              "predicted": 50,
+              "precision": 0.0,
+              "recall": 0.0,
+              "frame_f1": 0.0
+            },
+            "short_brush_cleaning": {
+              "support": 344,
+              "predicted": 461,
+              "precision": 0.7114967462039046,
+              "recall": 0.9534883720930233,
+              "frame_f1": 0.8149068322981365
+            },
+            "flush": {
+              "support": 318,
+              "predicted": 339,
+              "precision": 0.9351032448377581,
+              "recall": 0.9968553459119497,
+              "frame_f1": 0.964992389649924
+            },
+            "air_injection": {
+              "support": 0,
+              "predicted": 0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "frame_f1": 0.0
+            }
+          },
+          "target_macro_precision": 0.44445352936560256,
+          "target_macro_recall": 0.5900687436009946,
+          "target_macro_frame_f1": 0.5021192040882938
+        },
+        "segment": {
+          "per_class": {
+            "long_brush_insert": {
+              "segment_precision@0.25": 0.3125,
+              "segment_recall@0.25": 0.375,
+              "segment_f1@0.25": 0.3333333333333333,
+              "segment_precision@0.5": 0.3125,
+              "segment_recall@0.5": 0.375,
+              "segment_f1@0.5": 0.3333333333333333
+            },
+            "long_brush_withdraw": {
+              "segment_precision@0.25": 0.0,
+              "segment_recall@0.25": 0.0,
+              "segment_f1@0.25": 0.0,
+              "segment_precision@0.5": 0.0,
+              "segment_recall@0.5": 0.0,
+              "segment_f1@0.5": 0.0
+            },
+            "short_brush_cleaning": {
+              "segment_precision@0.25": 0.16666666666666666,
+              "segment_recall@0.25": 0.1875,
+              "segment_f1@0.25": 0.14583333333333331,
+              "segment_precision@0.5": 0.0,
+              "segment_recall@0.5": 0.0,
+              "segment_f1@0.5": 0.0
+            },
+            "flush": {
+              "segment_precision@0.25": 0.25,
+              "segment_recall@0.25": 0.175,
+              "segment_f1@0.25": 0.19642857142857145,
+              "segment_precision@0.5": 0.1875,
+              "segment_recall@0.5": 0.15,
+              "segment_f1@0.5": 0.16071428571428573
+            },
+            "air_injection": {
+              "segment_precision@0.25": 0.0,
+              "segment_recall@0.25": 0.0,
+              "segment_f1@0.25": 0.0,
+              "segment_precision@0.5": 0.0,
+              "segment_recall@0.5": 0.0,
+              "segment_f1@0.5": 0.0
+            }
+          },
+          "target_macro_segment_precision@0.25": 0.14583333333333331,
+          "target_macro_segment_recall@0.25": 0.14750000000000002,
+          "target_macro_segment_f1@0.25": 0.13511904761904764,
+          "target_macro_segment_precision@0.5": 0.1,
+          "target_macro_segment_recall@0.5": 0.10500000000000001,
+          "target_macro_segment_f1@0.5": 0.09880952380952382
+        }
+      }
+    },
+    {
+      "feature_method": "window_stats",
+      "train_mode": "full_sequence",
+      "model": "ms_tcn",
+      "epochs": 3,
+      "feature_dim": 241,
+      "train_sequences": 10,
+      "train_samples": 10,
+      "val_sequences": 8,
+      "train": {
+        "history": [
+          {
+            "epoch": 1,
+            "loss": 2.060275
+          },
+          {
+            "epoch": 2,
+            "loss": 1.60572
+          },
+          {
+            "epoch": 3,
+            "loss": 1.463103
+          }
+        ],
+        "class_support_frames": {
+          "idle": 765,
+          "long_brush_insert": 578,
+          "long_brush_withdraw": 635,
+          "short_brush_cleaning": 214,
+          "flush": 743,
+          "air_injection": 366
+        }
+      },
+      "metrics": {
+        "frame": {
+          "accuracy": 0.1026814911706998,
+          "per_class": {
+            "idle": {
+              "support": 322,
+              "predicted": 0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "frame_f1": 0.0
+            },
+            "long_brush_insert": {
+              "support": 388,
+              "predicted": 0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "frame_f1": 0.0
+            },
+            "long_brush_withdraw": {
+              "support": 157,
+              "predicted": 1529,
+              "precision": 0.1026814911706998,
+              "recall": 1.0,
+              "frame_f1": 0.18623962040332148
+            },
+            "short_brush_cleaning": {
+              "support": 344,
+              "predicted": 0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "frame_f1": 0.0
+            },
+            "flush": {
+              "support": 318,
+              "predicted": 0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "frame_f1": 0.0
+            },
+            "air_injection": {
+              "support": 0,
+              "predicted": 0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "frame_f1": 0.0
+            }
+          },
+          "target_macro_precision": 0.02053629823413996,
+          "target_macro_recall": 0.2,
+          "target_macro_frame_f1": 0.037247924080664296
+        },
+        "segment": {
+          "per_class": {
+            "long_brush_insert": {
+              "segment_precision@0.25": 0.0,
+              "segment_recall@0.25": 0.0,
+              "segment_f1@0.25": 0.0,
+              "segment_precision@0.5": 0.0,
+              "segment_recall@0.5": 0.0,
+              "segment_f1@0.5": 0.0
+            },
+            "long_brush_withdraw": {
+              "segment_precision@0.25": 0.25,
+              "segment_recall@0.25": 0.25,
+              "segment_f1@0.25": 0.25,
+              "segment_precision@0.5": 0.125,
+              "segment_recall@0.5": 0.125,
+              "segment_f1@0.5": 0.125
+            },
+            "short_brush_cleaning": {
+              "segment_precision@0.25": 0.0,
+              "segment_recall@0.25": 0.0,
+              "segment_f1@0.25": 0.0,
+              "segment_precision@0.5": 0.0,
+              "segment_recall@0.5": 0.0,
+              "segment_f1@0.5": 0.0
+            },
+            "flush": {
+              "segment_precision@0.25": 0.0,
+              "segment_recall@0.25": 0.0,
+              "segment_f1@0.25": 0.0,
+              "segment_precision@0.5": 0.0,
+              "segment_recall@0.5": 0.0,
+              "segment_f1@0.5": 0.0
+            },
+            "air_injection": {
+              "segment_precision@0.25": 0.0,
+              "segment_recall@0.25": 0.0,
+              "segment_f1@0.25": 0.0,
+              "segment_precision@0.5": 0.0,
+              "segment_recall@0.5": 0.0,
+              "segment_f1@0.5": 0.0
+            }
+          },
+          "target_macro_segment_precision@0.25": 0.05,
+          "target_macro_segment_recall@0.25": 0.05,
+          "target_macro_segment_f1@0.25": 0.05,
+          "target_macro_segment_precision@0.5": 0.025,
+          "target_macro_segment_recall@0.5": 0.025,
+          "target_macro_segment_f1@0.5": 0.025
+        }
+      }
+    },
+    {
+      "feature_method": "window_stats",
+      "train_mode": "full_sequence",
+      "model": "asformer",
+      "epochs": 3,
+      "feature_dim": 241,
+      "train_sequences": 10,
+      "train_samples": 10,
+      "val_sequences": 8,
+      "train": {
+        "history": [
+          {
+            "epoch": 1,
+            "loss": 2.00561
+          },
+          {
+            "epoch": 2,
+            "loss": 1.038826
+          },
+          {
+            "epoch": 3,
+            "loss": 0.724823
+          }
+        ],
+        "class_support_frames": {
+          "idle": 765,
+          "long_brush_insert": 578,
+          "long_brush_withdraw": 635,
+          "short_brush_cleaning": 214,
+          "flush": 743,
+          "air_injection": 366
+        }
+      },
+      "metrics": {
+        "frame": {
+          "accuracy": 0.6684107259646828,
+          "per_class": {
+            "idle": {
+              "support": 322,
+              "predicted": 89,
+              "precision": 0.30337078651685395,
+              "recall": 0.08385093167701864,
+              "frame_f1": 0.13138686131386862
+            },
+            "long_brush_insert": {
+              "support": 388,
+              "predicted": 435,
+              "precision": 0.7034482758620689,
+              "recall": 0.788659793814433,
+              "frame_f1": 0.7436208991494532
+            },
+            "long_brush_withdraw": {
+              "support": 157,
+              "predicted": 188,
+              "precision": 0.23404255319148937,
+              "recall": 0.2802547770700637,
+              "frame_f1": 0.255072463768116
+            },
+            "short_brush_cleaning": {
+              "support": 344,
+              "predicted": 497,
+              "precision": 0.6921529175050302,
+              "recall": 1.0,
+              "frame_f1": 0.8180737217598096
+            },
+            "flush": {
+              "support": 318,
+              "predicted": 320,
+              "precision": 0.940625,
+              "recall": 0.9465408805031447,
+              "frame_f1": 0.9435736677115988
+            },
+            "air_injection": {
+              "support": 0,
+              "predicted": 0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "frame_f1": 0.0
+            }
+          },
+          "target_macro_precision": 0.5140537493117178,
+          "target_macro_recall": 0.6030910902775283,
+          "target_macro_frame_f1": 0.5520681504777956
+        },
+        "segment": {
+          "per_class": {
+            "long_brush_insert": {
+              "segment_precision@0.25": 0.15625,
+              "segment_recall@0.25": 0.25,
+              "segment_f1@0.25": 0.175,
+              "segment_precision@0.5": 0.15625,
+              "segment_recall@0.5": 0.25,
+              "segment_f1@0.5": 0.175
+            },
+            "long_brush_withdraw": {
+              "segment_precision@0.25": 0.125,
+              "segment_recall@0.25": 0.125,
+              "segment_f1@0.25": 0.125,
+              "segment_precision@0.5": 0.125,
+              "segment_recall@0.5": 0.125,
+              "segment_f1@0.5": 0.125
+            },
+            "short_brush_cleaning": {
+              "segment_precision@0.25": 0.25,
+              "segment_recall@0.25": 0.1875,
+              "segment_f1@0.25": 0.20833333333333331,
+              "segment_precision@0.5": 0.125,
+              "segment_recall@0.5": 0.125,
+              "segment_f1@0.5": 0.125
+            },
+            "flush": {
+              "segment_precision@0.25": 0.25,
+              "segment_recall@0.25": 0.175,
+              "segment_f1@0.25": 0.19642857142857145,
+              "segment_precision@0.5": 0.1875,
+              "segment_recall@0.5": 0.15,
+              "segment_f1@0.5": 0.16071428571428573
+            },
+            "air_injection": {
+              "segment_precision@0.25": 0.0,
+              "segment_recall@0.25": 0.0,
+              "segment_f1@0.25": 0.0,
+              "segment_precision@0.5": 0.0,
+              "segment_recall@0.5": 0.0,
+              "segment_f1@0.5": 0.0
+            }
+          },
+          "target_macro_segment_precision@0.25": 0.15625,
+          "target_macro_segment_recall@0.25": 0.14750000000000002,
+          "target_macro_segment_f1@0.25": 0.14095238095238094,
+          "target_macro_segment_precision@0.5": 0.11875,
+          "target_macro_segment_recall@0.5": 0.13,
+          "target_macro_segment_f1@0.5": 0.11714285714285715
+        }
+      }
+    },
+    {
+      "feature_method": "window_stats",
+      "train_mode": "full_sequence",
+      "model": "bigru",
+      "epochs": 3,
+      "feature_dim": 241,
+      "train_sequences": 10,
+      "train_samples": 10,
+      "val_sequences": 8,
+      "train": {
+        "history": [
+          {
+            "epoch": 1,
+            "loss": 1.78663
+          },
+          {
+            "epoch": 2,
+            "loss": 1.4738
+          },
+          {
+            "epoch": 3,
+            "loss": 1.004321
+          }
+        ],
+        "class_support_frames": {
+          "idle": 765,
+          "long_brush_insert": 578,
+          "long_brush_withdraw": 635,
+          "short_brush_cleaning": 214,
+          "flush": 743,
+          "air_injection": 366
+        }
+      },
+      "metrics": {
+        "frame": {
+          "accuracy": 0.6952256376716809,
+          "per_class": {
+            "idle": {
+              "support": 322,
+              "predicted": 8,
+              "precision": 1.0,
+              "recall": 0.024844720496894408,
+              "frame_f1": 0.04848484848484848
+            },
+            "long_brush_insert": {
+              "support": 388,
+              "predicted": 643,
+              "precision": 0.5956454121306376,
+              "recall": 0.9871134020618557,
+              "frame_f1": 0.7429679922405431
+            },
+            "long_brush_withdraw": {
+              "support": 157,
+              "predicted": 54,
+              "precision": 0.2037037037037037,
+              "recall": 0.07006369426751592,
+              "frame_f1": 0.10426540284360188
+            },
+            "short_brush_cleaning": {
+              "support": 344,
+              "predicted": 484,
+              "precision": 0.7107438016528925,
+              "recall": 1.0,
+              "frame_f1": 0.8309178743961353
+            },
+            "flush": {
+              "support": 318,
+              "predicted": 340,
+              "precision": 0.9323529411764706,
+              "recall": 0.9968553459119497,
+              "frame_f1": 0.9635258358662615
+            },
+            "air_injection": {
+              "support": 0,
+              "predicted": 0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "frame_f1": 0.0
+            }
+          },
+          "target_macro_precision": 0.488489171732741,
+          "target_macro_recall": 0.6108064884482642,
+          "target_macro_frame_f1": 0.5283354210693083
+        },
+        "segment": {
+          "per_class": {
+            "long_brush_insert": {
+              "segment_precision@0.25": 0.375,
+              "segment_recall@0.25": 0.375,
+              "segment_f1@0.25": 0.375,
+              "segment_precision@0.5": 0.25,
+              "segment_recall@0.5": 0.25,
+              "segment_f1@0.5": 0.25
+            },
+            "long_brush_withdraw": {
+              "segment_precision@0.25": 0.125,
+              "segment_recall@0.25": 0.125,
+              "segment_f1@0.25": 0.125,
+              "segment_precision@0.5": 0.0,
+              "segment_recall@0.5": 0.0,
+              "segment_f1@0.5": 0.0
+            },
+            "short_brush_cleaning": {
+              "segment_precision@0.25": 0.25,
+              "segment_recall@0.25": 0.1875,
+              "segment_f1@0.25": 0.20833333333333331,
+              "segment_precision@0.5": 0.125,
+              "segment_recall@0.5": 0.125,
+              "segment_f1@0.5": 0.125
+            },
+            "flush": {
+              "segment_precision@0.25": 0.25,
+              "segment_recall@0.25": 0.175,
+              "segment_f1@0.25": 0.19642857142857145,
+              "segment_precision@0.5": 0.1875,
+              "segment_recall@0.5": 0.15,
+              "segment_f1@0.5": 0.16071428571428573
+            },
+            "air_injection": {
+              "segment_precision@0.25": 0.0,
+              "segment_recall@0.25": 0.0,
+              "segment_f1@0.25": 0.0,
+              "segment_precision@0.5": 0.0,
+              "segment_recall@0.5": 0.0,
+              "segment_f1@0.5": 0.0
+            }
+          },
+          "target_macro_segment_precision@0.25": 0.2,
+          "target_macro_segment_recall@0.25": 0.17250000000000001,
+          "target_macro_segment_f1@0.25": 0.18095238095238092,
+          "target_macro_segment_precision@0.5": 0.1125,
+          "target_macro_segment_recall@0.5": 0.10500000000000001,
+          "target_macro_segment_f1@0.5": 0.10714285714285714
+        }
+      }
+    },
+    {
+      "feature_method": "business_priors",
+      "train_mode": "full_sequence",
+      "model": "ms_tcn",
+      "epochs": 3,
+      "feature_dim": 121,
+      "train_sequences": 10,
+      "train_samples": 10,
+      "val_sequences": 8,
+      "train": {
+        "history": [
+          {
+            "epoch": 1,
+            "loss": 1.855914
+          },
+          {
+            "epoch": 2,
+            "loss": 1.581472
+          },
+          {
+            "epoch": 3,
+            "loss": 1.479473
+          }
+        ],
+        "class_support_frames": {
+          "idle": 765,
+          "long_brush_insert": 578,
+          "long_brush_withdraw": 635,
+          "short_brush_cleaning": 214,
+          "flush": 743,
+          "air_injection": 366
+        }
+      },
+      "metrics": {
+        "frame": {
+          "accuracy": 0.24656638325703073,
+          "per_class": {
+            "idle": {
+              "support": 322,
+              "predicted": 0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "frame_f1": 0.0
+            },
+            "long_brush_insert": {
+              "support": 388,
+              "predicted": 1397,
+              "precision": 0.2655690765926986,
+              "recall": 0.9561855670103093,
+              "frame_f1": 0.41568627450980394
+            },
+            "long_brush_withdraw": {
+              "support": 157,
+              "predicted": 132,
+              "precision": 0.045454545454545456,
+              "recall": 0.03821656050955414,
+              "frame_f1": 0.04152249134948097
+            },
+            "short_brush_cleaning": {
+              "support": 344,
+              "predicted": 0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "frame_f1": 0.0
+            },
+            "flush": {
+              "support": 318,
+              "predicted": 0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "frame_f1": 0.0
+            },
+            "air_injection": {
+              "support": 0,
+              "predicted": 0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "frame_f1": 0.0
+            }
+          },
+          "target_macro_precision": 0.06220472440944882,
+          "target_macro_recall": 0.1988804255039727,
+          "target_macro_frame_f1": 0.09144175317185699
+        },
+        "segment": {
+          "per_class": {
+            "long_brush_insert": {
+              "segment_precision@0.25": 0.375,
+              "segment_recall@0.25": 0.375,
+              "segment_f1@0.25": 0.375,
+              "segment_precision@0.5": 0.25,
+              "segment_recall@0.5": 0.25,
+              "segment_f1@0.5": 0.25
+            },
+            "long_brush_withdraw": {
+              "segment_precision@0.25": 0.0,
+              "segment_recall@0.25": 0.0,
+              "segment_f1@0.25": 0.0,
+              "segment_precision@0.5": 0.0,
+              "segment_recall@0.5": 0.0,
+              "segment_f1@0.5": 0.0
+            },
+            "short_brush_cleaning": {
+              "segment_precision@0.25": 0.0,
+              "segment_recall@0.25": 0.0,
+              "segment_f1@0.25": 0.0,
+              "segment_precision@0.5": 0.0,
+              "segment_recall@0.5": 0.0,
+              "segment_f1@0.5": 0.0
+            },
+            "flush": {
+              "segment_precision@0.25": 0.0,
+              "segment_recall@0.25": 0.0,
+              "segment_f1@0.25": 0.0,
+              "segment_precision@0.5": 0.0,
+              "segment_recall@0.5": 0.0,
+              "segment_f1@0.5": 0.0
+            },
+            "air_injection": {
+              "segment_precision@0.25": 0.0,
+              "segment_recall@0.25": 0.0,
+              "segment_f1@0.25": 0.0,
+              "segment_precision@0.5": 0.0,
+              "segment_recall@0.5": 0.0,
+              "segment_f1@0.5": 0.0
+            }
+          },
+          "target_macro_segment_precision@0.25": 0.075,
+          "target_macro_segment_recall@0.25": 0.075,
+          "target_macro_segment_f1@0.25": 0.075,
+          "target_macro_segment_precision@0.5": 0.05,
+          "target_macro_segment_recall@0.5": 0.05,
+          "target_macro_segment_f1@0.5": 0.05
+        }
+      }
+    },
+    {
+      "feature_method": "business_priors",
+      "train_mode": "full_sequence",
+      "model": "asformer",
+      "epochs": 3,
+      "feature_dim": 121,
+      "train_sequences": 10,
+      "train_samples": 10,
+      "val_sequences": 8,
+      "train": {
+        "history": [
+          {
+            "epoch": 1,
+            "loss": 2.003694
+          },
+          {
+            "epoch": 2,
+            "loss": 0.969074
+          },
+          {
+            "epoch": 3,
+            "loss": 0.643336
+          }
+        ],
+        "class_support_frames": {
+          "idle": 765,
+          "long_brush_insert": 578,
+          "long_brush_withdraw": 635,
+          "short_brush_cleaning": 214,
+          "flush": 743,
+          "air_injection": 366
+        }
+      },
+      "metrics": {
+        "frame": {
+          "accuracy": 0.6514061478090255,
+          "per_class": {
+            "idle": {
+              "support": 322,
+              "predicted": 207,
+              "precision": 0.33816425120772947,
+              "recall": 0.21739130434782608,
+              "frame_f1": 0.2646502835538752
+            },
+            "long_brush_insert": {
+              "support": 388,
+              "predicted": 241,
+              "precision": 0.8755186721991701,
+              "recall": 0.5438144329896907,
+              "frame_f1": 0.6709062003179651
+            },
+            "long_brush_withdraw": {
+              "support": 157,
+              "predicted": 178,
+              "precision": 0.29775280898876405,
+              "recall": 0.3375796178343949,
+              "frame_f1": 0.3164179104477612
+            },
+            "short_brush_cleaning": {
+              "support": 344,
+              "predicted": 479,
+              "precision": 0.7181628392484343,
+              "recall": 1.0,
+              "frame_f1": 0.8359659781287971
+            },
+            "flush": {
+              "support": 318,
+              "predicted": 348,
+              "precision": 0.9137931034482759,
+              "recall": 1.0,
+              "frame_f1": 0.9549549549549551
+            },
+            "air_injection": {
+              "support": 0,
+              "predicted": 76,
+              "precision": 0.0,
+              "recall": 0.0,
+              "frame_f1": 0.0
+            }
+          },
+          "target_macro_precision": 0.5610454847769288,
+          "target_macro_recall": 0.5762788101648171,
+          "target_macro_frame_f1": 0.5556490087698956
+        },
+        "segment": {
+          "per_class": {
+            "long_brush_insert": {
+              "segment_precision@0.25": 0.1875,
+              "segment_recall@0.25": 0.25,
+              "segment_f1@0.25": 0.20833333333333331,
+              "segment_precision@0.5": 0.125,
+              "segment_recall@0.5": 0.125,
+              "segment_f1@0.5": 0.125
+            },
+            "long_brush_withdraw": {
+              "segment_precision@0.25": 0.25,
+              "segment_recall@0.25": 0.25,
+              "segment_f1@0.25": 0.25,
+              "segment_precision@0.5": 0.25,
+              "segment_recall@0.5": 0.25,
+              "segment_f1@0.5": 0.25
+            },
+            "short_brush_cleaning": {
+              "segment_precision@0.25": 0.25,
+              "segment_recall@0.25": 0.1875,
+              "segment_f1@0.25": 0.20833333333333331,
+              "segment_precision@0.5": 0.125,
+              "segment_recall@0.5": 0.125,
+              "segment_f1@0.5": 0.125
+            },
+            "flush": {
+              "segment_precision@0.25": 0.125,
+              "segment_recall@0.25": 0.125,
+              "segment_f1@0.25": 0.125,
+              "segment_precision@0.5": 0.125,
+              "segment_recall@0.5": 0.125,
+              "segment_f1@0.5": 0.125
+            },
+            "air_injection": {
+              "segment_precision@0.25": 0.0,
+              "segment_recall@0.25": 0.0,
+              "segment_f1@0.25": 0.0,
+              "segment_precision@0.5": 0.0,
+              "segment_recall@0.5": 0.0,
+              "segment_f1@0.5": 0.0
+            }
+          },
+          "target_macro_segment_precision@0.25": 0.1625,
+          "target_macro_segment_recall@0.25": 0.1625,
+          "target_macro_segment_f1@0.25": 0.15833333333333333,
+          "target_macro_segment_precision@0.5": 0.125,
+          "target_macro_segment_recall@0.5": 0.125,
+          "target_macro_segment_f1@0.5": 0.125
+        }
+      }
+    },
+    {
+      "feature_method": "business_priors",
+      "train_mode": "full_sequence",
+      "model": "bigru",
+      "epochs": 3,
+      "feature_dim": 121,
+      "train_sequences": 10,
+      "train_samples": 10,
+      "val_sequences": 8,
+      "train": {
+        "history": [
+          {
+            "epoch": 1,
+            "loss": 1.824333
+          },
+          {
+            "epoch": 2,
+            "loss": 1.550292
+          },
+          {
+            "epoch": 3,
+            "loss": 1.073177
+          }
+        ],
+        "class_support_frames": {
+          "idle": 765,
+          "long_brush_insert": 578,
+          "long_brush_withdraw": 635,
+          "short_brush_cleaning": 214,
+          "flush": 743,
+          "air_injection": 366
+        }
+      },
+      "metrics": {
+        "frame": {
+          "accuracy": 0.5088293001962066,
+          "per_class": {
+            "idle": {
+              "support": 322,
+              "predicted": 0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "frame_f1": 0.0
+            },
+            "long_brush_insert": {
+              "support": 388,
+              "predicted": 93,
+              "precision": 0.5268817204301075,
+              "recall": 0.12628865979381443,
+              "frame_f1": 0.20374220374220375
+            },
+            "long_brush_withdraw": {
+              "support": 157,
+              "predicted": 540,
+              "precision": 0.1388888888888889,
+              "recall": 0.47770700636942676,
+              "frame_f1": 0.21520803443328548
+            },
+            "short_brush_cleaning": {
+              "support": 344,
+              "predicted": 471,
+              "precision": 0.7133757961783439,
+              "recall": 0.9767441860465116,
+              "frame_f1": 0.8245398773006134
+            },
+            "flush": {
+              "support": 318,
+              "predicted": 425,
+              "precision": 0.7482352941176471,
+              "recall": 1.0,
+              "frame_f1": 0.8559892328398385
+            },
+            "air_injection": {
+              "support": 0,
+              "predicted": 0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "frame_f1": 0.0
+            }
+          },
+          "target_macro_precision": 0.4254763399229974,
+          "target_macro_recall": 0.5161479704419506,
+          "target_macro_frame_f1": 0.4198958696631882
+        },
+        "segment": {
+          "per_class": {
+            "long_brush_insert": {
+              "segment_precision@0.25": 0.125,
+              "segment_recall@0.25": 0.125,
+              "segment_f1@0.25": 0.125,
+              "segment_precision@0.5": 0.0,
+              "segment_recall@0.5": 0.0,
+              "segment_f1@0.5": 0.0
+            },
+            "long_brush_withdraw": {
+              "segment_precision@0.25": 0.1875,
+              "segment_recall@0.25": 0.1875,
+              "segment_f1@0.25": 0.1875,
+              "segment_precision@0.5": 0.125,
+              "segment_recall@0.5": 0.125,
+              "segment_f1@0.5": 0.125
+            },
+            "short_brush_cleaning": {
+              "segment_precision@0.25": 0.1875,
+              "segment_recall@0.25": 0.25,
+              "segment_f1@0.25": 0.20833333333333331,
+              "segment_precision@0.5": 0.125,
+              "segment_recall@0.5": 0.125,
+              "segment_f1@0.5": 0.125
+            },
+            "flush": {
+              "segment_precision@0.25": 0.25,
+              "segment_recall@0.25": 0.175,
+              "segment_f1@0.25": 0.19642857142857145,
+              "segment_precision@0.5": 0.1875,
+              "segment_recall@0.5": 0.15,
+              "segment_f1@0.5": 0.16071428571428573
+            },
+            "air_injection": {
+              "segment_precision@0.25": 0.0,
+              "segment_recall@0.25": 0.0,
+              "segment_f1@0.25": 0.0,
+              "segment_precision@0.5": 0.0,
+              "segment_recall@0.5": 0.0,
+              "segment_f1@0.5": 0.0
+            }
+          },
+          "target_macro_segment_precision@0.25": 0.15,
+          "target_macro_segment_recall@0.25": 0.14750000000000002,
+          "target_macro_segment_f1@0.25": 0.14345238095238094,
+          "target_macro_segment_precision@0.5": 0.0875,
+          "target_macro_segment_recall@0.5": 0.08,
+          "target_macro_segment_f1@0.5": 0.08214285714285714
+        }
+      }
+    },
+    {
+      "feature_method": "window_stats+business_priors",
+      "train_mode": "full_sequence",
+      "model": "ms_tcn",
+      "epochs": 3,
+      "feature_dim": 249,
+      "train_sequences": 10,
+      "train_samples": 10,
+      "val_sequences": 8,
+      "train": {
+        "history": [
+          {
+            "epoch": 1,
+            "loss": 2.003333
+          },
+          {
+            "epoch": 2,
+            "loss": 1.701636
+          },
+          {
+            "epoch": 3,
+            "loss": 1.525713
+          }
+        ],
+        "class_support_frames": {
+          "idle": 765,
+          "long_brush_insert": 578,
+          "long_brush_withdraw": 635,
+          "short_brush_cleaning": 214,
+          "flush": 743,
+          "air_injection": 366
+        }
+      },
+      "metrics": {
+        "frame": {
+          "accuracy": 0.1026814911706998,
+          "per_class": {
+            "idle": {
+              "support": 322,
+              "predicted": 0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "frame_f1": 0.0
+            },
+            "long_brush_insert": {
+              "support": 388,
+              "predicted": 0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "frame_f1": 0.0
+            },
+            "long_brush_withdraw": {
+              "support": 157,
+              "predicted": 1529,
+              "precision": 0.1026814911706998,
+              "recall": 1.0,
+              "frame_f1": 0.18623962040332148
+            },
+            "short_brush_cleaning": {
+              "support": 344,
+              "predicted": 0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "frame_f1": 0.0
+            },
+            "flush": {
+              "support": 318,
+              "predicted": 0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "frame_f1": 0.0
+            },
+            "air_injection": {
+              "support": 0,
+              "predicted": 0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "frame_f1": 0.0
+            }
+          },
+          "target_macro_precision": 0.02053629823413996,
+          "target_macro_recall": 0.2,
+          "target_macro_frame_f1": 0.037247924080664296
+        },
+        "segment": {
+          "per_class": {
+            "long_brush_insert": {
+              "segment_precision@0.25": 0.0,
+              "segment_recall@0.25": 0.0,
+              "segment_f1@0.25": 0.0,
+              "segment_precision@0.5": 0.0,
+              "segment_recall@0.5": 0.0,
+              "segment_f1@0.5": 0.0
+            },
+            "long_brush_withdraw": {
+              "segment_precision@0.25": 0.25,
+              "segment_recall@0.25": 0.25,
+              "segment_f1@0.25": 0.25,
+              "segment_precision@0.5": 0.125,
+              "segment_recall@0.5": 0.125,
+              "segment_f1@0.5": 0.125
+            },
+            "short_brush_cleaning": {
+              "segment_precision@0.25": 0.0,
+              "segment_recall@0.25": 0.0,
+              "segment_f1@0.25": 0.0,
+              "segment_precision@0.5": 0.0,
+              "segment_recall@0.5": 0.0,
+              "segment_f1@0.5": 0.0
+            },
+            "flush": {
+              "segment_precision@0.25": 0.0,
+              "segment_recall@0.25": 0.0,
+              "segment_f1@0.25": 0.0,
+              "segment_precision@0.5": 0.0,
+              "segment_recall@0.5": 0.0,
+              "segment_f1@0.5": 0.0
+            },
+            "air_injection": {
+              "segment_precision@0.25": 0.0,
+              "segment_recall@0.25": 0.0,
+              "segment_f1@0.25": 0.0,
+              "segment_precision@0.5": 0.0,
+              "segment_recall@0.5": 0.0,
+              "segment_f1@0.5": 0.0
+            }
+          },
+          "target_macro_segment_precision@0.25": 0.05,
+          "target_macro_segment_recall@0.25": 0.05,
+          "target_macro_segment_f1@0.25": 0.05,
+          "target_macro_segment_precision@0.5": 0.025,
+          "target_macro_segment_recall@0.5": 0.025,
+          "target_macro_segment_f1@0.5": 0.025
+        }
+      }
+    },
+    {
+      "feature_method": "window_stats+business_priors",
+      "train_mode": "full_sequence",
+      "model": "asformer",
+      "epochs": 3,
+      "feature_dim": 249,
+      "train_sequences": 10,
+      "train_samples": 10,
+      "val_sequences": 8,
+      "train": {
+        "history": [
+          {
+            "epoch": 1,
+            "loss": 2.078593
+          },
+          {
+            "epoch": 2,
+            "loss": 1.137877
+          },
+          {
+            "epoch": 3,
+            "loss": 0.761733
+          }
+        ],
+        "class_support_frames": {
+          "idle": 765,
+          "long_brush_insert": 578,
+          "long_brush_withdraw": 635,
+          "short_brush_cleaning": 214,
+          "flush": 743,
+          "air_injection": 366
+        }
+      },
+      "metrics": {
+        "frame": {
+          "accuracy": 0.6827992151733159,
+          "per_class": {
+            "idle": {
+              "support": 322,
+              "predicted": 48,
+              "precision": 0.4375,
+              "recall": 0.06521739130434782,
+              "frame_f1": 0.11351351351351352
+            },
+            "long_brush_insert": {
+              "support": 388,
+              "predicted": 439,
+              "precision": 0.6879271070615034,
+              "recall": 0.7783505154639175,
+              "frame_f1": 0.7303506650544136
+            },
+            "long_brush_withdraw": {
+              "support": 157,
+              "predicted": 197,
+              "precision": 0.29949238578680204,
+              "recall": 0.37579617834394907,
+              "frame_f1": 0.33333333333333337
+            },
+            "short_brush_cleaning": {
+              "support": 344,
+              "predicted": 497,
+              "precision": 0.6921529175050302,
+              "recall": 1.0,
+              "frame_f1": 0.8180737217598096
+            },
+            "flush": {
+              "support": 318,
+              "predicted": 348,
+              "precision": 0.9137931034482759,
+              "recall": 1.0,
+              "frame_f1": 0.9549549549549551
+            },
+            "air_injection": {
+              "support": 0,
+              "predicted": 0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "frame_f1": 0.0
+            }
+          },
+          "target_macro_precision": 0.5186731027603223,
+          "target_macro_recall": 0.6308293387615733,
+          "target_macro_frame_f1": 0.5673425350205024
+        },
+        "segment": {
+          "per_class": {
+            "long_brush_insert": {
+              "segment_precision@0.25": 0.14583333333333334,
+              "segment_recall@0.25": 0.25,
+              "segment_f1@0.25": 0.1607142857142857,
+              "segment_precision@0.5": 0.14583333333333334,
+              "segment_recall@0.5": 0.25,
+              "segment_f1@0.5": 0.1607142857142857
+            },
+            "long_brush_withdraw": {
+              "segment_precision@0.25": 0.16666666666666666,
+              "segment_recall@0.25": 0.1875,
+              "segment_f1@0.25": 0.175,
+              "segment_precision@0.5": 0.16666666666666666,
+              "segment_recall@0.5": 0.1875,
+              "segment_f1@0.5": 0.175
+            },
+            "short_brush_cleaning": {
+              "segment_precision@0.25": 0.25,
+              "segment_recall@0.25": 0.1875,
+              "segment_f1@0.25": 0.20833333333333331,
+              "segment_precision@0.5": 0.125,
+              "segment_recall@0.5": 0.125,
+              "segment_f1@0.5": 0.125
+            },
+            "flush": {
+              "segment_precision@0.25": 0.125,
+              "segment_recall@0.25": 0.125,
+              "segment_f1@0.25": 0.125,
+              "segment_precision@0.5": 0.125,
+              "segment_recall@0.5": 0.125,
+              "segment_f1@0.5": 0.125
+            },
+            "air_injection": {
+              "segment_precision@0.25": 0.0,
+              "segment_recall@0.25": 0.0,
+              "segment_f1@0.25": 0.0,
+              "segment_precision@0.5": 0.0,
+              "segment_recall@0.5": 0.0,
+              "segment_f1@0.5": 0.0
+            }
+          },
+          "target_macro_segment_precision@0.25": 0.1375,
+          "target_macro_segment_recall@0.25": 0.15,
+          "target_macro_segment_f1@0.25": 0.1338095238095238,
+          "target_macro_segment_precision@0.5": 0.1125,
+          "target_macro_segment_recall@0.5": 0.1375,
+          "target_macro_segment_f1@0.5": 0.11714285714285713
+        }
+      }
+    },
+    {
+      "feature_method": "window_stats+business_priors",
+      "train_mode": "full_sequence",
+      "model": "bigru",
+      "epochs": 3,
+      "feature_dim": 249,
+      "train_sequences": 10,
+      "train_samples": 10,
+      "val_sequences": 8,
+      "train": {
+        "history": [
+          {
+            "epoch": 1,
+            "loss": 1.776247
+          },
+          {
+            "epoch": 2,
+            "loss": 1.401111
+          },
+          {
+            "epoch": 3,
+            "loss": 1.254234
+          }
+        ],
+        "class_support_frames": {
+          "idle": 765,
+          "long_brush_insert": 578,
+          "long_brush_withdraw": 635,
+          "short_brush_cleaning": 214,
+          "flush": 743,
+          "air_injection": 366
+        }
+      },
+      "metrics": {
+        "frame": {
+          "accuracy": 0.5336821451929366,
+          "per_class": {
+            "idle": {
+              "support": 322,
+              "predicted": 11,
+              "precision": 0.8181818181818182,
+              "recall": 0.027950310559006212,
+              "frame_f1": 0.05405405405405406
+            },
+            "long_brush_insert": {
+              "support": 388,
+              "predicted": 65,
+              "precision": 0.8,
+              "recall": 0.13402061855670103,
+              "frame_f1": 0.22958057395143489
+            },
+            "long_brush_withdraw": {
+              "support": 157,
+              "predicted": 552,
+              "precision": 0.17028985507246377,
+              "recall": 0.5987261146496815,
+              "frame_f1": 0.2651622002820875
+            },
+            "short_brush_cleaning": {
+              "support": 344,
+              "predicted": 484,
+              "precision": 0.7107438016528925,
+              "recall": 1.0,
+              "frame_f1": 0.8309178743961353
+            },
+            "flush": {
+              "support": 318,
+              "predicted": 417,
+              "precision": 0.7601918465227818,
+              "recall": 0.9968553459119497,
+              "frame_f1": 0.8625850340136055
+            },
+            "air_injection": {
+              "support": 0,
+              "predicted": 0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "frame_f1": 0.0
+            }
+          },
+          "target_macro_precision": 0.4882451006496276,
+          "target_macro_recall": 0.5459204158236665,
+          "target_macro_frame_f1": 0.4376491365286526
+        },
+        "segment": {
+          "per_class": {
+            "long_brush_insert": {
+              "segment_precision@0.25": 0.0,
+              "segment_recall@0.25": 0.0,
+              "segment_f1@0.25": 0.0,
+              "segment_precision@0.5": 0.0,
+              "segment_recall@0.5": 0.0,
+              "segment_f1@0.5": 0.0
+            },
+            "long_brush_withdraw": {
+              "segment_precision@0.25": 0.1875,
+              "segment_recall@0.25": 0.25,
+              "segment_f1@0.25": 0.20833333333333331,
+              "segment_precision@0.5": 0.125,
+              "segment_recall@0.5": 0.125,
+              "segment_f1@0.5": 0.125
+            },
+            "short_brush_cleaning": {
+              "segment_precision@0.25": 0.25,
+              "segment_recall@0.25": 0.1875,
+              "segment_f1@0.25": 0.20833333333333331,
+              "segment_precision@0.5": 0.125,
+              "segment_recall@0.5": 0.125,
+              "segment_f1@0.5": 0.125
+            },
+            "flush": {
+              "segment_precision@0.25": 0.25,
+              "segment_recall@0.25": 0.175,
+              "segment_f1@0.25": 0.19642857142857145,
+              "segment_precision@0.5": 0.1875,
+              "segment_recall@0.5": 0.15,
+              "segment_f1@0.5": 0.16071428571428573
+            },
+            "air_injection": {
+              "segment_precision@0.25": 0.0,
+              "segment_recall@0.25": 0.0,
+              "segment_f1@0.25": 0.0,
+              "segment_precision@0.5": 0.0,
+              "segment_recall@0.5": 0.0,
+              "segment_f1@0.5": 0.0
+            }
+          },
+          "target_macro_segment_precision@0.25": 0.1375,
+          "target_macro_segment_recall@0.25": 0.12250000000000001,
+          "target_macro_segment_f1@0.25": 0.12261904761904763,
+          "target_macro_segment_precision@0.5": 0.0875,
+          "target_macro_segment_recall@0.5": 0.08,
+          "target_macro_segment_f1@0.5": 0.08214285714285714
+        }
+      }
+    }
+  ],
+  "best": {
+    "feature_method": "window_stats",
+    "train_mode": "full_sequence",
+    "model": "bigru",
+    "epochs": 3,
+    "feature_dim": 241,
+    "train_sequences": 10,
+    "train_samples": 10,
+    "val_sequences": 8,
+    "train": {
+      "history": [
+        {
+          "epoch": 1,
+          "loss": 1.78663
+        },
+        {
+          "epoch": 2,
+          "loss": 1.4738
+        },
+        {
+          "epoch": 3,
+          "loss": 1.004321
+        }
+      ],
+      "class_support_frames": {
+        "idle": 765,
+        "long_brush_insert": 578,
+        "long_brush_withdraw": 635,
+        "short_brush_cleaning": 214,
+        "flush": 743,
+        "air_injection": 366
+      }
+    },
+    "metrics": {
+      "frame": {
+        "accuracy": 0.6952256376716809,
+        "per_class": {
+          "idle": {
+            "support": 322,
+            "predicted": 8,
+            "precision": 1.0,
+            "recall": 0.024844720496894408,
+            "frame_f1": 0.04848484848484848
+          },
+          "long_brush_insert": {
+            "support": 388,
+            "predicted": 643,
+            "precision": 0.5956454121306376,
+            "recall": 0.9871134020618557,
+            "frame_f1": 0.7429679922405431
+          },
+          "long_brush_withdraw": {
+            "support": 157,
+            "predicted": 54,
+            "precision": 0.2037037037037037,
+            "recall": 0.07006369426751592,
+            "frame_f1": 0.10426540284360188
+          },
+          "short_brush_cleaning": {
+            "support": 344,
+            "predicted": 484,
+            "precision": 0.7107438016528925,
+            "recall": 1.0,
+            "frame_f1": 0.8309178743961353
+          },
+          "flush": {
+            "support": 318,
+            "predicted": 340,
+            "precision": 0.9323529411764706,
+            "recall": 0.9968553459119497,
+            "frame_f1": 0.9635258358662615
+          },
+          "air_injection": {
+            "support": 0,
+            "predicted": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "frame_f1": 0.0
+          }
+        },
+        "target_macro_precision": 0.488489171732741,
+        "target_macro_recall": 0.6108064884482642,
+        "target_macro_frame_f1": 0.5283354210693083
+      },
+      "segment": {
+        "per_class": {
+          "long_brush_insert": {
+            "segment_precision@0.25": 0.375,
+            "segment_recall@0.25": 0.375,
+            "segment_f1@0.25": 0.375,
+            "segment_precision@0.5": 0.25,
+            "segment_recall@0.5": 0.25,
+            "segment_f1@0.5": 0.25
+          },
+          "long_brush_withdraw": {
+            "segment_precision@0.25": 0.125,
+            "segment_recall@0.25": 0.125,
+            "segment_f1@0.25": 0.125,
+            "segment_precision@0.5": 0.0,
+            "segment_recall@0.5": 0.0,
+            "segment_f1@0.5": 0.0
+          },
+          "short_brush_cleaning": {
+            "segment_precision@0.25": 0.25,
+            "segment_recall@0.25": 0.1875,
+            "segment_f1@0.25": 0.20833333333333331,
+            "segment_precision@0.5": 0.125,
+            "segment_recall@0.5": 0.125,
+            "segment_f1@0.5": 0.125
+          },
+          "flush": {
+            "segment_precision@0.25": 0.25,
+            "segment_recall@0.25": 0.175,
+            "segment_f1@0.25": 0.19642857142857145,
+            "segment_precision@0.5": 0.1875,
+            "segment_recall@0.5": 0.15,
+            "segment_f1@0.5": 0.16071428571428573
+          },
+          "air_injection": {
+            "segment_precision@0.25": 0.0,
+            "segment_recall@0.25": 0.0,
+            "segment_f1@0.25": 0.0,
+            "segment_precision@0.5": 0.0,
+            "segment_recall@0.5": 0.0,
+            "segment_f1@0.5": 0.0
+          }
+        },
+        "target_macro_segment_precision@0.25": 0.2,
+        "target_macro_segment_recall@0.25": 0.17250000000000001,
+        "target_macro_segment_f1@0.25": 0.18095238095238092,
+        "target_macro_segment_precision@0.5": 0.1125,
+        "target_macro_segment_recall@0.5": 0.10500000000000001,
+        "target_macro_segment_f1@0.5": 0.10714285714285714
+      }
+    }
+  },
+  "recommendations": [
+    "优先看 target macro Segment F1@0.25/@0.5，而不是只看 frame ACC；动作边界和片段命中才是离线分割目标。",
+    "若 window_stats 组合优于 v2，说明离线模型确实受益于未来帧，应把中心窗口统计作为后续主线。",
+    "若 sliding_window 明显优于 full_sequence，说明当前 21 条序列样本太少，应固定使用滑窗训练、全序列验证。",
+    "若某类 recall 长期为 0，优先检查该动作段关键检测目标召回，而不是继续加深模型。",
+    "当前实验仍是小数据快速验证，正式结论建议把 epoch 提高到 20-100 并重复 3 个随机种子。"
+  ]
+}

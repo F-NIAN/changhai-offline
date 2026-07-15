@@ -1,0 +1,2 @@
+fact_id,task_id,step_id,label,start_frame,end_frame,start_ms,end_ms,confidence,source
+52983940:1:bigru_offline_segmenter:1:175:long_brush_insert,52983940,1,long_brush_insert,1,175,0,23333,0.35284,bigru_offline_segmenter

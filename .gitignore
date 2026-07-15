@@ -4,4 +4,6 @@
 .env
 .DS_Store
 output_actionmixed_full/
+output_actionmixed_optim_experiments/
+output_actionmixed_optim_smoke/
 input/modelscope/cleansight-ActionSequence/

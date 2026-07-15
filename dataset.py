@@ -15,7 +15,7 @@ ActionMixed 输入:
 
 ActionMixed 输出:
     FeatureStore-like npz:
-        features: 由逐帧 YOLO bbox 聚合出的几何/数量/速度/关系特征
+        features: 由逐帧 YOLO bbox 聚合出的几何/数量/置信度/遮挡/速度/关系特征
         labels:   idle / long_brush_insert / long_brush_withdraw /
                   short_brush_cleaning / flush / air_injection
 """
@@ -39,6 +39,7 @@ from torch.utils.data import Dataset
 from data_transfer import (
     CLASS_TO_ID,
     CLASSES,
+    FEATURE_VERSION,
     OBJECT_MAP,
     OBJECTS,
     _build_feature_matrix,
@@ -400,10 +401,10 @@ def _object_arrays_from_yolo_frames(
     """把一组 YOLO txt 转成 _build_feature_matrix 需要的 object_arrays。
 
     YOLO 行格式:
-        class_id cx cy w h
-    坐标是 0-1 归一化中心点和宽高。没有 track id 时，按面积从大到小放入固定槽位。
+        class_id cx cy w h [conf]
+    坐标是 0-1 归一化中心点和宽高。没有 track id 时，按面积和置信度选候选框。
     """
-    per_frame: list[dict[str, list[tuple[float, float, float]]]] = []
+    per_frame: list[dict[str, list[tuple[float, float, float, float]]]] = []
 
     for path in frame_paths:
         if _is_lfs_pointer(path):
@@ -417,6 +418,7 @@ def _object_arrays_from_yolo_frames(
             try:
                 class_id = int(float(parts[0]))
                 cx, cy, width, height = (float(parts[1]), float(parts[2]), float(parts[3]), float(parts[4]))
+                conf = float(parts[5]) if len(parts) >= 6 else 1.0
             except ValueError:
                 continue
             label = detection_names.get(class_id)
@@ -424,7 +426,7 @@ def _object_arrays_from_yolo_frames(
             if obj is None:
                 continue
             area = max(0.0, width) * max(0.0, height)
-            objects.setdefault(obj, []).append((cx, cy, area))
+            objects.setdefault(obj, []).append((cx, cy, area, max(0.0, min(conf, 1.0))))
         per_frame.append(objects)
 
     object_arrays: dict[str, list[np.ndarray]] = {}
@@ -435,12 +437,16 @@ def _object_arrays_from_yolo_frames(
             max_instances_per_object,
         )
         for slot_idx in range(max_slots):
-            arr = np.zeros((time_len, 4), dtype=np.float32)
+            arr = np.zeros((time_len, 5), dtype=np.float32)
             for t, frame_objects in enumerate(per_frame):
-                detections = sorted(frame_objects.get(obj, []), key=lambda row: row[2], reverse=True)
+                detections = sorted(
+                    frame_objects.get(obj, []),
+                    key=lambda row: row[3] * max(row[2], 1e-6) ** 0.5,
+                    reverse=True,
+                )
                 if slot_idx < len(detections):
-                    cx, cy, area = detections[slot_idx]
-                    arr[t] = (1.0, cx, cy, area)
+                    cx, cy, area, conf = detections[slot_idx]
+                    arr[t] = (1.0, cx, cy, area, conf)
             object_arrays.setdefault(obj, []).append(arr)
 
     return object_arrays
@@ -457,7 +463,7 @@ def actionmixed_to_feature_store(
     数据变化:
     1. labels/split/video.txt 解析为每个采样帧的动作真值；
     2. frames/split/video-frame.txt 解析为每个采样帧的 YOLO bbox；
-    3. bbox 按对象类别聚合为 hand top-2、count/cx/cy/area/speed/对象距离等 68 维特征；
+    3. bbox 按对象类别转换为 hand top-2、非 hand top-1、遮挡补全、速度和对象距离等 v2 特征；
     4. 动作类映射到 idle + 五种动作标签；
     5. 保存为 task_<task_id>_step_1.npz。
     """
@@ -499,6 +505,7 @@ def actionmixed_to_feature_store(
                 "frames": int(len(frame_paths)),
                 "duration_s": float(len(frame_paths) / fps),
                 "feature_names": feature_names,
+                "feature_version": FEATURE_VERSION,
                 "file_upload": label_path.name,
                 "video_ref": video_id,
                 "source": "modelscope_actionmixed",

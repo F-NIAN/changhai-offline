@@ -1,0 +1,5 @@
+fact_id,task_id,step_id,label,start_frame,end_frame,start_ms,end_ms,confidence,source
+76442803:1:asformer_offline_segmenter:1:233:long_brush_insert,76442803,1,long_brush_insert,1,233,0,31067,0.51702,asformer_offline_segmenter
+76442803:1:asformer_offline_segmenter:238:699:long_brush_insert,76442803,1,long_brush_insert,238,699,31600,93200,0.42645,asformer_offline_segmenter
+76442803:1:asformer_offline_segmenter:700:703:flush,76442803,1,flush,700,703,93200,93733,0.34632,asformer_offline_segmenter
+76442803:1:asformer_offline_segmenter:704:768:long_brush_insert,76442803,1,long_brush_insert,704,768,93733,102400,0.38569,asformer_offline_segmenter

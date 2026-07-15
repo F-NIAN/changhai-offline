@@ -1,0 +1,4 @@
+fact_id,task_id,step_id,label,start_frame,end_frame,start_ms,end_ms,confidence,source
+96875586:1:bigru_offline_segmenter:1:224:long_brush_withdraw,96875586,1,long_brush_withdraw,1,224,0,29867,0.19139,bigru_offline_segmenter
+96875586:1:bigru_offline_segmenter:225:243:long_brush_insert,96875586,1,long_brush_insert,225,243,29867,32400,0.24398,bigru_offline_segmenter
+96875586:1:bigru_offline_segmenter:244:284:long_brush_withdraw,96875586,1,long_brush_withdraw,244,284,32400,37867,0.1934,bigru_offline_segmenter

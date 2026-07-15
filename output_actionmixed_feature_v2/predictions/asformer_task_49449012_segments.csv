@@ -1,0 +1,5 @@
+fact_id,task_id,step_id,label,start_frame,end_frame,start_ms,end_ms,confidence,source
+49449012:1:asformer_offline_segmenter:1:8:long_brush_insert,49449012,1,long_brush_insert,1,8,0,1067,0.41251,asformer_offline_segmenter
+49449012:1:asformer_offline_segmenter:13:34:long_brush_insert,49449012,1,long_brush_insert,13,34,1600,4533,0.59119,asformer_offline_segmenter
+49449012:1:asformer_offline_segmenter:35:42:short_brush_cleaning,49449012,1,short_brush_cleaning,35,42,4533,5600,0.42578,asformer_offline_segmenter
+49449012:1:asformer_offline_segmenter:43:107:long_brush_insert,49449012,1,long_brush_insert,43,107,5600,14267,0.37621,asformer_offline_segmenter

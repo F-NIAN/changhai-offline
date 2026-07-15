@@ -1,0 +1,4 @@
+fact_id,task_id,step_id,label,start_frame,end_frame,start_ms,end_ms,confidence,source
+72454916:1:ms_tcn_offline_segmenter:1:24:long_brush_insert,72454916,1,long_brush_insert,1,24,0,3200,0.18912,ms_tcn_offline_segmenter
+72454916:1:ms_tcn_offline_segmenter:25:32:flush,72454916,1,flush,25,32,3200,4267,0.18197,ms_tcn_offline_segmenter
+72454916:1:ms_tcn_offline_segmenter:33:50:long_brush_insert,72454916,1,long_brush_insert,33,50,4267,6667,0.18053,ms_tcn_offline_segmenter
