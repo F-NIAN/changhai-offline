@@ -457,7 +457,7 @@ def actionmixed_to_feature_store(
     数据变化:
     1. labels/split/video.txt 解析为每个采样帧的动作真值；
     2. frames/split/video-frame.txt 解析为每个采样帧的 YOLO bbox；
-    3. bbox 按对象类别聚合为 count/cx/cy/area/speed/对象距离等 62 维特征；
+    3. bbox 按对象类别聚合为 hand top-2、count/cx/cy/area/speed/对象距离等 68 维特征；
     4. 动作类映射到 idle + 五种动作标签；
     5. 保存为 task_<task_id>_step_1.npz。
     """

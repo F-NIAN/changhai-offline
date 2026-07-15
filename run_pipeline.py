@@ -340,8 +340,9 @@ def write_training_summary_report(
         "### 3.3 逐帧检测框特征",
         "",
         (
-            "每一帧的 YOLO 检测框先按业务对象聚合。对每个对象生成 `count/cx/cy/area/speed` 5 个特征，"
-            "`count` 表示该对象检测数量，`cx/cy/area` 是检测框中心和面积的聚合值，`speed` 是相邻采样帧中心点位移按 fps 归一化后的运动量。"
+            "每一帧的 YOLO 检测框先按业务对象聚合。`hand` 使用 top-2 独立槽位，避免两只手被加权合并；"
+            "其它对象生成 `count/cx/cy/area/speed` 5 个特征。`count` 表示该对象检测数量，"
+            "`cx/cy/area` 是检测框中心和面积的聚合值，`speed` 是相邻采样帧中心点位移按 fps 归一化后的运动量。"
         ),
         "",
         (
@@ -651,9 +652,9 @@ def main() -> None:
             "prediction_dir": str(args.out_dir / "predictions"),
         },
         "notes": [
-            "当前实现是用于打通离线时序分割链路的 baseline，不是论文级 MS-TCN/ASFormer 完整复现。",
+            "当前实现是用于打通离线时序分割链路的工程 baseline，不等同于论文官方代码复现。",
             "ActionMixed 原始动作 ID 与模型内部类别 ID 不同，本流程按动作名称显式映射到 idle + 五类动作标签。",
-            "模型输入由 YOLO bbox 聚合出的 62 维逐帧几何/运动/关系特征和逐帧动作标签组成。",
+            "模型输入由 YOLO bbox 聚合出的 68 维逐帧几何/运动/关系特征和逐帧动作标签组成。",
             "SegmentFact 是动作片段事实，FactLedger 是用于离线复核与幂等 upsert 的账本行。",
         ],
     }

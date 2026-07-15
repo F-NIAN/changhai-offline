@@ -23,9 +23,9 @@ offline_model_baseline/
   output/                   # 运行输出
   docs/                     # 说明文档
   segmenter/
-    ms_tcn.py               # 简化 MS-TCN baseline
-    asformer.py             # 简化 ASFormer/Transformer baseline
-    bigru.py                # 简化 BiGRU baseline
+    ms_tcn.py               # MS-TCN + BiLSTM baseline
+    asformer.py             # ASFormer 风格 attention baseline
+    bigru.py                # BiGRU baseline
 ```
 
 ## 运行
@@ -82,6 +82,8 @@ output/<model>_fact_ledger.jsonl
 output/pipeline_report.json
 ```
 
+本次 ActionMixed 三模型完整 baseline 的训练记录见 `docs/actionmixed_full_model_training_report.md`。
+
 ## 接入说明
 
 当前 `FeatureStore` 是最小文件版实现。后续接业务后端时，把 `FeatureStore.load(task_id, step_id)` 替换成真实 FeatureStore 读取即可，后半段保持：
@@ -89,4 +91,3 @@ output/pipeline_report.json
 ```text
 完整检测序列 -> OfflineSegmenter.predict -> SegmentFact -> FactLedger upsert
 ```
-

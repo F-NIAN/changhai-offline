@@ -3,3 +3,5 @@
 .venv/
 .env
 .DS_Store
+output_actionmixed_full/
+input/modelscope/cleansight-ActionSequence/

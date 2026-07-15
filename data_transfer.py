@@ -167,13 +167,58 @@ def _mark_action_range(labels: np.ndarray, start: float, end: float, cls: str, f
 
 
 def _build_feature_matrix(object_arrays: dict[str, list[np.ndarray]], frames: int, fps: float) -> tuple[np.ndarray, list[str]]:
-    """把目标框序列汇总为多维时序特征。"""
+    """把目标框序列汇总为多维时序特征。
+
+    与后端 `segmenters/clean.py` 对齐：
+    - hand 使用 top-2 独立槽位，不把两只手加权合成一个中心点；
+    - 其它对象仍按存在框加权聚合为 count/cx/cy/area/speed；
+    - 输出维度为 68。
+    """
     blocks: list[np.ndarray] = []
     names: list[str] = []
     centers: dict[str, np.ndarray] = {}
     present: dict[str, np.ndarray] = {}
 
+    hand_arrs = object_arrays.get("hand", [])
+    hand_count = np.zeros(frames, dtype=np.float32)
+    hand_slots = [np.zeros((frames, 4), dtype=np.float32), np.zeros((frames, 4), dtype=np.float32)]
+    if hand_arrs:
+        hand_stack = np.stack(hand_arrs, axis=0)
+        hand_count = hand_stack[:, :, 0].sum(axis=0).astype(np.float32)
+        for t in range(frames):
+            candidates = []
+            for arr in hand_arrs:
+                if arr[t, 0] > 0:
+                    # arr[t] = [present, cx, cy, area]；按面积选 top-2。
+                    candidates.append(arr[t].copy())
+            candidates.sort(key=lambda row: float(row[3]), reverse=True)
+            for slot_idx, row in enumerate(candidates[:2]):
+                hand_slots[slot_idx][t] = row
+
+    blocks.append((np.clip(hand_count, 0, 3) / 3.0)[:, None].astype(np.float32))
+    names.append("hand_count")
+    hand_centers = []
+    for slot_idx, slot in enumerate(hand_slots, start=1):
+        coords = slot[:, 1:3]
+        speed = np.zeros(frames, dtype=np.float32)
+        if frames > 1:
+            speed[1:] = np.clip(np.linalg.norm(np.diff(coords, axis=0), axis=1) * fps, 0.0, 5.0) / 5.0
+            speed[slot[:, 0] <= 0] = 0.0
+        blocks.append(np.stack([slot[:, 0], slot[:, 1], slot[:, 2], slot[:, 3], speed], axis=1).astype(np.float32))
+        names += [
+            f"hand_top{slot_idx}_present",
+            f"hand_top{slot_idx}_cx",
+            f"hand_top{slot_idx}_cy",
+            f"hand_top{slot_idx}_area",
+            f"hand_top{slot_idx}_speed",
+        ]
+        hand_centers.append(coords)
+    centers["hand"] = np.stack(hand_centers, axis=0)  # [2, T, 2]
+    present["hand"] = hand_count > 0
+
     for obj in OBJECTS:
+        if obj == "hand":
+            continue
         arrs = object_arrays.get(obj, [])
         if arrs:
             stack = np.stack(arrs, axis=0)
@@ -200,7 +245,19 @@ def _build_feature_matrix(object_arrays: dict[str, list[np.ndarray]], frames: in
 
     for a, b in PAIR_FEATURES:
         valid = (present[a] & present[b]).astype(np.float32)
-        dist = np.linalg.norm(centers[a] - centers[b], axis=1).astype(np.float32)
+        dist = np.zeros(frames, dtype=np.float32)
+        if a == "hand":
+            right = centers[b]
+            d0 = np.linalg.norm(centers["hand"][0] - right, axis=1)
+            d1 = np.linalg.norm(centers["hand"][1] - right, axis=1)
+            dist = np.minimum(d0, d1).astype(np.float32)
+        elif b == "hand":
+            left = centers[a]
+            d0 = np.linalg.norm(left - centers["hand"][0], axis=1)
+            d1 = np.linalg.norm(left - centers["hand"][1], axis=1)
+            dist = np.minimum(d0, d1).astype(np.float32)
+        else:
+            dist = np.linalg.norm(centers[a] - centers[b], axis=1).astype(np.float32)
         dist = np.where(valid > 0, np.clip(dist, 0.0, math.sqrt(2.0)) / math.sqrt(2.0), 0.0)
         blocks.append(np.stack([valid, dist], axis=1).astype(np.float32))
         names += [f"{a}_to_{b}_valid", f"{a}_to_{b}_dist"]
