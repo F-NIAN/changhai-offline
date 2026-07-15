@@ -1,0 +1,437 @@
+{
+  "status": "completed",
+  "dataset_root": "input\\modelscope\\lhh010__cleansight-ActionMixed",
+  "out_dir": "output_actionmixed_best_models",
+  "device": "cpu",
+  "epochs": 3,
+  "class_names": [
+    "idle",
+    "long_brush_insert",
+    "long_brush_withdraw",
+    "short_brush_cleaning",
+    "flush",
+    "air_injection"
+  ],
+  "results": [
+    {
+      "model": "ms_tcn",
+      "model_path": "output_actionmixed_best_models\\models\\best_ms_tcn_offline_segmenter.pt",
+      "feature_method": "v2",
+      "train_mode": "full_sequence",
+      "reason": "MS-TCN 在当前实验表中使用 v2 + full_sequence 时片段指标最高。",
+      "feature_version": "clean_bbox_v2_top1_impute",
+      "feature_dim": 113,
+      "epochs": 3,
+      "train_sequences": 10,
+      "train_samples": 10,
+      "val_sequences": 8,
+      "last_loss": 1.481609,
+      "train": {
+        "history": [
+          {
+            "epoch": 1,
+            "loss": 2.013025
+          },
+          {
+            "epoch": 2,
+            "loss": 1.647846
+          },
+          {
+            "epoch": 3,
+            "loss": 1.481609
+          }
+        ],
+        "class_support_frames": {
+          "idle": 765,
+          "long_brush_insert": 578,
+          "long_brush_withdraw": 635,
+          "short_brush_cleaning": 214,
+          "flush": 743,
+          "air_injection": 366
+        }
+      },
+      "metrics": {
+        "frame": {
+          "accuracy": 0.2432962720732505,
+          "per_class": {
+            "idle": {
+              "support": 322,
+              "predicted": 0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "frame_f1": 0.0
+            },
+            "long_brush_insert": {
+              "support": 388,
+              "predicted": 1272,
+              "precision": 0.26808176100628933,
+              "recall": 0.8788659793814433,
+              "frame_f1": 0.4108433734939759
+            },
+            "long_brush_withdraw": {
+              "support": 157,
+              "predicted": 257,
+              "precision": 0.12062256809338522,
+              "recall": 0.19745222929936307,
+              "frame_f1": 0.1497584541062802
+            },
+            "short_brush_cleaning": {
+              "support": 344,
+              "predicted": 0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "frame_f1": 0.0
+            },
+            "flush": {
+              "support": 318,
+              "predicted": 0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "frame_f1": 0.0
+            },
+            "air_injection": {
+              "support": 0,
+              "predicted": 0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "frame_f1": 0.0
+            }
+          },
+          "target_macro_precision": 0.07774086581993492,
+          "target_macro_recall": 0.21526364173616125,
+          "target_macro_frame_f1": 0.11212036552005122
+        },
+        "segment": {
+          "per_class": {
+            "long_brush_insert": {
+              "segment_precision@0.25": 0.375,
+              "segment_recall@0.25": 0.375,
+              "segment_f1@0.25": 0.375,
+              "segment_precision@0.5": 0.25,
+              "segment_recall@0.5": 0.25,
+              "segment_f1@0.5": 0.25
+            },
+            "long_brush_withdraw": {
+              "segment_precision@0.25": 0.125,
+              "segment_recall@0.25": 0.125,
+              "segment_f1@0.25": 0.125,
+              "segment_precision@0.5": 0.125,
+              "segment_recall@0.5": 0.125,
+              "segment_f1@0.5": 0.125
+            },
+            "short_brush_cleaning": {
+              "segment_precision@0.25": 0.0,
+              "segment_recall@0.25": 0.0,
+              "segment_f1@0.25": 0.0,
+              "segment_precision@0.5": 0.0,
+              "segment_recall@0.5": 0.0,
+              "segment_f1@0.5": 0.0
+            },
+            "flush": {
+              "segment_precision@0.25": 0.0,
+              "segment_recall@0.25": 0.0,
+              "segment_f1@0.25": 0.0,
+              "segment_precision@0.5": 0.0,
+              "segment_recall@0.5": 0.0,
+              "segment_f1@0.5": 0.0
+            },
+            "air_injection": {
+              "segment_precision@0.25": 0.0,
+              "segment_recall@0.25": 0.0,
+              "segment_f1@0.25": 0.0,
+              "segment_precision@0.5": 0.0,
+              "segment_recall@0.5": 0.0,
+              "segment_f1@0.5": 0.0
+            }
+          },
+          "target_macro_segment_precision@0.25": 0.1,
+          "target_macro_segment_recall@0.25": 0.1,
+          "target_macro_segment_f1@0.25": 0.1,
+          "target_macro_segment_precision@0.5": 0.075,
+          "target_macro_segment_recall@0.5": 0.075,
+          "target_macro_segment_f1@0.5": 0.075
+        }
+      }
+    },
+    {
+      "model": "asformer",
+      "model_path": "output_actionmixed_best_models\\models\\best_asformer_offline_segmenter.pt",
+      "feature_method": "business_priors",
+      "train_mode": "full_sequence",
+      "reason": "ASFormer 在当前实验表中使用 business_priors + full_sequence 时最好。",
+      "feature_version": "clean_bbox_v2_top1_impute+business_priors",
+      "feature_dim": 121,
+      "epochs": 3,
+      "train_sequences": 10,
+      "train_samples": 10,
+      "val_sequences": 8,
+      "last_loss": 0.643336,
+      "train": {
+        "history": [
+          {
+            "epoch": 1,
+            "loss": 2.003694
+          },
+          {
+            "epoch": 2,
+            "loss": 0.969074
+          },
+          {
+            "epoch": 3,
+            "loss": 0.643336
+          }
+        ],
+        "class_support_frames": {
+          "idle": 765,
+          "long_brush_insert": 578,
+          "long_brush_withdraw": 635,
+          "short_brush_cleaning": 214,
+          "flush": 743,
+          "air_injection": 366
+        }
+      },
+      "metrics": {
+        "frame": {
+          "accuracy": 0.6514061478090255,
+          "per_class": {
+            "idle": {
+              "support": 322,
+              "predicted": 207,
+              "precision": 0.33816425120772947,
+              "recall": 0.21739130434782608,
+              "frame_f1": 0.2646502835538752
+            },
+            "long_brush_insert": {
+              "support": 388,
+              "predicted": 241,
+              "precision": 0.8755186721991701,
+              "recall": 0.5438144329896907,
+              "frame_f1": 0.6709062003179651
+            },
+            "long_brush_withdraw": {
+              "support": 157,
+              "predicted": 178,
+              "precision": 0.29775280898876405,
+              "recall": 0.3375796178343949,
+              "frame_f1": 0.3164179104477612
+            },
+            "short_brush_cleaning": {
+              "support": 344,
+              "predicted": 479,
+              "precision": 0.7181628392484343,
+              "recall": 1.0,
+              "frame_f1": 0.8359659781287971
+            },
+            "flush": {
+              "support": 318,
+              "predicted": 348,
+              "precision": 0.9137931034482759,
+              "recall": 1.0,
+              "frame_f1": 0.9549549549549551
+            },
+            "air_injection": {
+              "support": 0,
+              "predicted": 76,
+              "precision": 0.0,
+              "recall": 0.0,
+              "frame_f1": 0.0
+            }
+          },
+          "target_macro_precision": 0.5610454847769288,
+          "target_macro_recall": 0.5762788101648171,
+          "target_macro_frame_f1": 0.5556490087698956
+        },
+        "segment": {
+          "per_class": {
+            "long_brush_insert": {
+              "segment_precision@0.25": 0.1875,
+              "segment_recall@0.25": 0.25,
+              "segment_f1@0.25": 0.20833333333333331,
+              "segment_precision@0.5": 0.125,
+              "segment_recall@0.5": 0.125,
+              "segment_f1@0.5": 0.125
+            },
+            "long_brush_withdraw": {
+              "segment_precision@0.25": 0.25,
+              "segment_recall@0.25": 0.25,
+              "segment_f1@0.25": 0.25,
+              "segment_precision@0.5": 0.25,
+              "segment_recall@0.5": 0.25,
+              "segment_f1@0.5": 0.25
+            },
+            "short_brush_cleaning": {
+              "segment_precision@0.25": 0.25,
+              "segment_recall@0.25": 0.1875,
+              "segment_f1@0.25": 0.20833333333333331,
+              "segment_precision@0.5": 0.125,
+              "segment_recall@0.5": 0.125,
+              "segment_f1@0.5": 0.125
+            },
+            "flush": {
+              "segment_precision@0.25": 0.125,
+              "segment_recall@0.25": 0.125,
+              "segment_f1@0.25": 0.125,
+              "segment_precision@0.5": 0.125,
+              "segment_recall@0.5": 0.125,
+              "segment_f1@0.5": 0.125
+            },
+            "air_injection": {
+              "segment_precision@0.25": 0.0,
+              "segment_recall@0.25": 0.0,
+              "segment_f1@0.25": 0.0,
+              "segment_precision@0.5": 0.0,
+              "segment_recall@0.5": 0.0,
+              "segment_f1@0.5": 0.0
+            }
+          },
+          "target_macro_segment_precision@0.25": 0.1625,
+          "target_macro_segment_recall@0.25": 0.1625,
+          "target_macro_segment_f1@0.25": 0.15833333333333333,
+          "target_macro_segment_precision@0.5": 0.125,
+          "target_macro_segment_recall@0.5": 0.125,
+          "target_macro_segment_f1@0.5": 0.125
+        }
+      }
+    },
+    {
+      "model": "bigru",
+      "model_path": "output_actionmixed_best_models\\models\\best_bigru_offline_segmenter.pt",
+      "feature_method": "window_stats+business_priors",
+      "train_mode": "sliding_window",
+      "reason": "BiGRU 使用 window_stats+business_priors + sliding_window 时为当前整体最优。",
+      "feature_version": "clean_bbox_v2_top1_impute+center_window+business_priors",
+      "feature_dim": 249,
+      "epochs": 3,
+      "train_sequences": 10,
+      "train_samples": 83,
+      "val_sequences": 8,
+      "last_loss": 0.718661,
+      "train": {
+        "history": [
+          {
+            "epoch": 1,
+            "loss": 1.262904
+          },
+          {
+            "epoch": 2,
+            "loss": 0.77223
+          },
+          {
+            "epoch": 3,
+            "loss": 0.718661
+          }
+        ],
+        "class_support_frames": {
+          "idle": 2211,
+          "long_brush_insert": 1797,
+          "long_brush_withdraw": 1931,
+          "short_brush_cleaning": 372,
+          "flush": 2651,
+          "air_injection": 1440
+        }
+      },
+      "metrics": {
+        "frame": {
+          "accuracy": 0.7482014388489209,
+          "per_class": {
+            "idle": {
+              "support": 322,
+              "predicted": 152,
+              "precision": 0.5,
+              "recall": 0.2360248447204969,
+              "frame_f1": 0.3206751054852321
+            },
+            "long_brush_insert": {
+              "support": 388,
+              "predicted": 448,
+              "precision": 0.8147321428571429,
+              "recall": 0.9407216494845361,
+              "frame_f1": 0.8732057416267942
+            },
+            "long_brush_withdraw": {
+              "support": 157,
+              "predicted": 106,
+              "precision": 0.3867924528301887,
+              "recall": 0.2611464968152866,
+              "frame_f1": 0.31178707224334606
+            },
+            "short_brush_cleaning": {
+              "support": 344,
+              "predicted": 478,
+              "precision": 0.7196652719665272,
+              "recall": 1.0,
+              "frame_f1": 0.8369829683698298
+            },
+            "flush": {
+              "support": 318,
+              "predicted": 345,
+              "precision": 0.9217391304347826,
+              "recall": 1.0,
+              "frame_f1": 0.9592760180995475
+            },
+            "air_injection": {
+              "support": 0,
+              "predicted": 0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "frame_f1": 0.0
+            }
+          },
+          "target_macro_precision": 0.5685857996177283,
+          "target_macro_recall": 0.6403736292599645,
+          "target_macro_frame_f1": 0.5962503600679036
+        },
+        "segment": {
+          "per_class": {
+            "long_brush_insert": {
+              "segment_precision@0.25": 0.375,
+              "segment_recall@0.25": 0.375,
+              "segment_f1@0.25": 0.375,
+              "segment_precision@0.5": 0.375,
+              "segment_recall@0.5": 0.375,
+              "segment_f1@0.5": 0.375
+            },
+            "long_brush_withdraw": {
+              "segment_precision@0.25": 0.25,
+              "segment_recall@0.25": 0.1875,
+              "segment_f1@0.25": 0.20833333333333331,
+              "segment_precision@0.5": 0.125,
+              "segment_recall@0.5": 0.125,
+              "segment_f1@0.5": 0.125
+            },
+            "short_brush_cleaning": {
+              "segment_precision@0.25": 0.25,
+              "segment_recall@0.25": 0.25,
+              "segment_f1@0.25": 0.25,
+              "segment_precision@0.5": 0.25,
+              "segment_recall@0.5": 0.25,
+              "segment_f1@0.5": 0.25
+            },
+            "flush": {
+              "segment_precision@0.25": 0.125,
+              "segment_recall@0.25": 0.125,
+              "segment_f1@0.25": 0.125,
+              "segment_precision@0.5": 0.125,
+              "segment_recall@0.5": 0.125,
+              "segment_f1@0.5": 0.125
+            },
+            "air_injection": {
+              "segment_precision@0.25": 0.0,
+              "segment_recall@0.25": 0.0,
+              "segment_f1@0.25": 0.0,
+              "segment_precision@0.5": 0.0,
+              "segment_recall@0.5": 0.0,
+              "segment_f1@0.5": 0.0
+            }
+          },
+          "target_macro_segment_precision@0.25": 0.2,
+          "target_macro_segment_recall@0.25": 0.1875,
+          "target_macro_segment_f1@0.25": 0.19166666666666665,
+          "target_macro_segment_precision@0.5": 0.175,
+          "target_macro_segment_recall@0.5": 0.175,
+          "target_macro_segment_f1@0.5": 0.175
+        }
+      }
+    }
+  ]
+}
