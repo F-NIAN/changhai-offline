@@ -44,19 +44,96 @@ ActionMixed 原始 `labels/data.yaml` 的动作 ID 顺序和模型内部类别�
 
 ### 3.3 逐帧检测框特征
 
-每一帧的 YOLO 检测框先按业务对象聚合。对每个对象生成 `count/cx/cy/area/speed` 5 个特征，`count` 表示该对象检测数量，`cx/cy/area` 是检测框中心和面积的聚合值，`speed` 是相邻采样帧中心点位移按 fps 归一化后的运动量。
+每一帧的 YOLO 检测框按业务对象聚合后，转换为模型可直接消费的时序特征。当前特征版本为 `clean_bbox_v2_top1_impute`，实际落盘特征维度为 `113`。
 
-随后为关键对象对补充 `valid/dist` 关系特征，例如 `hand` 到 `short_brush`、`air_gun` 到 `scope_distal_end`、`syringe` 到 `scope_distal_end` 的可见性和距离。最后加入 `t_norm/t_sin/t_cos` 三个时间位置特征。
+#### 3.3.1 目标对象经营方式
 
-因此每个样本最终保存为 `features[T, 62] float32` 和 `labels[T] int64`。训练时只用训练集统计均值和标准差，对 `features` 做 `(x - mean) / std` 标准化，再扩展为 `[1, T, 62]` 输入模型；模型输出为 `[1, 6, T]`，逐帧做交叉熵监督。
+- `hand`：保留 top-2 检测结果，支持双手交互场景。每个手槽生成 `present/conf/cx/cy/area/speed/missing_age/imputed` 8 维特征。
+- 其它对象：按类别保留 top-1 检测结果，不再对同类多框做加权平均。每类生成 `candidate_count/present/conf/cx/cy/area/speed/missing_age/imputed` 9 维特征。
+
+对象类别包括：`short_brush`、`long_brush`、`syringe`、`air_gun`、`scope_control_body`、`scope_mid_section`、`scope_distal_end`、`brush_tip_out`。
+
+#### 3.3.2 每个对象槽的特征含义
+
+- `count` / `candidate_count`：当前帧该类别检测数量，剪裁到 0～3 后归一化。这个特征反映检测器对目标的候选数量和遮挡/误检情况。
+- `present`：是否存在有效目标框。用来区分真实检测缺失与空帧。
+- `conf`：检测置信度。反映目标定位可信度，辅助模型避免过度依赖低置信度框。
+- `cx`, `cy`：检测框中心归一化坐标。表示目标在画面中的位置。
+- `area`：检测框面积。表示目标尺寸、缩放变化和近远距离信息。
+- `speed`：相邻帧中心点位移乘以 fps 后归一化。描述目标运动量和速度变化。
+- `missing_age`：连续缺失帧数归一化值，最大分辨短时遮挡与长期消失。
+- `imputed`：短时缺失补全标记。补全帧 `present` 仍为 0，避免把插值结果混淆为真实检测。
+
+#### 3.3.3 短时遮挡补全策略
+
+对于每个对象槽，当前设计对短时缺失做轻量补全：
+
+- 如果两个真实检测间的缺失长度不超过 6 帧，则对 `cx/cy/area/conf` 线性插值，补全帧标记 `imputed=1`。
+- 如果序列尾部出现短缺失，用最后一次已检测到的坐标前向填充，置信度折半。
+- `active` 标记表示真实检测或补全帧；仅对 active 帧保留坐标和速度信息，对非 active 帧把 `conf/cx/cy/area` 置 0。
+
+该策略的设计意义在于：保持局部动作连续性，减少短时遮挡带来的轨迹断裂，同时让模型区分“真实出现”和“短时补全”。
+
+#### 3.3.4 关系特征
+
+为关键对象对补充关系特征，当前包含 7 组对象关系：
+
+- `hand` ↔ `short_brush`
+- `hand` ↔ `long_brush`
+- `brush_tip_out` ↔ `scope_distal_end`
+- `short_brush` ↔ `scope_control_body`
+- `long_brush` ↔ `scope_mid_section`
+- `air_gun` ↔ `scope_distal_end`
+- `syringe` ↔ `scope_distal_end`
+
+每组关系特征包括：
+
+- `valid`：当前帧两个对象均可用时为 1，否则为 0。
+- `dist`：两者中心距离归一化后值，距离越近表示目标间语义关系越强。
+- `delta`：相邻帧距离变化量，帮助捕捉夹持、接近、远离等动态关系。
+
+其中涉及 `hand` 的关系取两只手距离的最小值，避免因手切换导致距离特征抖动。
+
+#### 3.3.5 时间位置编码
+
+在序列末尾补入三维时间特征：
+
+- `t_norm`：当前帧在序列中的归一化位置。
+- `t_sin` / `t_cos`：周期性位置编码，提供时间顺序信息，帮助模型区分序列前中后的动作模式。
+
+#### 3.3.6 特征维度汇总
+
+当前特征组合构成：
+
+- `hand_count`：1 维
+- `hand_top1` / `hand_top2`：2 × 8 = 16 维
+- 8 个非手对象槽：8 × 9 = 72 维
+- 7 组关系特征：7 × 3 = 21 维
+- 时间编码：3 维
+
+总计 `113` 维。
+
+因此每个样本最终保存为 `features[T, 113] float32` 和 `labels[T] int64`。训练时只用训练集统计均值和标准差，对 `features` 做 `(x - mean) / std` 标准化，再扩展为 `[1, T, 113]` 输入模型；模型输出为 `[1, 6, T]`，逐帧做交叉熵监督。
 
 ### 3.4 FeatureStore-like 落盘
 
 每条视频/片段序列写为 `output/feature_store/task_<task_id>_step_1.npz`，其中包含 `features`、`labels`、`fps`、`frames`、`duration_s`、`feature_names`、`task_id`、`step_id`、`split`、`video_ref`。
 
+### 3.5 模型间特征使用差异
+
+本轮基础训练流程中，`ms_tcn`、`asformer` 和 `bigru` 三个 baseline 均使用同一套 `clean_bbox_v2_top1_impute` 结构化特征输入（113 维）。三者的差异主要体现在模型结构与时序建模方式上，而不是基础输入特征本身。
+
+不过在后续的模型优化与最佳权重实验中，不同模型对特征增强的偏好不同：
+
+- `ms_tcn`：通常在原始 `v2` 特征上表现最佳，说明它对结构化几何+关系特征的直接时序建模能力更强。
+- `asformer`：更适合加入 `business_priors` 弱先验特征，说明注意力机制在结合业务语义关系时能获得更多增益。
+- `bigru`：在 `window_stats+business_priors` 组合上效果最好，表明双向循环网络可以从中心窗口统计和先验信息中更好地提取跨帧动态规律。
+
+这意味着当前报告中的三种 baseline 采用相同的基础特征输入，但在后续实验中可针对模型类型选择更适合的特征扩展策略。
+
 ## 4. 数据统计
 
-本轮共生成 `16` 条序列样本、`4501` 个采样帧，特征维度为 `62`。
+本轮共生成 `16` 条序列样本、`4501` 个采样帧，特征维度为 `113`。
 
 | split | 样本数 |
 |---|---:|
@@ -107,6 +184,31 @@ ActionMixed 原始 `labels/data.yaml` 的动作 ID 顺序和模型内部类别�
 - 下游推荐 SegmentFact：`output\asformer_segment_facts.jsonl`
 - 下游推荐 FactLedger：`output\asformer_fact_ledger.jsonl`
 
-## 7. 结论
+## 7. 后续可行改进方案
+
+### 7.1 当前特征设计优势
+
+- 目标级几何特征强，适合动作分割中的工具-手协同、物体接近和运动变化判断。
+- 短时缺失补全与 `missing_age/imputed` 标记减少检测遮挡带来的间断。
+- 关系特征直接建模关键对象对的空间关系，增强对 `hand`、`brush`、`scope`、`air_gun` 之间交互的感知。
+- 时间编码补充了序列进度信息，帮助模型区分动作阶段而不只依赖瞬时几何。
+
+### 7.2 可行的改进方向
+
+- 增加视觉表征：当前仅用 YOLO bbox 的几何信息，若后续能稳定获取原始 RGB，可考虑引入轻量视觉嵌入（如 ResNet/ViT 预训练特征）或显著性图，帮助区分形态接近但语义不同的动作。
+- 引入光流/运动特征：对于 `flush`、`air_injection` 等动作，目标几何变化有限但流体运动/喷射方向不同，光流信息可以补强运动模式。
+- 增加姿态/手势特征：若能进一步检测手部关键点或工具朝向，可提升 `hand` 与 `brush`、`scope` 之间交互的判别能力。
+- 融合对象语义：目前只保留 top-1/2 框，后续可考虑利用检测类别分布、目标遮挡关系、多个候选框的置信度梯度等更细粒度不确定性信息。
+- 加入窗口统计与业务先验：使用滑动窗口统计、动作持续时间先验或状态转移特征，可以改善动作边界判别和时序一致性。
+
+### 7.3 是否需要原始 RGB 图像？
+
+- 目前的离线基线设计不依赖原始 RGB，而是通过检测框几何、速度、关系特征完成建模，适合仅有检测结果时的轻量部署。
+- 但如果目标是进一步提升精度，原始 RGB 是有价值的：
+  - 对于同一目标位置下动作类别区分（如 `flush` vs `air_injection`、`long_brush_insert` vs `long_brush_withdraw`）时，视觉纹理、工具状态和液体/气流外观可能更直接。
+  - 还可从 RGB 提取手部姿态、工具朝向、遮挡细节、表面反光等当前 bbox 特征难以捕捉的线索。
+- 取舍建议：若数据量与算力允许，优先引入“视觉嵌入 + 光流”而不是原始全帧像素，以降低存储和训练成本；保持当前 bbox 特征作为结构化先验，作为多模态融合的基础。
+
+## 8. 结论
 
 本轮已经把动作分割标签扩展并固定为 `long_brush_insert`、`long_brush_withdraw`、`short_brush_cleaning`、`flush`、`air_injection` 五类，非动作帧统一为 `idle`。数据转换链路从原始逐帧检测框和动作标签开始，最终形成固定维度时序特征、逐帧监督标签、模型权重、预测片段和 FactLedger，可继续接入后端离线复核流程。

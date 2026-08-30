@@ -1,0 +1,799 @@
+{
+  "status": "completed",
+  "script": "F:\\暑期实习\\offline-model\\image_train\\train_image_v1.py",
+  "dataset_root": "F:\\暑期实习\\offline-model\\input\\modelscope\\lhh010__cleansight-ActionMixed\\cleansight-ActionMixed",
+  "out_dir": "image_train\\output_v1",
+  "device": "cpu",
+  "epochs": 3,
+  "padding": 0.15,
+  "classes": [
+    "idle",
+    "long_brush_insert",
+    "long_brush_withdraw",
+    "short_brush_cleaning",
+    "flush",
+    "air_injection"
+  ],
+  "rgb_slots": [
+    "hand_top1",
+    "hand_top2",
+    "short_brush",
+    "long_brush",
+    "syringe",
+    "air_gun",
+    "scope_control_body",
+    "scope_mid_section",
+    "scope_distal_end",
+    "brush_tip_out"
+  ],
+  "dataset_stats": {
+    "train": {
+      "sequences": 14,
+      "frames": 5993
+    },
+    "test": {
+      "sequences": 7,
+      "frames": 1457
+    },
+    "val": {
+      "sequences": 11,
+      "frames": 2082
+    }
+  },
+  "results": [
+    {
+      "model": "ms_tcn",
+      "model_path": "image_train\\output_v1\\models\\image_v1_ms_tcn_offline_segmenter.pt",
+      "feature_method": "v2+rgb_roi",
+      "base_feature_method": "v2",
+      "train_mode": "full_sequence",
+      "reason": "沿用当前 ms_tcn 最优的 v2 + full_sequence，在末尾拼接 RGB ROI 外观特征。",
+      "feature_version": "clean_bbox_v2_top1_impute+rgb_roi_stats_v1",
+      "feature_dim": 303,
+      "rgb_feature_dim": 190,
+      "epochs": 3,
+      "train_sequences": 14,
+      "train_samples": 14,
+      "val_sequences": 11,
+      "test_sequences": 7,
+      "last_loss": 1.546719,
+      "train": {
+        "history": [
+          {
+            "epoch": 1,
+            "loss": 1.878821
+          },
+          {
+            "epoch": 2,
+            "loss": 1.676177
+          },
+          {
+            "epoch": 3,
+            "loss": 1.546719
+          }
+        ],
+        "class_support_frames": {
+          "idle": 1550,
+          "long_brush_insert": 1476,
+          "long_brush_withdraw": 1080,
+          "short_brush_cleaning": 680,
+          "flush": 841,
+          "air_injection": 366
+        }
+      },
+      "metrics": {
+        "val": {
+          "frame": {
+            "accuracy": 0.21950048030739674,
+            "per_class": {
+              "idle": {
+                "support": 490,
+                "predicted": 139,
+                "precision": 0.41007194244604317,
+                "recall": 0.11632653061224489,
+                "frame_f1": 0.1812400635930048
+              },
+              "long_brush_insert": {
+                "support": 457,
+                "predicted": 417,
+                "precision": 0.26618705035971224,
+                "recall": 0.24288840262582057,
+                "frame_f1": 0.2540045766590389
+              },
+              "long_brush_withdraw": {
+                "support": 217,
+                "predicted": 1143,
+                "precision": 0.11548556430446194,
+                "recall": 0.6082949308755761,
+                "frame_f1": 0.19411764705882353
+              },
+              "short_brush_cleaning": {
+                "support": 376,
+                "predicted": 383,
+                "precision": 0.40992167101827676,
+                "recall": 0.4175531914893617,
+                "frame_f1": 0.41370223978919635
+              },
+              "flush": {
+                "support": 333,
+                "predicted": 0,
+                "precision": 0.0,
+                "recall": 0.0,
+                "frame_f1": 0.0
+              },
+              "air_injection": {
+                "support": 209,
+                "predicted": 0,
+                "precision": 0.0,
+                "recall": 0.0,
+                "frame_f1": 0.0
+              }
+            },
+            "target_macro_precision": 0.1583188571364902,
+            "target_macro_recall": 0.2537473049981517,
+            "target_macro_frame_f1": 0.17236489270141178
+          },
+          "segment": {
+            "per_class": {
+              "long_brush_insert": {
+                "segment_precision@0.25": 0.09090909090909091,
+                "segment_recall@0.25": 0.18181818181818182,
+                "segment_f1@0.25": 0.1212121212121212,
+                "segment_precision@0.5": 0.045454545454545456,
+                "segment_recall@0.5": 0.09090909090909091,
+                "segment_f1@0.5": 0.0606060606060606
+              },
+              "long_brush_withdraw": {
+                "segment_precision@0.25": 0.19264069264069264,
+                "segment_recall@0.25": 0.36363636363636365,
+                "segment_f1@0.25": 0.23737373737373735,
+                "segment_precision@0.5": 0.1212121212121212,
+                "segment_recall@0.5": 0.18181818181818182,
+                "segment_f1@0.5": 0.13636363636363635
+              },
+              "short_brush_cleaning": {
+                "segment_precision@0.25": 0.15454545454545454,
+                "segment_recall@0.25": 0.22727272727272727,
+                "segment_f1@0.25": 0.17748917748917747,
+                "segment_precision@0.5": 0.10909090909090909,
+                "segment_recall@0.5": 0.13636363636363635,
+                "segment_f1@0.5": 0.1168831168831169
+              },
+              "flush": {
+                "segment_precision@0.25": 0.0,
+                "segment_recall@0.25": 0.0,
+                "segment_f1@0.25": 0.0,
+                "segment_precision@0.5": 0.0,
+                "segment_recall@0.5": 0.0,
+                "segment_f1@0.5": 0.0
+              },
+              "air_injection": {
+                "segment_precision@0.25": 0.0,
+                "segment_recall@0.25": 0.0,
+                "segment_f1@0.25": 0.0,
+                "segment_precision@0.5": 0.0,
+                "segment_recall@0.5": 0.0,
+                "segment_f1@0.5": 0.0
+              }
+            },
+            "target_macro_segment_precision@0.25": 0.08761904761904762,
+            "target_macro_segment_recall@0.25": 0.15454545454545454,
+            "target_macro_segment_f1@0.25": 0.10721500721500721,
+            "target_macro_segment_precision@0.5": 0.05515151515151515,
+            "target_macro_segment_recall@0.5": 0.08181818181818182,
+            "target_macro_segment_f1@0.5": 0.06277056277056277
+          }
+        },
+        "test": {
+          "frame": {
+            "accuracy": 0.2608098833218943,
+            "per_class": {
+              "idle": {
+                "support": 398,
+                "predicted": 149,
+                "precision": 0.24161073825503357,
+                "recall": 0.09045226130653267,
+                "frame_f1": 0.1316270566727605
+              },
+              "long_brush_insert": {
+                "support": 572,
+                "predicted": 577,
+                "precision": 0.49913344887348354,
+                "recall": 0.5034965034965035,
+                "frame_f1": 0.5013054830287207
+              },
+              "long_brush_withdraw": {
+                "support": 0,
+                "predicted": 534,
+                "precision": 0.0,
+                "recall": 0.0,
+                "frame_f1": 0.0
+              },
+              "short_brush_cleaning": {
+                "support": 111,
+                "predicted": 197,
+                "precision": 0.28426395939086296,
+                "recall": 0.5045045045045045,
+                "frame_f1": 0.3636363636363637
+              },
+              "flush": {
+                "support": 261,
+                "predicted": 0,
+                "precision": 0.0,
+                "recall": 0.0,
+                "frame_f1": 0.0
+              },
+              "air_injection": {
+                "support": 115,
+                "predicted": 0,
+                "precision": 0.0,
+                "recall": 0.0,
+                "frame_f1": 0.0
+              }
+            },
+            "target_macro_precision": 0.1566794816528693,
+            "target_macro_recall": 0.2016002016002016,
+            "target_macro_frame_f1": 0.1729883693330169
+          },
+          "segment": {
+            "per_class": {
+              "long_brush_insert": {
+                "segment_precision@0.25": 0.21428571428571427,
+                "segment_recall@0.25": 0.19047619047619047,
+                "segment_f1@0.25": 0.19999999999999998,
+                "segment_precision@0.5": 0.14285714285714285,
+                "segment_recall@0.5": 0.14285714285714285,
+                "segment_f1@0.5": 0.14285714285714285
+              },
+              "long_brush_withdraw": {
+                "segment_precision@0.25": 0.0,
+                "segment_recall@0.25": 0.0,
+                "segment_f1@0.25": 0.0,
+                "segment_precision@0.5": 0.0,
+                "segment_recall@0.5": 0.0,
+                "segment_f1@0.5": 0.0
+              },
+              "short_brush_cleaning": {
+                "segment_precision@0.25": 0.02040816326530612,
+                "segment_recall@0.25": 0.14285714285714285,
+                "segment_f1@0.25": 0.03571428571428571,
+                "segment_precision@0.5": 0.0,
+                "segment_recall@0.5": 0.0,
+                "segment_f1@0.5": 0.0
+              },
+              "flush": {
+                "segment_precision@0.25": 0.0,
+                "segment_recall@0.25": 0.0,
+                "segment_f1@0.25": 0.0,
+                "segment_precision@0.5": 0.0,
+                "segment_recall@0.5": 0.0,
+                "segment_f1@0.5": 0.0
+              },
+              "air_injection": {
+                "segment_precision@0.25": 0.0,
+                "segment_recall@0.25": 0.0,
+                "segment_f1@0.25": 0.0,
+                "segment_precision@0.5": 0.0,
+                "segment_recall@0.5": 0.0,
+                "segment_f1@0.5": 0.0
+              }
+            },
+            "target_macro_segment_precision@0.25": 0.046938775510204075,
+            "target_macro_segment_recall@0.25": 0.06666666666666667,
+            "target_macro_segment_f1@0.25": 0.04714285714285714,
+            "target_macro_segment_precision@0.5": 0.02857142857142857,
+            "target_macro_segment_recall@0.5": 0.02857142857142857,
+            "target_macro_segment_f1@0.5": 0.02857142857142857
+          }
+        }
+      }
+    },
+    {
+      "model": "asformer",
+      "model_path": "image_train\\output_v1\\models\\image_v1_asformer_offline_segmenter.pt",
+      "feature_method": "business_priors+rgb_roi",
+      "base_feature_method": "business_priors",
+      "train_mode": "full_sequence",
+      "reason": "沿用当前 asformer 最优的 business_priors + full_sequence，在末尾拼接 RGB ROI 外观特征。",
+      "feature_version": "clean_bbox_v2_top1_impute+business_priors+rgb_roi_stats_v1",
+      "feature_dim": 311,
+      "rgb_feature_dim": 190,
+      "epochs": 3,
+      "train_sequences": 14,
+      "train_samples": 14,
+      "val_sequences": 11,
+      "test_sequences": 7,
+      "last_loss": 1.951759,
+      "train": {
+        "history": [
+          {
+            "epoch": 1,
+            "loss": 1.851772
+          },
+          {
+            "epoch": 2,
+            "loss": 1.447198
+          },
+          {
+            "epoch": 3,
+            "loss": 1.951759
+          }
+        ],
+        "class_support_frames": {
+          "idle": 1550,
+          "long_brush_insert": 1476,
+          "long_brush_withdraw": 1080,
+          "short_brush_cleaning": 680,
+          "flush": 841,
+          "air_injection": 366
+        }
+      },
+      "metrics": {
+        "val": {
+          "frame": {
+            "accuracy": 0.228626320845341,
+            "per_class": {
+              "idle": {
+                "support": 490,
+                "predicted": 450,
+                "precision": 0.21777777777777776,
+                "recall": 0.2,
+                "frame_f1": 0.20851063829787234
+              },
+              "long_brush_insert": {
+                "support": 457,
+                "predicted": 1247,
+                "precision": 0.268644747393745,
+                "recall": 0.7330415754923414,
+                "frame_f1": 0.3931924882629108
+              },
+              "long_brush_withdraw": {
+                "support": 217,
+                "predicted": 299,
+                "precision": 0.14381270903010032,
+                "recall": 0.19815668202764977,
+                "frame_f1": 0.16666666666666666
+              },
+              "short_brush_cleaning": {
+                "support": 376,
+                "predicted": 86,
+                "precision": 0.0,
+                "recall": 0.0,
+                "frame_f1": 0.0
+              },
+              "flush": {
+                "support": 333,
+                "predicted": 0,
+                "precision": 0.0,
+                "recall": 0.0,
+                "frame_f1": 0.0
+              },
+              "air_injection": {
+                "support": 209,
+                "predicted": 0,
+                "precision": 0.0,
+                "recall": 0.0,
+                "frame_f1": 0.0
+              }
+            },
+            "target_macro_precision": 0.08249149128476907,
+            "target_macro_recall": 0.18623965150399824,
+            "target_macro_frame_f1": 0.1119718309859155
+          },
+          "segment": {
+            "per_class": {
+              "long_brush_insert": {
+                "segment_precision@0.25": 0.1590909090909091,
+                "segment_recall@0.25": 0.2727272727272727,
+                "segment_f1@0.25": 0.18787878787878787,
+                "segment_precision@0.5": 0.1590909090909091,
+                "segment_recall@0.5": 0.2727272727272727,
+                "segment_f1@0.5": 0.18787878787878787
+              },
+              "long_brush_withdraw": {
+                "segment_precision@0.25": 0.045454545454545456,
+                "segment_recall@0.25": 0.045454545454545456,
+                "segment_f1@0.25": 0.045454545454545456,
+                "segment_precision@0.5": 0.045454545454545456,
+                "segment_recall@0.5": 0.045454545454545456,
+                "segment_f1@0.5": 0.045454545454545456
+              },
+              "short_brush_cleaning": {
+                "segment_precision@0.25": 0.0,
+                "segment_recall@0.25": 0.0,
+                "segment_f1@0.25": 0.0,
+                "segment_precision@0.5": 0.0,
+                "segment_recall@0.5": 0.0,
+                "segment_f1@0.5": 0.0
+              },
+              "flush": {
+                "segment_precision@0.25": 0.0,
+                "segment_recall@0.25": 0.0,
+                "segment_f1@0.25": 0.0,
+                "segment_precision@0.5": 0.0,
+                "segment_recall@0.5": 0.0,
+                "segment_f1@0.5": 0.0
+              },
+              "air_injection": {
+                "segment_precision@0.25": 0.0,
+                "segment_recall@0.25": 0.0,
+                "segment_f1@0.25": 0.0,
+                "segment_precision@0.5": 0.0,
+                "segment_recall@0.5": 0.0,
+                "segment_f1@0.5": 0.0
+              }
+            },
+            "target_macro_segment_precision@0.25": 0.04090909090909091,
+            "target_macro_segment_recall@0.25": 0.06363636363636363,
+            "target_macro_segment_f1@0.25": 0.04666666666666667,
+            "target_macro_segment_precision@0.5": 0.04090909090909091,
+            "target_macro_segment_recall@0.5": 0.06363636363636363,
+            "target_macro_segment_f1@0.5": 0.04666666666666667
+          }
+        },
+        "test": {
+          "frame": {
+            "accuracy": 0.08853809196980096,
+            "per_class": {
+              "idle": {
+                "support": 398,
+                "predicted": 315,
+                "precision": 0.18095238095238095,
+                "recall": 0.14321608040201006,
+                "frame_f1": 0.15988779803646563
+              },
+              "long_brush_insert": {
+                "support": 572,
+                "predicted": 577,
+                "precision": 0.12478336221837089,
+                "recall": 0.1258741258741259,
+                "frame_f1": 0.12532637075718017
+              },
+              "long_brush_withdraw": {
+                "support": 0,
+                "predicted": 456,
+                "precision": 0.0,
+                "recall": 0.0,
+                "frame_f1": 0.0
+              },
+              "short_brush_cleaning": {
+                "support": 111,
+                "predicted": 109,
+                "precision": 0.0,
+                "recall": 0.0,
+                "frame_f1": 0.0
+              },
+              "flush": {
+                "support": 261,
+                "predicted": 0,
+                "precision": 0.0,
+                "recall": 0.0,
+                "frame_f1": 0.0
+              },
+              "air_injection": {
+                "support": 115,
+                "predicted": 0,
+                "precision": 0.0,
+                "recall": 0.0,
+                "frame_f1": 0.0
+              }
+            },
+            "target_macro_precision": 0.024956672443674176,
+            "target_macro_recall": 0.025174825174825177,
+            "target_macro_frame_f1": 0.025065274151436036
+          },
+          "segment": {
+            "per_class": {
+              "long_brush_insert": {
+                "segment_precision@0.25": 0.14285714285714285,
+                "segment_recall@0.25": 0.14285714285714285,
+                "segment_f1@0.25": 0.14285714285714285,
+                "segment_precision@0.5": 0.14285714285714285,
+                "segment_recall@0.5": 0.14285714285714285,
+                "segment_f1@0.5": 0.14285714285714285
+              },
+              "long_brush_withdraw": {
+                "segment_precision@0.25": 0.0,
+                "segment_recall@0.25": 0.0,
+                "segment_f1@0.25": 0.0,
+                "segment_precision@0.5": 0.0,
+                "segment_recall@0.5": 0.0,
+                "segment_f1@0.5": 0.0
+              },
+              "short_brush_cleaning": {
+                "segment_precision@0.25": 0.0,
+                "segment_recall@0.25": 0.0,
+                "segment_f1@0.25": 0.0,
+                "segment_precision@0.5": 0.0,
+                "segment_recall@0.5": 0.0,
+                "segment_f1@0.5": 0.0
+              },
+              "flush": {
+                "segment_precision@0.25": 0.0,
+                "segment_recall@0.25": 0.0,
+                "segment_f1@0.25": 0.0,
+                "segment_precision@0.5": 0.0,
+                "segment_recall@0.5": 0.0,
+                "segment_f1@0.5": 0.0
+              },
+              "air_injection": {
+                "segment_precision@0.25": 0.0,
+                "segment_recall@0.25": 0.0,
+                "segment_f1@0.25": 0.0,
+                "segment_precision@0.5": 0.0,
+                "segment_recall@0.5": 0.0,
+                "segment_f1@0.5": 0.0
+              }
+            },
+            "target_macro_segment_precision@0.25": 0.02857142857142857,
+            "target_macro_segment_recall@0.25": 0.02857142857142857,
+            "target_macro_segment_f1@0.25": 0.02857142857142857,
+            "target_macro_segment_precision@0.5": 0.02857142857142857,
+            "target_macro_segment_recall@0.5": 0.02857142857142857,
+            "target_macro_segment_f1@0.5": 0.02857142857142857
+          }
+        }
+      }
+    },
+    {
+      "model": "bigru",
+      "model_path": "image_train\\output_v1\\models\\image_v1_bigru_offline_segmenter.pt",
+      "feature_method": "window_stats+business_priors+rgb_roi",
+      "base_feature_method": "window_stats+business_priors",
+      "train_mode": "sliding_window",
+      "reason": "沿用当前 bigru 最优的 window_stats+business_priors + sliding_window，在末尾拼接 RGB ROI 外观特征。",
+      "feature_version": "clean_bbox_v2_top1_impute+center_window+business_priors+rgb_roi_stats_v1",
+      "feature_dim": 439,
+      "rgb_feature_dim": 190,
+      "epochs": 3,
+      "train_sequences": 14,
+      "train_samples": 157,
+      "val_sequences": 11,
+      "test_sequences": 7,
+      "last_loss": 0.646747,
+      "train": {
+        "history": [
+          {
+            "epoch": 1,
+            "loss": 1.28488
+          },
+          {
+            "epoch": 2,
+            "loss": 0.854682
+          },
+          {
+            "epoch": 3,
+            "loss": 0.646747
+          }
+        ],
+        "class_support_frames": {
+          "idle": 4747,
+          "long_brush_insert": 5174,
+          "long_brush_withdraw": 3728,
+          "short_brush_cleaning": 1885,
+          "flush": 2900,
+          "air_injection": 1440
+        }
+      },
+      "metrics": {
+        "val": {
+          "frame": {
+            "accuracy": 0.5710854947166186,
+            "per_class": {
+              "idle": {
+                "support": 490,
+                "predicted": 498,
+                "precision": 0.39357429718875503,
+                "recall": 0.4,
+                "frame_f1": 0.3967611336032389
+              },
+              "long_brush_insert": {
+                "support": 457,
+                "predicted": 34,
+                "precision": 1.0,
+                "recall": 0.07439824945295405,
+                "frame_f1": 0.1384928716904277
+              },
+              "long_brush_withdraw": {
+                "support": 217,
+                "predicted": 457,
+                "precision": 0.1772428884026258,
+                "recall": 0.37327188940092165,
+                "frame_f1": 0.2403560830860534
+              },
+              "short_brush_cleaning": {
+                "support": 376,
+                "predicted": 504,
+                "precision": 0.6825396825396826,
+                "recall": 0.9148936170212766,
+                "frame_f1": 0.7818181818181817
+              },
+              "flush": {
+                "support": 333,
+                "predicted": 359,
+                "precision": 0.9052924791086351,
+                "recall": 0.975975975975976,
+                "frame_f1": 0.9393063583815029
+              },
+              "air_injection": {
+                "support": 209,
+                "predicted": 230,
+                "precision": 0.908695652173913,
+                "recall": 1.0,
+                "frame_f1": 0.9521640091116174
+              }
+            },
+            "target_macro_precision": 0.7347541404449712,
+            "target_macro_recall": 0.6677079463702256,
+            "target_macro_frame_f1": 0.6104275008175566
+          },
+          "segment": {
+            "per_class": {
+              "long_brush_insert": {
+                "segment_precision@0.25": 0.09090909090909091,
+                "segment_recall@0.25": 0.09090909090909091,
+                "segment_f1@0.25": 0.09090909090909091,
+                "segment_precision@0.5": 0.0,
+                "segment_recall@0.5": 0.0,
+                "segment_f1@0.5": 0.0
+              },
+              "long_brush_withdraw": {
+                "segment_precision@0.25": 0.16666666666666666,
+                "segment_recall@0.25": 0.22727272727272727,
+                "segment_f1@0.25": 0.18787878787878787,
+                "segment_precision@0.5": 0.0303030303030303,
+                "segment_recall@0.5": 0.045454545454545456,
+                "segment_f1@0.5": 0.03636363636363637
+              },
+              "short_brush_cleaning": {
+                "segment_precision@0.25": 0.18181818181818182,
+                "segment_recall@0.25": 0.13636363636363635,
+                "segment_f1@0.25": 0.1515151515151515,
+                "segment_precision@0.5": 0.09090909090909091,
+                "segment_recall@0.5": 0.09090909090909091,
+                "segment_f1@0.5": 0.09090909090909091
+              },
+              "flush": {
+                "segment_precision@0.25": 0.18181818181818182,
+                "segment_recall@0.25": 0.13636363636363635,
+                "segment_f1@0.25": 0.1515151515151515,
+                "segment_precision@0.5": 0.18181818181818182,
+                "segment_recall@0.5": 0.13636363636363635,
+                "segment_f1@0.5": 0.1515151515151515
+              },
+              "air_injection": {
+                "segment_precision@0.25": 0.09090909090909091,
+                "segment_recall@0.25": 0.09090909090909091,
+                "segment_f1@0.25": 0.09090909090909091,
+                "segment_precision@0.5": 0.09090909090909091,
+                "segment_recall@0.5": 0.09090909090909091,
+                "segment_f1@0.5": 0.09090909090909091
+              }
+            },
+            "target_macro_segment_precision@0.25": 0.14242424242424243,
+            "target_macro_segment_recall@0.25": 0.13636363636363635,
+            "target_macro_segment_f1@0.25": 0.13454545454545455,
+            "target_macro_segment_precision@0.5": 0.07878787878787878,
+            "target_macro_segment_recall@0.5": 0.07272727272727272,
+            "target_macro_segment_f1@0.5": 0.07393939393939394
+          }
+        },
+        "test": {
+          "frame": {
+            "accuracy": 0.37817433081674673,
+            "per_class": {
+              "idle": {
+                "support": 398,
+                "predicted": 371,
+                "precision": 0.4393530997304582,
+                "recall": 0.40954773869346733,
+                "frame_f1": 0.423927178153446
+              },
+              "long_brush_insert": {
+                "support": 572,
+                "predicted": 60,
+                "precision": 1.0,
+                "recall": 0.1048951048951049,
+                "frame_f1": 0.18987341772151897
+              },
+              "long_brush_withdraw": {
+                "support": 0,
+                "predicted": 414,
+                "precision": 0.0,
+                "recall": 0.0,
+                "frame_f1": 0.0
+              },
+              "short_brush_cleaning": {
+                "support": 111,
+                "predicted": 294,
+                "precision": 0.36394557823129253,
+                "recall": 0.963963963963964,
+                "frame_f1": 0.5283950617283951
+              },
+              "flush": {
+                "support": 261,
+                "predicted": 137,
+                "precision": 0.7737226277372263,
+                "recall": 0.4061302681992337,
+                "frame_f1": 0.5326633165829145
+              },
+              "air_injection": {
+                "support": 115,
+                "predicted": 181,
+                "precision": 0.6353591160220995,
+                "recall": 1.0,
+                "frame_f1": 0.7770270270270271
+              }
+            },
+            "target_macro_precision": 0.5546054643981236,
+            "target_macro_recall": 0.4949978674116605,
+            "target_macro_frame_f1": 0.40559176461197116
+          },
+          "segment": {
+            "per_class": {
+              "long_brush_insert": {
+                "segment_precision@0.25": 0.14285714285714285,
+                "segment_recall@0.25": 0.14285714285714285,
+                "segment_f1@0.25": 0.14285714285714285,
+                "segment_precision@0.5": 0.14285714285714285,
+                "segment_recall@0.5": 0.14285714285714285,
+                "segment_f1@0.5": 0.14285714285714285
+              },
+              "long_brush_withdraw": {
+                "segment_precision@0.25": 0.0,
+                "segment_recall@0.25": 0.0,
+                "segment_f1@0.25": 0.0,
+                "segment_precision@0.5": 0.0,
+                "segment_recall@0.5": 0.0,
+                "segment_f1@0.5": 0.0
+              },
+              "short_brush_cleaning": {
+                "segment_precision@0.25": 0.047619047619047616,
+                "segment_recall@0.25": 0.14285714285714285,
+                "segment_f1@0.25": 0.07142857142857142,
+                "segment_precision@0.5": 0.047619047619047616,
+                "segment_recall@0.5": 0.14285714285714285,
+                "segment_f1@0.5": 0.07142857142857142
+              },
+              "flush": {
+                "segment_precision@0.25": 0.2857142857142857,
+                "segment_recall@0.25": 0.25,
+                "segment_f1@0.25": 0.2653061224489796,
+                "segment_precision@0.5": 0.23809523809523808,
+                "segment_recall@0.5": 0.21428571428571427,
+                "segment_f1@0.5": 0.22448979591836737
+              },
+              "air_injection": {
+                "segment_precision@0.25": 0.14285714285714285,
+                "segment_recall@0.25": 0.14285714285714285,
+                "segment_f1@0.25": 0.14285714285714285,
+                "segment_precision@0.5": 0.14285714285714285,
+                "segment_recall@0.5": 0.14285714285714285,
+                "segment_f1@0.5": 0.14285714285714285
+              }
+            },
+            "target_macro_segment_precision@0.25": 0.12380952380952381,
+            "target_macro_segment_recall@0.25": 0.13571428571428573,
+            "target_macro_segment_f1@0.25": 0.12448979591836733,
+            "target_macro_segment_precision@0.5": 0.11428571428571428,
+            "target_macro_segment_recall@0.5": 0.12857142857142856,
+            "target_macro_segment_f1@0.5": 0.11632653061224492
+          }
+        }
+      }
+    }
+  ],
+  "analysis": [
+    "val 上按 F1@0.25 排名最高的是 `bigru`，F1@0.25=0.1345，F1@0.5=0.0739，Frame-F1=0.6104。",
+    "test 上按 F1@0.25 排名最高的是 `bigru`，F1@0.25=0.1245，F1@0.5=0.1163，Frame-F1=0.4056。",
+    "本版 RGB 特征是轻量统计特征，不训练图像 backbone，也不引入端到端视觉模型；它主要验证“ROI 局部外观是否有信号”，工程风险低，但表达能力明显弱于 DINOv2/VideoMAE。",
+    "由于 train/val/test 序列数量较少，单次 3 epoch 结果波动会比较大，应主要看 per-class recall 和 segment F1 是否出现稳定方向，而不是只看单一 ACC。"
+  ],
+  "next_steps": [
+    "把 `rgb_roi_stats_v1` 与 baseline 最佳报告做横向对比，重点看 F1@0.25/F1@0.5 和每类 recall，判断 RGB 是否对边界和漏检有帮助。",
+    "如果 RGB 统计特征有收益，下一版改为冻结 DINOv2 ROI embedding，并用 PCA/Linear 压到每槽 32 或 64 维。",
+    "加入质量感知融合：用 present/conf/missing_age/imputed/candidate_count 学一个 gate，而不是简单 concat。",
+    "对 `flush` 和 `air_injection` 单独增强 syringe/air_gun ROI，并检查两类误检混淆；这两类最依赖外观区分。",
+    "正式结论前至少跑 20-100 epoch，并重复 3 个随机种子；当前 3 epoch 只能视为首版工程验证。"
+  ]
+}

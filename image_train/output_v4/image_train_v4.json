@@ -1,0 +1,3079 @@
+{
+  "status": "completed",
+  "version": "v4",
+  "script": "F:\\暑期实习\\offline-model\\image_train\\v4\\train_image_v4.py",
+  "dataset_root": "F:\\暑期实习\\offline-model\\input\\modelscope\\lhh010__cleansight-ActionMixed\\cleansight-ActionMixed",
+  "out_dir": "image_train\\output_v4",
+  "roi_manifest_dir": "F:\\暑期实习\\offline-model\\image_train\\output_v4\\roi_manifest_p15",
+  "rgb_cache_dir": "F:\\暑期实习\\offline-model\\image_train\\output_v4\\roi_rgb_v2_cache",
+  "proxy_cache_dir": "F:\\暑期实习\\offline-model\\image_train\\output_v4\\proxy_rgb_v4_cache",
+  "device": "cpu",
+  "config": {
+    "config": "F:\\暑期实习\\offline-model\\image_train\\v4\\configs\\image_train_v4.json",
+    "dataset_root": "F:\\暑期实习\\offline-model\\input\\modelscope\\lhh010__cleansight-ActionMixed\\cleansight-ActionMixed",
+    "out_dir": "image_train\\output_v4",
+    "feature_store_dir": "F:\\暑期实习\\offline-model\\image_train\\output_v4\\feature_store_v2",
+    "roi_manifest_dir": "F:\\暑期实习\\offline-model\\image_train\\output_v4\\roi_manifest_p15",
+    "rgb_cache_dir": "F:\\暑期实习\\offline-model\\image_train\\output_v4\\roi_rgb_v2_cache",
+    "proxy_cache_dir": "F:\\暑期实习\\offline-model\\image_train\\output_v4\\proxy_rgb_v4_cache",
+    "models": [
+      "ms_tcn",
+      "asformer",
+      "bigru"
+    ],
+    "epochs": 12,
+    "seed": 20260715,
+    "lr": 0.002,
+    "min_lr": 1e-05,
+    "weight_decay": 0.0001,
+    "label_smoothing": 0.03,
+    "grad_clip": 5.0,
+    "scheduler": "cosine",
+    "plateau_factor": 0.5,
+    "plateau_patience": 2,
+    "early_stopping": true,
+    "patience": 4,
+    "min_delta": 0.0001,
+    "early_metric": "val_accuracy",
+    "use_class_weights": true,
+    "train_mode": "full_sequence",
+    "window": 128,
+    "stride": 32,
+    "padding": 0.15,
+    "rgb_smooth_window": 5,
+    "proxy_smooth_window": 5,
+    "hand_expand": 1.6,
+    "postprocess_objective": "accuracy",
+    "post_prob_smooth": "1,3,5,7",
+    "post_min_segment": "1,3,5,8",
+    "post_merge_gap": "0,2,4,8",
+    "post_confidence_threshold": "0.0,0.25,0.4",
+    "force_cache": false
+  },
+  "classes": [
+    "idle",
+    "long_brush_insert",
+    "long_brush_withdraw",
+    "short_brush_cleaning",
+    "flush",
+    "air_injection"
+  ],
+  "dataset_stats": {
+    "train": {
+      "sequences": 14,
+      "frames": 5993
+    },
+    "test": {
+      "sequences": 7,
+      "frames": 1457
+    },
+    "val": {
+      "sequences": 11,
+      "frames": 2082
+    }
+  },
+  "results": [
+    {
+      "model": "ms_tcn",
+      "feature_dim": 691,
+      "feature_method": "business_priors+roi_rgb_v2+proxy_rgb_v4",
+      "feature_version": "clean_bbox_v2_top1_impute+business_priors+roi_rgb_v2_quality_smooth+proxy_rgb_v4",
+      "train_mode": "full_sequence",
+      "use_rgb": true,
+      "use_proxy": true,
+      "reason": "MS-TCN 保留多阶段逐帧 refinement，v4 给它补充 object ROI 与 proxy ROI，但训练选择以 raw frame accuracy 为主。",
+      "train_samples": 14,
+      "model_path": "image_train\\output_v4\\models\\image_v4_ms_tcn_offline_segmenter.pt",
+      "train": {
+        "history": [
+          {
+            "epoch": 1,
+            "lr": 0.002,
+            "train_loss": 1.904385,
+            "val_loss": 1.803752,
+            "val_accuracy": 0.104227,
+            "val_target_macro_frame_f1": 0.037756,
+            "best_epoch": 1
+          },
+          {
+            "epoch": 2,
+            "lr": 0.0019661,
+            "train_loss": 1.830833,
+            "val_loss": 1.772195,
+            "val_accuracy": 0.104227,
+            "val_target_macro_frame_f1": 0.037756,
+            "best_epoch": 1
+          },
+          {
+            "epoch": 3,
+            "lr": 0.0018667,
+            "train_loss": 1.641684,
+            "val_loss": 1.756596,
+            "val_accuracy": 0.219981,
+            "val_target_macro_frame_f1": 0.093764,
+            "best_epoch": 3
+          },
+          {
+            "epoch": 4,
+            "lr": 0.00170857,
+            "train_loss": 1.579379,
+            "val_loss": 2.237463,
+            "val_accuracy": 0.307877,
+            "val_target_macro_frame_f1": 0.201434,
+            "best_epoch": 4
+          },
+          {
+            "epoch": 5,
+            "lr": 0.0015025,
+            "train_loss": 1.54992,
+            "val_loss": 1.656476,
+            "val_accuracy": 0.257925,
+            "val_target_macro_frame_f1": 0.182289,
+            "best_epoch": 4
+          },
+          {
+            "epoch": 6,
+            "lr": 0.00126252,
+            "train_loss": 1.398086,
+            "val_loss": 1.857158,
+            "val_accuracy": 0.255043,
+            "val_target_macro_frame_f1": 0.15333,
+            "best_epoch": 4
+          },
+          {
+            "epoch": 7,
+            "lr": 0.001005,
+            "train_loss": 1.338271,
+            "val_loss": 2.205792,
+            "val_accuracy": 0.102305,
+            "val_target_macro_frame_f1": 0.052279,
+            "best_epoch": 4
+          },
+          {
+            "epoch": 8,
+            "lr": 0.00074748,
+            "train_loss": 1.262582,
+            "val_loss": 2.420222,
+            "val_accuracy": 0.157541,
+            "val_target_macro_frame_f1": 0.072881,
+            "best_epoch": 4
+          }
+        ],
+        "best_epoch": 4,
+        "best_score": 0.307877,
+        "class_support_frames": {
+          "idle": 1550,
+          "long_brush_insert": 1476,
+          "long_brush_withdraw": 1080,
+          "short_brush_cleaning": 680,
+          "flush": 841,
+          "air_injection": 366
+        },
+        "stopped_epoch": 8
+      },
+      "postprocess_config": {
+        "prob_smooth": 1,
+        "min_segment": 8,
+        "merge_gap": 0,
+        "confidence_threshold": 0.25
+      },
+      "top_postprocess_configs": [
+        {
+          "config": {
+            "prob_smooth": 1,
+            "min_segment": 8,
+            "merge_gap": 0,
+            "confidence_threshold": 0.25
+          },
+          "score": 1.7984981557584954,
+          "accuracy": 0.32949087415946204,
+          "target_macro_frame_f1": 0.2014983304157308,
+          "f1@0.25": 0.07878787878787878,
+          "f1@0.5": 0.03636363636363636,
+          "count_abs_error": 29
+        },
+        {
+          "config": {
+            "prob_smooth": 1,
+            "min_segment": 8,
+            "merge_gap": 0,
+            "confidence_threshold": 0.0
+          },
+          "score": 1.7959997572376483,
+          "accuracy": 0.32901056676272816,
+          "target_macro_frame_f1": 0.20140146887855312,
+          "f1@0.25": 0.07878787878787878,
+          "f1@0.5": 0.03636363636363636,
+          "count_abs_error": 29
+        },
+        {
+          "config": {
+            "prob_smooth": 1,
+            "min_segment": 5,
+            "merge_gap": 0,
+            "confidence_threshold": 0.25
+          },
+          "score": 1.7804514430160883,
+          "accuracy": 0.32901056676272816,
+          "target_macro_frame_f1": 0.1994895182933568,
+          "f1@0.25": 0.07878787878787878,
+          "f1@0.5": 0.03636363636363636,
+          "count_abs_error": 35
+        },
+        {
+          "config": {
+            "prob_smooth": 3,
+            "min_segment": 8,
+            "merge_gap": 0,
+            "confidence_threshold": 0.25
+          },
+          "score": 1.7704950908385513,
+          "accuracy": 0.32468780019212296,
+          "target_macro_frame_f1": 0.20205608987793675,
+          "f1@0.25": 0.07878787878787878,
+          "f1@0.5": 0.03636363636363636,
+          "count_abs_error": 31
+        },
+        {
+          "config": {
+            "prob_smooth": 3,
+            "min_segment": 8,
+            "merge_gap": 2,
+            "confidence_threshold": 0.25
+          },
+          "score": 1.7696855497183832,
+          "accuracy": 0.32468780019212296,
+          "target_macro_frame_f1": 0.20124654875776868,
+          "f1@0.25": 0.07878787878787878,
+          "f1@0.5": 0.03636363636363636,
+          "count_abs_error": 31
+        },
+        {
+          "config": {
+            "prob_smooth": 7,
+            "min_segment": 8,
+            "merge_gap": 0,
+            "confidence_threshold": 0.25
+          },
+          "score": 1.7681537847997895,
+          "accuracy": 0.3251681075888569,
+          "target_macro_frame_f1": 0.19958597412823237,
+          "f1@0.25": 0.07878787878787878,
+          "f1@0.5": 0.03636363636363636,
+          "count_abs_error": 32
+        },
+        {
+          "config": {
+            "prob_smooth": 7,
+            "min_segment": 8,
+            "merge_gap": 2,
+            "confidence_threshold": 0.25
+          },
+          "score": 1.7677719610775222,
+          "accuracy": 0.3251681075888569,
+          "target_macro_frame_f1": 0.1992041504059651,
+          "f1@0.25": 0.07878787878787878,
+          "f1@0.5": 0.03636363636363636,
+          "count_abs_error": 32
+        },
+        {
+          "config": {
+            "prob_smooth": 7,
+            "min_segment": 8,
+            "merge_gap": 4,
+            "confidence_threshold": 0.25
+          },
+          "score": 1.7677719610775222,
+          "accuracy": 0.3251681075888569,
+          "target_macro_frame_f1": 0.1992041504059651,
+          "f1@0.25": 0.07878787878787878,
+          "f1@0.5": 0.03636363636363636,
+          "count_abs_error": 32
+        },
+        {
+          "config": {
+            "prob_smooth": 5,
+            "min_segment": 8,
+            "merge_gap": 0,
+            "confidence_threshold": 0.25
+          },
+          "score": 1.7659529688651174,
+          "accuracy": 0.3242074927953891,
+          "target_macro_frame_f1": 0.19991550488817228,
+          "f1@0.25": 0.07878787878787878,
+          "f1@0.5": 0.03636363636363636,
+          "count_abs_error": 31
+        },
+        {
+          "config": {
+            "prob_smooth": 1,
+            "min_segment": 8,
+            "merge_gap": 2,
+            "confidence_threshold": 0.25
+          },
+          "score": 1.7659260407031725,
+          "accuracy": 0.32372718539865514,
+          "target_macro_frame_f1": 0.20001738643716957,
+          "f1@0.25": 0.07878787878787878,
+          "f1@0.5": 0.03636363636363636,
+          "count_abs_error": 30
+        },
+        {
+          "config": {
+            "prob_smooth": 5,
+            "min_segment": 8,
+            "merge_gap": 2,
+            "confidence_threshold": 0.25
+          },
+          "score": 1.765606693489625,
+          "accuracy": 0.3242074927953891,
+          "target_macro_frame_f1": 0.1995692295126799,
+          "f1@0.25": 0.07878787878787878,
+          "f1@0.5": 0.03636363636363636,
+          "count_abs_error": 31
+        },
+        {
+          "config": {
+            "prob_smooth": 5,
+            "min_segment": 8,
+            "merge_gap": 4,
+            "confidence_threshold": 0.25
+          },
+          "score": 1.7651298217681182,
+          "accuracy": 0.3242074927953891,
+          "target_macro_frame_f1": 0.199092357791173,
+          "f1@0.25": 0.07878787878787878,
+          "f1@0.5": 0.03636363636363636,
+          "count_abs_error": 31
+        },
+        {
+          "config": {
+            "prob_smooth": 3,
+            "min_segment": 8,
+            "merge_gap": 4,
+            "confidence_threshold": 0.25
+          },
+          "score": 1.7635944318777041,
+          "accuracy": 0.32324687800192126,
+          "target_macro_frame_f1": 0.20008731459537055,
+          "f1@0.25": 0.07878787878787878,
+          "f1@0.5": 0.03636363636363636,
+          "count_abs_error": 30
+        },
+        {
+          "config": {
+            "prob_smooth": 7,
+            "min_segment": 5,
+            "merge_gap": 0,
+            "confidence_threshold": 0.25
+          },
+          "score": 1.7607260795347508,
+          "accuracy": 0.3242074927953891,
+          "target_macro_frame_f1": 0.202415888285078,
+          "f1@0.25": 0.07272727272727272,
+          "f1@0.5": 0.03636363636363636,
+          "count_abs_error": 34
+        },
+        {
+          "config": {
+            "prob_smooth": 7,
+            "min_segment": 5,
+            "merge_gap": 2,
+            "confidence_threshold": 0.25
+          },
+          "score": 1.7603442558124835,
+          "accuracy": 0.3242074927953891,
+          "target_macro_frame_f1": 0.2020340645628107,
+          "f1@0.25": 0.07272727272727272,
+          "f1@0.5": 0.03636363636363636,
+          "count_abs_error": 34
+        },
+        {
+          "config": {
+            "prob_smooth": 7,
+            "min_segment": 5,
+            "merge_gap": 4,
+            "confidence_threshold": 0.25
+          },
+          "score": 1.7603442558124835,
+          "accuracy": 0.3242074927953891,
+          "target_macro_frame_f1": 0.2020340645628107,
+          "f1@0.25": 0.07272727272727272,
+          "f1@0.5": 0.03636363636363636,
+          "count_abs_error": 34
+        },
+        {
+          "config": {
+            "prob_smooth": 1,
+            "min_segment": 3,
+            "merge_gap": 0,
+            "confidence_threshold": 0.25
+          },
+          "score": 1.7586501369589675,
+          "accuracy": 0.32804995196926034,
+          "target_macro_frame_f1": 0.20082461953690842,
+          "f1@0.25": 0.06666666666666667,
+          "f1@0.5": 0.030303030303030304,
+          "count_abs_error": 42
+        },
+        {
+          "config": {
+            "prob_smooth": 5,
+            "min_segment": 5,
+            "merge_gap": 0,
+            "confidence_threshold": 0.25
+          },
+          "score": 1.755503984516769,
+          "accuracy": 0.32324687800192126,
+          "target_macro_frame_f1": 0.20199686723443527,
+          "f1@0.25": 0.07272727272727272,
+          "f1@0.5": 0.03636363636363636,
+          "count_abs_error": 34
+        },
+        {
+          "config": {
+            "prob_smooth": 5,
+            "min_segment": 5,
+            "merge_gap": 2,
+            "confidence_threshold": 0.25
+          },
+          "score": 1.755503984516769,
+          "accuracy": 0.32324687800192126,
+          "target_macro_frame_f1": 0.20199686723443527,
+          "f1@0.25": 0.07272727272727272,
+          "f1@0.5": 0.03636363636363636,
+          "count_abs_error": 34
+        },
+        {
+          "config": {
+            "prob_smooth": 5,
+            "min_segment": 5,
+            "merge_gap": 4,
+            "confidence_threshold": 0.25
+          },
+          "score": 1.7550271127952621,
+          "accuracy": 0.32324687800192126,
+          "target_macro_frame_f1": 0.20151999551292837,
+          "f1@0.25": 0.07272727272727272,
+          "f1@0.5": 0.03636363636363636,
+          "count_abs_error": 34
+        }
+      ],
+      "metrics": {
+        "val_raw": {
+          "frame": {
+            "accuracy": 0.3078770413064361,
+            "per_class": {
+              "idle": {
+                "support": 490,
+                "predicted": 318,
+                "precision": 0.32075471698113206,
+                "recall": 0.20816326530612245,
+                "frame_f1": 0.2524752475247525
+              },
+              "long_brush_insert": {
+                "support": 457,
+                "predicted": 671,
+                "precision": 0.26527570789865873,
+                "recall": 0.38949671772428884,
+                "frame_f1": 0.31560283687943264
+              },
+              "long_brush_withdraw": {
+                "support": 217,
+                "predicted": 273,
+                "precision": 0.11721611721611722,
+                "recall": 0.14746543778801843,
+                "frame_f1": 0.13061224489795917
+              },
+              "short_brush_cleaning": {
+                "support": 376,
+                "predicted": 797,
+                "precision": 0.4127979924717691,
+                "recall": 0.875,
+                "frame_f1": 0.5609548167092925
+              },
+              "flush": {
+                "support": 333,
+                "predicted": 23,
+                "precision": 0.0,
+                "recall": 0.0,
+                "frame_f1": 0.0
+              },
+              "air_injection": {
+                "support": 209,
+                "predicted": 0,
+                "precision": 0.0,
+                "recall": 0.0,
+                "frame_f1": 0.0
+              }
+            },
+            "target_macro_precision": 0.159057963517309,
+            "target_macro_recall": 0.2823924311024615,
+            "target_macro_frame_f1": 0.20143397969733687
+          },
+          "segment": {
+            "per_class": {
+              "long_brush_insert": {
+                "segment_precision@0.25": 0.09090909090909091,
+                "segment_recall@0.25": 0.09090909090909091,
+                "segment_f1@0.25": 0.09090909090909091,
+                "segment_precision@0.5": 0.09090909090909091,
+                "segment_recall@0.5": 0.09090909090909091,
+                "segment_f1@0.5": 0.09090909090909091
+              },
+              "long_brush_withdraw": {
+                "segment_precision@0.25": 0.045454545454545456,
+                "segment_recall@0.25": 0.18181818181818182,
+                "segment_f1@0.25": 0.07272727272727274,
+                "segment_precision@0.5": 0.0,
+                "segment_recall@0.5": 0.0,
+                "segment_f1@0.5": 0.0
+              },
+              "short_brush_cleaning": {
+                "segment_precision@0.25": 0.13636363636363635,
+                "segment_recall@0.25": 0.13636363636363635,
+                "segment_f1@0.25": 0.1212121212121212,
+                "segment_precision@0.5": 0.045454545454545456,
+                "segment_recall@0.5": 0.09090909090909091,
+                "segment_f1@0.5": 0.0606060606060606
+              },
+              "flush": {
+                "segment_precision@0.25": 0.0,
+                "segment_recall@0.25": 0.0,
+                "segment_f1@0.25": 0.0,
+                "segment_precision@0.5": 0.0,
+                "segment_recall@0.5": 0.0,
+                "segment_f1@0.5": 0.0
+              },
+              "air_injection": {
+                "segment_precision@0.25": 0.0,
+                "segment_recall@0.25": 0.0,
+                "segment_f1@0.25": 0.0,
+                "segment_precision@0.5": 0.0,
+                "segment_recall@0.5": 0.0,
+                "segment_f1@0.5": 0.0
+              }
+            },
+            "target_macro_segment_precision@0.25": 0.05454545454545454,
+            "target_macro_segment_recall@0.25": 0.08181818181818182,
+            "target_macro_segment_f1@0.25": 0.05696969696969697,
+            "target_macro_segment_precision@0.5": 0.02727272727272727,
+            "target_macro_segment_recall@0.5": 0.03636363636363636,
+            "target_macro_segment_f1@0.5": 0.030303030303030304
+          },
+          "segment_quality": {
+            "total_gt_segments": 22,
+            "total_pred_segments": 81,
+            "total_count_abs_error": 63,
+            "boundary_error_mean_frames": 36.2,
+            "boundary_error_median_frames": 18.5,
+            "per_class": {
+              "long_brush_insert": {
+                "gt_segments": 4,
+                "pred_segments": 10,
+                "count_abs_error": 6,
+                "boundary_error_mean_frames": 64.0,
+                "boundary_error_median_frames": 64.0
+              },
+              "long_brush_withdraw": {
+                "gt_segments": 5,
+                "pred_segments": 46,
+                "count_abs_error": 41,
+                "boundary_error_mean_frames": 11.0,
+                "boundary_error_median_frames": 11.0
+              },
+              "short_brush_cleaning": {
+                "gt_segments": 4,
+                "pred_segments": 18,
+                "count_abs_error": 14,
+                "boundary_error_mean_frames": 47.5,
+                "boundary_error_median_frames": 47.5
+              },
+              "flush": {
+                "gt_segments": 8,
+                "pred_segments": 7,
+                "count_abs_error": 1,
+                "boundary_error_mean_frames": null,
+                "boundary_error_median_frames": null
+              },
+              "air_injection": {
+                "gt_segments": 1,
+                "pred_segments": 0,
+                "count_abs_error": 1,
+                "boundary_error_mean_frames": null,
+                "boundary_error_median_frames": null
+              }
+            }
+          }
+        },
+        "test_raw": {
+          "frame": {
+            "accuracy": 0.3369938229238161,
+            "per_class": {
+              "idle": {
+                "support": 398,
+                "predicted": 281,
+                "precision": 0.41637010676156583,
+                "recall": 0.29396984924623115,
+                "frame_f1": 0.3446244477172312
+              },
+              "long_brush_insert": {
+                "support": 572,
+                "predicted": 377,
+                "precision": 0.6870026525198939,
+                "recall": 0.4527972027972028,
+                "frame_f1": 0.5458377239199157
+              },
+              "long_brush_withdraw": {
+                "support": 0,
+                "predicted": 153,
+                "precision": 0.0,
+                "recall": 0.0,
+                "frame_f1": 0.0
+              },
+              "short_brush_cleaning": {
+                "support": 111,
+                "predicted": 634,
+                "precision": 0.1750788643533123,
+                "recall": 1.0,
+                "frame_f1": 0.297986577181208
+              },
+              "flush": {
+                "support": 261,
+                "predicted": 12,
+                "precision": 0.3333333333333333,
+                "recall": 0.01532567049808429,
+                "frame_f1": 0.0293040293040293
+              },
+              "air_injection": {
+                "support": 115,
+                "predicted": 0,
+                "precision": 0.0,
+                "recall": 0.0,
+                "frame_f1": 0.0
+              }
+            },
+            "target_macro_precision": 0.2390829700413079,
+            "target_macro_recall": 0.29362457465905745,
+            "target_macro_frame_f1": 0.1746256660810306
+          },
+          "segment": {
+            "per_class": {
+              "long_brush_insert": {
+                "segment_precision@0.25": 0.2857142857142857,
+                "segment_recall@0.25": 0.19047619047619047,
+                "segment_f1@0.25": 0.21428571428571427,
+                "segment_precision@0.5": 0.0,
+                "segment_recall@0.5": 0.0,
+                "segment_f1@0.5": 0.0
+              },
+              "long_brush_withdraw": {
+                "segment_precision@0.25": 0.0,
+                "segment_recall@0.25": 0.0,
+                "segment_f1@0.25": 0.0,
+                "segment_precision@0.5": 0.0,
+                "segment_recall@0.5": 0.0,
+                "segment_f1@0.5": 0.0
+              },
+              "short_brush_cleaning": {
+                "segment_precision@0.25": 0.047619047619047616,
+                "segment_recall@0.25": 0.14285714285714285,
+                "segment_f1@0.25": 0.07142857142857142,
+                "segment_precision@0.5": 0.047619047619047616,
+                "segment_recall@0.5": 0.14285714285714285,
+                "segment_f1@0.5": 0.07142857142857142
+              },
+              "flush": {
+                "segment_precision@0.25": 0.0,
+                "segment_recall@0.25": 0.0,
+                "segment_f1@0.25": 0.0,
+                "segment_precision@0.5": 0.0,
+                "segment_recall@0.5": 0.0,
+                "segment_f1@0.5": 0.0
+              },
+              "air_injection": {
+                "segment_precision@0.25": 0.0,
+                "segment_recall@0.25": 0.0,
+                "segment_f1@0.25": 0.0,
+                "segment_precision@0.5": 0.0,
+                "segment_recall@0.5": 0.0,
+                "segment_f1@0.5": 0.0
+              }
+            },
+            "target_macro_segment_precision@0.25": 0.06666666666666667,
+            "target_macro_segment_recall@0.25": 0.06666666666666667,
+            "target_macro_segment_f1@0.25": 0.05714285714285714,
+            "target_macro_segment_precision@0.5": 0.009523809523809523,
+            "target_macro_segment_recall@0.5": 0.02857142857142857,
+            "target_macro_segment_f1@0.5": 0.014285714285714285
+          },
+          "segment_quality": {
+            "total_gt_segments": 14,
+            "total_pred_segments": 50,
+            "total_count_abs_error": 42,
+            "boundary_error_mean_frames": 45.666666666666664,
+            "boundary_error_median_frames": 47.5,
+            "per_class": {
+              "long_brush_insert": {
+                "gt_segments": 6,
+                "pred_segments": 9,
+                "count_abs_error": 3,
+                "boundary_error_mean_frames": 64.25,
+                "boundary_error_median_frames": 64.25
+              },
+              "long_brush_withdraw": {
+                "gt_segments": 0,
+                "pred_segments": 23,
+                "count_abs_error": 23,
+                "boundary_error_mean_frames": null,
+                "boundary_error_median_frames": null
+              },
+              "short_brush_cleaning": {
+                "gt_segments": 1,
+                "pred_segments": 14,
+                "count_abs_error": 13,
+                "boundary_error_mean_frames": 8.5,
+                "boundary_error_median_frames": 8.5
+              },
+              "flush": {
+                "gt_segments": 6,
+                "pred_segments": 4,
+                "count_abs_error": 2,
+                "boundary_error_mean_frames": null,
+                "boundary_error_median_frames": null
+              },
+              "air_injection": {
+                "gt_segments": 1,
+                "pred_segments": 0,
+                "count_abs_error": 1,
+                "boundary_error_mean_frames": null,
+                "boundary_error_median_frames": null
+              }
+            }
+          }
+        },
+        "val_post": {
+          "frame": {
+            "accuracy": 0.32949087415946204,
+            "per_class": {
+              "idle": {
+                "support": 490,
+                "predicted": 436,
+                "precision": 0.3623853211009174,
+                "recall": 0.3224489795918367,
+                "frame_f1": 0.34125269978401723
+              },
+              "long_brush_insert": {
+                "support": 457,
+                "predicted": 654,
+                "precision": 0.26758409785932724,
+                "recall": 0.38293216630196936,
+                "frame_f1": 0.31503150315031503
+              },
+              "long_brush_withdraw": {
+                "support": 217,
+                "predicted": 210,
+                "precision": 0.13333333333333333,
+                "recall": 0.12903225806451613,
+                "frame_f1": 0.13114754098360656
+              },
+              "short_brush_cleaning": {
+                "support": 376,
+                "predicted": 782,
+                "precision": 0.4156010230179028,
+                "recall": 0.8643617021276596,
+                "frame_f1": 0.5613126079447323
+              },
+              "flush": {
+                "support": 333,
+                "predicted": 0,
+                "precision": 0.0,
+                "recall": 0.0,
+                "frame_f1": 0.0
+              },
+              "air_injection": {
+                "support": 209,
+                "predicted": 0,
+                "precision": 0.0,
+                "recall": 0.0,
+                "frame_f1": 0.0
+              }
+            },
+            "target_macro_precision": 0.16330369084211266,
+            "target_macro_recall": 0.275265225298829,
+            "target_macro_frame_f1": 0.2014983304157308
+          },
+          "segment": {
+            "per_class": {
+              "long_brush_insert": {
+                "segment_precision@0.25": 0.09090909090909091,
+                "segment_recall@0.25": 0.09090909090909091,
+                "segment_f1@0.25": 0.09090909090909091,
+                "segment_precision@0.5": 0.09090909090909091,
+                "segment_recall@0.5": 0.09090909090909091,
+                "segment_f1@0.5": 0.09090909090909091
+              },
+              "long_brush_withdraw": {
+                "segment_precision@0.25": 0.13636363636363635,
+                "segment_recall@0.25": 0.18181818181818182,
+                "segment_f1@0.25": 0.1515151515151515,
+                "segment_precision@0.5": 0.0,
+                "segment_recall@0.5": 0.0,
+                "segment_f1@0.5": 0.0
+              },
+              "short_brush_cleaning": {
+                "segment_precision@0.25": 0.18181818181818182,
+                "segment_recall@0.25": 0.13636363636363635,
+                "segment_f1@0.25": 0.1515151515151515,
+                "segment_precision@0.5": 0.09090909090909091,
+                "segment_recall@0.5": 0.09090909090909091,
+                "segment_f1@0.5": 0.09090909090909091
+              },
+              "flush": {
+                "segment_precision@0.25": 0.0,
+                "segment_recall@0.25": 0.0,
+                "segment_f1@0.25": 0.0,
+                "segment_precision@0.5": 0.0,
+                "segment_recall@0.5": 0.0,
+                "segment_f1@0.5": 0.0
+              },
+              "air_injection": {
+                "segment_precision@0.25": 0.0,
+                "segment_recall@0.25": 0.0,
+                "segment_f1@0.25": 0.0,
+                "segment_precision@0.5": 0.0,
+                "segment_recall@0.5": 0.0,
+                "segment_f1@0.5": 0.0
+              }
+            },
+            "target_macro_segment_precision@0.25": 0.08181818181818182,
+            "target_macro_segment_recall@0.25": 0.08181818181818182,
+            "target_macro_segment_f1@0.25": 0.07878787878787878,
+            "target_macro_segment_precision@0.5": 0.03636363636363636,
+            "target_macro_segment_recall@0.5": 0.03636363636363636,
+            "target_macro_segment_f1@0.5": 0.03636363636363636
+          },
+          "segment_quality": {
+            "total_gt_segments": 22,
+            "total_pred_segments": 33,
+            "total_count_abs_error": 29,
+            "boundary_error_mean_frames": 36.3,
+            "boundary_error_median_frames": 18.5,
+            "per_class": {
+              "long_brush_insert": {
+                "gt_segments": 4,
+                "pred_segments": 5,
+                "count_abs_error": 1,
+                "boundary_error_mean_frames": 64.5,
+                "boundary_error_median_frames": 64.5
+              },
+              "long_brush_withdraw": {
+                "gt_segments": 5,
+                "pred_segments": 17,
+                "count_abs_error": 12,
+                "boundary_error_mean_frames": 11.0,
+                "boundary_error_median_frames": 11.0
+              },
+              "short_brush_cleaning": {
+                "gt_segments": 4,
+                "pred_segments": 11,
+                "count_abs_error": 7,
+                "boundary_error_mean_frames": 47.5,
+                "boundary_error_median_frames": 47.5
+              },
+              "flush": {
+                "gt_segments": 8,
+                "pred_segments": 0,
+                "count_abs_error": 8,
+                "boundary_error_mean_frames": null,
+                "boundary_error_median_frames": null
+              },
+              "air_injection": {
+                "gt_segments": 1,
+                "pred_segments": 0,
+                "count_abs_error": 1,
+                "boundary_error_mean_frames": null,
+                "boundary_error_median_frames": null
+              }
+            }
+          }
+        },
+        "test_post": {
+          "frame": {
+            "accuracy": 0.37268359643102267,
+            "per_class": {
+              "idle": {
+                "support": 398,
+                "predicted": 346,
+                "precision": 0.5,
+                "recall": 0.43467336683417085,
+                "frame_f1": 0.4650537634408602
+              },
+              "long_brush_insert": {
+                "support": 572,
+                "predicted": 366,
+                "precision": 0.7076502732240437,
+                "recall": 0.4527972027972028,
+                "frame_f1": 0.5522388059701493
+              },
+              "long_brush_withdraw": {
+                "support": 0,
+                "predicted": 120,
+                "precision": 0.0,
+                "recall": 0.0,
+                "frame_f1": 0.0
+              },
+              "short_brush_cleaning": {
+                "support": 111,
+                "predicted": 625,
+                "precision": 0.1776,
+                "recall": 1.0,
+                "frame_f1": 0.3016304347826087
+              },
+              "flush": {
+                "support": 261,
+                "predicted": 0,
+                "precision": 0.0,
+                "recall": 0.0,
+                "frame_f1": 0.0
+              },
+              "air_injection": {
+                "support": 115,
+                "predicted": 0,
+                "precision": 0.0,
+                "recall": 0.0,
+                "frame_f1": 0.0
+              }
+            },
+            "target_macro_precision": 0.17705005464480875,
+            "target_macro_recall": 0.2905594405594406,
+            "target_macro_frame_f1": 0.17077384815055158
+          },
+          "segment": {
+            "per_class": {
+              "long_brush_insert": {
+                "segment_precision@0.25": 0.2857142857142857,
+                "segment_recall@0.25": 0.19047619047619047,
+                "segment_f1@0.25": 0.21428571428571427,
+                "segment_precision@0.5": 0.0,
+                "segment_recall@0.5": 0.0,
+                "segment_f1@0.5": 0.0
+              },
+              "long_brush_withdraw": {
+                "segment_precision@0.25": 0.0,
+                "segment_recall@0.25": 0.0,
+                "segment_f1@0.25": 0.0,
+                "segment_precision@0.5": 0.0,
+                "segment_recall@0.5": 0.0,
+                "segment_f1@0.5": 0.0
+              },
+              "short_brush_cleaning": {
+                "segment_precision@0.25": 0.047619047619047616,
+                "segment_recall@0.25": 0.14285714285714285,
+                "segment_f1@0.25": 0.07142857142857142,
+                "segment_precision@0.5": 0.047619047619047616,
+                "segment_recall@0.5": 0.14285714285714285,
+                "segment_f1@0.5": 0.07142857142857142
+              },
+              "flush": {
+                "segment_precision@0.25": 0.0,
+                "segment_recall@0.25": 0.0,
+                "segment_f1@0.25": 0.0,
+                "segment_precision@0.5": 0.0,
+                "segment_recall@0.5": 0.0,
+                "segment_f1@0.5": 0.0
+              },
+              "air_injection": {
+                "segment_precision@0.25": 0.0,
+                "segment_recall@0.25": 0.0,
+                "segment_f1@0.25": 0.0,
+                "segment_precision@0.5": 0.0,
+                "segment_recall@0.5": 0.0,
+                "segment_f1@0.5": 0.0
+              }
+            },
+            "target_macro_segment_precision@0.25": 0.06666666666666667,
+            "target_macro_segment_recall@0.25": 0.06666666666666667,
+            "target_macro_segment_f1@0.25": 0.05714285714285714,
+            "target_macro_segment_precision@0.5": 0.009523809523809523,
+            "target_macro_segment_recall@0.5": 0.02857142857142857,
+            "target_macro_segment_f1@0.5": 0.014285714285714285
+          },
+          "segment_quality": {
+            "total_gt_segments": 14,
+            "total_pred_segments": 22,
+            "total_count_abs_error": 24,
+            "boundary_error_mean_frames": 45.833333333333336,
+            "boundary_error_median_frames": 47.5,
+            "per_class": {
+              "long_brush_insert": {
+                "gt_segments": 6,
+                "pred_segments": 5,
+                "count_abs_error": 1,
+                "boundary_error_mean_frames": 64.5,
+                "boundary_error_median_frames": 64.5
+              },
+              "long_brush_withdraw": {
+                "gt_segments": 0,
+                "pred_segments": 7,
+                "count_abs_error": 7,
+                "boundary_error_mean_frames": null,
+                "boundary_error_median_frames": null
+              },
+              "short_brush_cleaning": {
+                "gt_segments": 1,
+                "pred_segments": 10,
+                "count_abs_error": 9,
+                "boundary_error_mean_frames": 8.5,
+                "boundary_error_median_frames": 8.5
+              },
+              "flush": {
+                "gt_segments": 6,
+                "pred_segments": 0,
+                "count_abs_error": 6,
+                "boundary_error_mean_frames": null,
+                "boundary_error_median_frames": null
+              },
+              "air_injection": {
+                "gt_segments": 1,
+                "pred_segments": 0,
+                "count_abs_error": 1,
+                "boundary_error_mean_frames": null,
+                "boundary_error_median_frames": null
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "model": "asformer",
+      "feature_dim": 691,
+      "feature_method": "business_priors+roi_rgb_v2+proxy_rgb_v4",
+      "feature_version": "clean_bbox_v2_top1_impute+business_priors+roi_rgb_v2_quality_smooth+proxy_rgb_v4",
+      "train_mode": "full_sequence",
+      "use_rgb": true,
+      "use_proxy": true,
+      "reason": "ASFormer 继续使用完整序列 attention 建模长上下文，输入与 MS-TCN 保持同一套 v4 低维视觉特征。",
+      "train_samples": 14,
+      "model_path": "image_train\\output_v4\\models\\image_v4_asformer_offline_segmenter.pt",
+      "train": {
+        "history": [
+          {
+            "epoch": 1,
+            "lr": 0.002,
+            "train_loss": 1.937773,
+            "val_loss": 1.639889,
+            "val_accuracy": 0.419308,
+            "val_target_macro_frame_f1": 0.360366,
+            "best_epoch": 1
+          },
+          {
+            "epoch": 2,
+            "lr": 0.0019661,
+            "train_loss": 1.476475,
+            "val_loss": 1.479309,
+            "val_accuracy": 0.395293,
+            "val_target_macro_frame_f1": 0.380684,
+            "best_epoch": 1
+          },
+          {
+            "epoch": 3,
+            "lr": 0.0018667,
+            "train_loss": 1.280242,
+            "val_loss": 1.423829,
+            "val_accuracy": 0.410183,
+            "val_target_macro_frame_f1": 0.420854,
+            "best_epoch": 1
+          },
+          {
+            "epoch": 4,
+            "lr": 0.00170857,
+            "train_loss": 1.139621,
+            "val_loss": 1.223602,
+            "val_accuracy": 0.474544,
+            "val_target_macro_frame_f1": 0.462933,
+            "best_epoch": 4
+          },
+          {
+            "epoch": 5,
+            "lr": 0.0015025,
+            "train_loss": 1.006894,
+            "val_loss": 1.37043,
+            "val_accuracy": 0.488473,
+            "val_target_macro_frame_f1": 0.527039,
+            "best_epoch": 5
+          },
+          {
+            "epoch": 6,
+            "lr": 0.00126252,
+            "train_loss": 0.834928,
+            "val_loss": 1.624518,
+            "val_accuracy": 0.392411,
+            "val_target_macro_frame_f1": 0.287449,
+            "best_epoch": 5
+          },
+          {
+            "epoch": 7,
+            "lr": 0.001005,
+            "train_loss": 0.680683,
+            "val_loss": 1.497286,
+            "val_accuracy": 0.536984,
+            "val_target_macro_frame_f1": 0.498669,
+            "best_epoch": 7
+          },
+          {
+            "epoch": 8,
+            "lr": 0.00074748,
+            "train_loss": 0.585258,
+            "val_loss": 1.298535,
+            "val_accuracy": 0.661864,
+            "val_target_macro_frame_f1": 0.733537,
+            "best_epoch": 8
+          },
+          {
+            "epoch": 9,
+            "lr": 0.0005075,
+            "train_loss": 0.516872,
+            "val_loss": 1.275386,
+            "val_accuracy": 0.649376,
+            "val_target_macro_frame_f1": 0.725995,
+            "best_epoch": 8
+          },
+          {
+            "epoch": 10,
+            "lr": 0.00030143,
+            "train_loss": 0.496265,
+            "val_loss": 1.263865,
+            "val_accuracy": 0.660903,
+            "val_target_macro_frame_f1": 0.742117,
+            "best_epoch": 8
+          },
+          {
+            "epoch": 11,
+            "lr": 0.0001433,
+            "train_loss": 0.474618,
+            "val_loss": 1.270879,
+            "val_accuracy": 0.663305,
+            "val_target_macro_frame_f1": 0.743179,
+            "best_epoch": 11
+          },
+          {
+            "epoch": 12,
+            "lr": 4.39e-05,
+            "train_loss": 0.468632,
+            "val_loss": 1.271593,
+            "val_accuracy": 0.664745,
+            "val_target_macro_frame_f1": 0.744641,
+            "best_epoch": 12
+          }
+        ],
+        "best_epoch": 12,
+        "best_score": 0.664745,
+        "class_support_frames": {
+          "idle": 1550,
+          "long_brush_insert": 1476,
+          "long_brush_withdraw": 1080,
+          "short_brush_cleaning": 680,
+          "flush": 841,
+          "air_injection": 366
+        },
+        "stopped_epoch": 12
+      },
+      "postprocess_config": {
+        "prob_smooth": 1,
+        "min_segment": 8,
+        "merge_gap": 0,
+        "confidence_threshold": 0.4
+      },
+      "top_postprocess_configs": [
+        {
+          "config": {
+            "prob_smooth": 1,
+            "min_segment": 8,
+            "merge_gap": 0,
+            "confidence_threshold": 0.4
+          },
+          "score": 4.157803666618936,
+          "accuracy": 0.6777137367915466,
+          "target_macro_frame_f1": 0.7493107402369603,
+          "f1@0.25": 0.20515151515151514,
+          "f1@0.5": 0.18696969696969695,
+          "count_abs_error": 13
+        },
+        {
+          "config": {
+            "prob_smooth": 3,
+            "min_segment": 8,
+            "merge_gap": 0,
+            "confidence_threshold": 0.4
+          },
+          "score": 4.143286342916625,
+          "accuracy": 0.6738712776176753,
+          "target_macro_frame_f1": 0.7524905608888541,
+          "f1@0.25": 0.21121212121212118,
+          "f1@0.5": 0.19303030303030305,
+          "count_abs_error": 13
+        },
+        {
+          "config": {
+            "prob_smooth": 3,
+            "min_segment": 8,
+            "merge_gap": 2,
+            "confidence_threshold": 0.4
+          },
+          "score": 4.143286342916625,
+          "accuracy": 0.6738712776176753,
+          "target_macro_frame_f1": 0.7524905608888541,
+          "f1@0.25": 0.21121212121212118,
+          "f1@0.5": 0.19303030303030305,
+          "count_abs_error": 13
+        },
+        {
+          "config": {
+            "prob_smooth": 1,
+            "min_segment": 5,
+            "merge_gap": 0,
+            "confidence_threshold": 0.4
+          },
+          "score": 4.137772944142521,
+          "accuracy": 0.6743515850144092,
+          "target_macro_frame_f1": 0.7483635039189596,
+          "f1@0.25": 0.20515151515151514,
+          "f1@0.5": 0.18696969696969695,
+          "count_abs_error": 14
+        },
+        {
+          "config": {
+            "prob_smooth": 1,
+            "min_segment": 8,
+            "merge_gap": 2,
+            "confidence_threshold": 0.4
+          },
+          "score": 4.122297756223481,
+          "accuracy": 0.6714697406340058,
+          "target_macro_frame_f1": 0.7472975379019365,
+          "f1@0.25": 0.20515151515151514,
+          "f1@0.5": 0.18696969696969695,
+          "count_abs_error": 14
+        },
+        {
+          "config": {
+            "prob_smooth": 5,
+            "min_segment": 8,
+            "merge_gap": 0,
+            "confidence_threshold": 0.4
+          },
+          "score": 4.118731862402358,
+          "accuracy": 0.6695485110470701,
+          "target_macro_frame_f1": 0.7495499132276129,
+          "f1@0.25": 0.21121212121212118,
+          "f1@0.5": 0.19303030303030305,
+          "count_abs_error": 13
+        },
+        {
+          "config": {
+            "prob_smooth": 5,
+            "min_segment": 8,
+            "merge_gap": 2,
+            "confidence_threshold": 0.4
+          },
+          "score": 4.118731862402358,
+          "accuracy": 0.6695485110470701,
+          "target_macro_frame_f1": 0.7495499132276129,
+          "f1@0.25": 0.21121212121212118,
+          "f1@0.5": 0.19303030303030305,
+          "count_abs_error": 13
+        },
+        {
+          "config": {
+            "prob_smooth": 3,
+            "min_segment": 8,
+            "merge_gap": 4,
+            "confidence_threshold": 0.4
+          },
+          "score": 4.1182480289250645,
+          "accuracy": 0.670028818443804,
+          "target_macro_frame_f1": 0.7502684388705467,
+          "f1@0.25": 0.20796536796536796,
+          "f1@0.5": 0.18458874458874458,
+          "count_abs_error": 14
+        },
+        {
+          "config": {
+            "prob_smooth": 7,
+            "min_segment": 8,
+            "merge_gap": 0,
+            "confidence_threshold": 0.4
+          },
+          "score": 4.11616196545658,
+          "accuracy": 0.6690682036503363,
+          "target_macro_frame_f1": 0.7493815532655052,
+          "f1@0.25": 0.21121212121212118,
+          "f1@0.5": 0.19303030303030305,
+          "count_abs_error": 13
+        },
+        {
+          "config": {
+            "prob_smooth": 1,
+            "min_segment": 8,
+            "merge_gap": 0,
+            "confidence_threshold": 0.0
+          },
+          "score": 4.113656762086733,
+          "accuracy": 0.670028818443804,
+          "target_macro_frame_f1": 0.745861154716198,
+          "f1@0.25": 0.20515151515151514,
+          "f1@0.5": 0.18696969696969695,
+          "count_abs_error": 14
+        },
+        {
+          "config": {
+            "prob_smooth": 1,
+            "min_segment": 8,
+            "merge_gap": 0,
+            "confidence_threshold": 0.25
+          },
+          "score": 4.113656762086733,
+          "accuracy": 0.670028818443804,
+          "target_macro_frame_f1": 0.745861154716198,
+          "f1@0.25": 0.20515151515151514,
+          "f1@0.5": 0.18696969696969695,
+          "count_abs_error": 14
+        },
+        {
+          "config": {
+            "prob_smooth": 1,
+            "min_segment": 3,
+            "merge_gap": 0,
+            "confidence_threshold": 0.4
+          },
+          "score": 4.112581765079628,
+          "accuracy": 0.6709894332372719,
+          "target_macro_frame_f1": 0.7471042958629651,
+          "f1@0.25": 0.20393939393939395,
+          "f1@0.5": 0.18575757575757573,
+          "count_abs_error": 17
+        },
+        {
+          "config": {
+            "prob_smooth": 3,
+            "min_segment": 5,
+            "merge_gap": 0,
+            "confidence_threshold": 0.4
+          },
+          "score": 4.1108051325349795,
+          "accuracy": 0.6690682036503363,
+          "target_macro_frame_f1": 0.7478125991317828,
+          "f1@0.25": 0.20515151515151514,
+          "f1@0.5": 0.18696969696969695,
+          "count_abs_error": 14
+        },
+        {
+          "config": {
+            "prob_smooth": 3,
+            "min_segment": 5,
+            "merge_gap": 2,
+            "confidence_threshold": 0.4
+          },
+          "score": 4.1108051325349795,
+          "accuracy": 0.6690682036503363,
+          "target_macro_frame_f1": 0.7478125991317828,
+          "f1@0.25": 0.20515151515151514,
+          "f1@0.5": 0.18696969696969695,
+          "count_abs_error": 14
+        },
+        {
+          "config": {
+            "prob_smooth": 3,
+            "min_segment": 8,
+            "merge_gap": 0,
+            "confidence_threshold": 0.0
+          },
+          "score": 4.1091603393417175,
+          "accuracy": 0.6685878962536023,
+          "target_macro_frame_f1": 0.7467511611040094,
+          "f1@0.25": 0.20515151515151514,
+          "f1@0.5": 0.20515151515151514,
+          "count_abs_error": 14
+        },
+        {
+          "config": {
+            "prob_smooth": 3,
+            "min_segment": 8,
+            "merge_gap": 0,
+            "confidence_threshold": 0.25
+          },
+          "score": 4.1091603393417175,
+          "accuracy": 0.6685878962536023,
+          "target_macro_frame_f1": 0.7467511611040094,
+          "f1@0.25": 0.20515151515151514,
+          "f1@0.5": 0.20515151515151514,
+          "count_abs_error": 14
+        },
+        {
+          "config": {
+            "prob_smooth": 3,
+            "min_segment": 8,
+            "merge_gap": 2,
+            "confidence_threshold": 0.0
+          },
+          "score": 4.1091603393417175,
+          "accuracy": 0.6685878962536023,
+          "target_macro_frame_f1": 0.7467511611040094,
+          "f1@0.25": 0.20515151515151514,
+          "f1@0.5": 0.20515151515151514,
+          "count_abs_error": 14
+        },
+        {
+          "config": {
+            "prob_smooth": 3,
+            "min_segment": 8,
+            "merge_gap": 2,
+            "confidence_threshold": 0.25
+          },
+          "score": 4.1091603393417175,
+          "accuracy": 0.6685878962536023,
+          "target_macro_frame_f1": 0.7467511611040094,
+          "f1@0.25": 0.20515151515151514,
+          "f1@0.5": 0.20515151515151514,
+          "count_abs_error": 14
+        },
+        {
+          "config": {
+            "prob_smooth": 1,
+            "min_segment": 8,
+            "merge_gap": 2,
+            "confidence_threshold": 0.0
+          },
+          "score": 4.1032520263728145,
+          "accuracy": 0.6681075888568684,
+          "target_macro_frame_f1": 0.7450625669369582,
+          "f1@0.25": 0.20515151515151514,
+          "f1@0.5": 0.18696969696969695,
+          "count_abs_error": 14
+        },
+        {
+          "config": {
+            "prob_smooth": 1,
+            "min_segment": 8,
+            "merge_gap": 2,
+            "confidence_threshold": 0.25
+          },
+          "score": 4.1032520263728145,
+          "accuracy": 0.6681075888568684,
+          "target_macro_frame_f1": 0.7450625669369582,
+          "f1@0.25": 0.20515151515151514,
+          "f1@0.5": 0.18696969696969695,
+          "count_abs_error": 14
+        }
+      ],
+      "metrics": {
+        "val_raw": {
+          "frame": {
+            "accuracy": 0.664745437079731,
+            "per_class": {
+              "idle": {
+                "support": 490,
+                "predicted": 181,
+                "precision": 0.6243093922651933,
+                "recall": 0.23061224489795917,
+                "frame_f1": 0.3368107302533532
+              },
+              "long_brush_insert": {
+                "support": 457,
+                "predicted": 211,
+                "precision": 0.9004739336492891,
+                "recall": 0.41575492341356673,
+                "frame_f1": 0.5688622754491018
+              },
+              "long_brush_withdraw": {
+                "support": 217,
+                "predicted": 537,
+                "precision": 0.3463687150837989,
+                "recall": 0.8571428571428571,
+                "frame_f1": 0.49336870026525204
+              },
+              "short_brush_cleaning": {
+                "support": 376,
+                "predicted": 589,
+                "precision": 0.6383701188455009,
+                "recall": 1.0,
+                "frame_f1": 0.7792746113989637
+              },
+              "flush": {
+                "support": 333,
+                "predicted": 334,
+                "precision": 0.9281437125748503,
+                "recall": 0.9309309309309309,
+                "frame_f1": 0.9295352323838081
+              },
+              "air_injection": {
+                "support": 209,
+                "predicted": 230,
+                "precision": 0.908695652173913,
+                "recall": 1.0,
+                "frame_f1": 0.9521640091116174
+              }
+            },
+            "target_macro_precision": 0.7444104264654704,
+            "target_macro_recall": 0.840765742297471,
+            "target_macro_frame_f1": 0.7446409657217485
+          },
+          "segment": {
+            "per_class": {
+              "long_brush_insert": {
+                "segment_precision@0.25": 0.07575757575757575,
+                "segment_recall@0.25": 0.18181818181818182,
+                "segment_f1@0.25": 0.10606060606060605,
+                "segment_precision@0.5": 0.07575757575757575,
+                "segment_recall@0.5": 0.18181818181818182,
+                "segment_f1@0.5": 0.10606060606060605
+              },
+              "long_brush_withdraw": {
+                "segment_precision@0.25": 0.21969696969696972,
+                "segment_recall@0.25": 0.3181818181818182,
+                "segment_f1@0.25": 0.2409090909090909,
+                "segment_precision@0.5": 0.12878787878787878,
+                "segment_recall@0.5": 0.22727272727272727,
+                "segment_f1@0.5": 0.15
+              },
+              "short_brush_cleaning": {
+                "segment_precision@0.25": 0.2424242424242424,
+                "segment_recall@0.25": 0.2727272727272727,
+                "segment_f1@0.25": 0.2545454545454545,
+                "segment_precision@0.5": 0.2424242424242424,
+                "segment_recall@0.5": 0.2727272727272727,
+                "segment_f1@0.5": 0.2545454545454545
+              },
+              "flush": {
+                "segment_precision@0.25": 0.23636363636363636,
+                "segment_recall@0.25": 0.23636363636363636,
+                "segment_f1@0.25": 0.23636363636363636,
+                "segment_precision@0.5": 0.19090909090909092,
+                "segment_recall@0.5": 0.19090909090909092,
+                "segment_f1@0.5": 0.19090909090909092
+              },
+              "air_injection": {
+                "segment_precision@0.25": 0.0303030303030303,
+                "segment_recall@0.25": 0.09090909090909091,
+                "segment_f1@0.25": 0.045454545454545456,
+                "segment_precision@0.5": 0.0303030303030303,
+                "segment_recall@0.5": 0.09090909090909091,
+                "segment_f1@0.5": 0.045454545454545456
+              }
+            },
+            "target_macro_segment_precision@0.25": 0.1609090909090909,
+            "target_macro_segment_recall@0.25": 0.21999999999999997,
+            "target_macro_segment_f1@0.25": 0.17666666666666664,
+            "target_macro_segment_precision@0.5": 0.1336363636363636,
+            "target_macro_segment_recall@0.5": 0.19272727272727272,
+            "target_macro_segment_f1@0.5": 0.14939393939393936
+          },
+          "segment_quality": {
+            "total_gt_segments": 22,
+            "total_pred_segments": 55,
+            "total_count_abs_error": 33,
+            "boundary_error_mean_frames": 10.882352941176471,
+            "boundary_error_median_frames": 10.0,
+            "per_class": {
+              "long_brush_insert": {
+                "gt_segments": 4,
+                "pred_segments": 11,
+                "count_abs_error": 7,
+                "boundary_error_mean_frames": 15.0,
+                "boundary_error_median_frames": 15.0
+              },
+              "long_brush_withdraw": {
+                "gt_segments": 5,
+                "pred_segments": 20,
+                "count_abs_error": 15,
+                "boundary_error_mean_frames": 8.75,
+                "boundary_error_median_frames": 9.0
+              },
+              "short_brush_cleaning": {
+                "gt_segments": 4,
+                "pred_segments": 12,
+                "count_abs_error": 8,
+                "boundary_error_mean_frames": 15.125,
+                "boundary_error_median_frames": 15.25
+              },
+              "flush": {
+                "gt_segments": 8,
+                "pred_segments": 9,
+                "count_abs_error": 1,
+                "boundary_error_mean_frames": 9.0,
+                "boundary_error_median_frames": 2.75
+              },
+              "air_injection": {
+                "gt_segments": 1,
+                "pred_segments": 3,
+                "count_abs_error": 2,
+                "boundary_error_mean_frames": 5.5,
+                "boundary_error_median_frames": 5.5
+              }
+            }
+          }
+        },
+        "test_raw": {
+          "frame": {
+            "accuracy": 0.5202470830473576,
+            "per_class": {
+              "idle": {
+                "support": 398,
+                "predicted": 233,
+                "precision": 0.8669527896995708,
+                "recall": 0.507537688442211,
+                "frame_f1": 0.6402535657686211
+              },
+              "long_brush_insert": {
+                "support": 572,
+                "predicted": 264,
+                "precision": 0.9393939393939394,
+                "recall": 0.43356643356643354,
+                "frame_f1": 0.5933014354066986
+              },
+              "long_brush_withdraw": {
+                "support": 0,
+                "predicted": 362,
+                "precision": 0.0,
+                "recall": 0.0,
+                "frame_f1": 0.0
+              },
+              "short_brush_cleaning": {
+                "support": 111,
+                "predicted": 310,
+                "precision": 0.34516129032258064,
+                "recall": 0.963963963963964,
+                "frame_f1": 0.5083135391923991
+              },
+              "flush": {
+                "support": 261,
+                "predicted": 105,
+                "precision": 0.819047619047619,
+                "recall": 0.32950191570881227,
+                "frame_f1": 0.46994535519125685
+              },
+              "air_injection": {
+                "support": 115,
+                "predicted": 183,
+                "precision": 0.6284153005464481,
+                "recall": 1.0,
+                "frame_f1": 0.7718120805369127
+              }
+            },
+            "target_macro_precision": 0.5464036298621175,
+            "target_macro_recall": 0.545406462647842,
+            "target_macro_frame_f1": 0.4686744820654535
+          },
+          "segment": {
+            "per_class": {
+              "long_brush_insert": {
+                "segment_precision@0.25": 0.2857142857142857,
+                "segment_recall@0.25": 0.2857142857142857,
+                "segment_f1@0.25": 0.2857142857142857,
+                "segment_precision@0.5": 0.2857142857142857,
+                "segment_recall@0.5": 0.2857142857142857,
+                "segment_f1@0.5": 0.2857142857142857
+              },
+              "long_brush_withdraw": {
+                "segment_precision@0.25": 0.0,
+                "segment_recall@0.25": 0.0,
+                "segment_f1@0.25": 0.0,
+                "segment_precision@0.5": 0.0,
+                "segment_recall@0.5": 0.0,
+                "segment_f1@0.5": 0.0
+              },
+              "short_brush_cleaning": {
+                "segment_precision@0.25": 0.03571428571428571,
+                "segment_recall@0.25": 0.14285714285714285,
+                "segment_f1@0.25": 0.05714285714285715,
+                "segment_precision@0.5": 0.03571428571428571,
+                "segment_recall@0.5": 0.14285714285714285,
+                "segment_f1@0.5": 0.05714285714285715
+              },
+              "flush": {
+                "segment_precision@0.25": 0.2857142857142857,
+                "segment_recall@0.25": 0.17857142857142858,
+                "segment_f1@0.25": 0.19999999999999998,
+                "segment_precision@0.5": 0.2857142857142857,
+                "segment_recall@0.5": 0.17857142857142858,
+                "segment_f1@0.5": 0.19999999999999998
+              },
+              "air_injection": {
+                "segment_precision@0.25": 0.14285714285714285,
+                "segment_recall@0.25": 0.14285714285714285,
+                "segment_f1@0.25": 0.14285714285714285,
+                "segment_precision@0.5": 0.14285714285714285,
+                "segment_recall@0.5": 0.14285714285714285,
+                "segment_f1@0.5": 0.14285714285714285
+              }
+            },
+            "target_macro_segment_precision@0.25": 0.15,
+            "target_macro_segment_recall@0.25": 0.15,
+            "target_macro_segment_f1@0.25": 0.13714285714285715,
+            "target_macro_segment_precision@0.5": 0.15,
+            "target_macro_segment_recall@0.5": 0.15,
+            "target_macro_segment_f1@0.5": 0.13714285714285715
+          },
+          "segment_quality": {
+            "total_gt_segments": 14,
+            "total_pred_segments": 35,
+            "total_count_abs_error": 29,
+            "boundary_error_mean_frames": 9.5,
+            "boundary_error_median_frames": 4.75,
+            "per_class": {
+              "long_brush_insert": {
+                "gt_segments": 6,
+                "pred_segments": 8,
+                "count_abs_error": 2,
+                "boundary_error_mean_frames": 5.75,
+                "boundary_error_median_frames": 5.75
+              },
+              "long_brush_withdraw": {
+                "gt_segments": 0,
+                "pred_segments": 15,
+                "count_abs_error": 15,
+                "boundary_error_mean_frames": null,
+                "boundary_error_median_frames": null
+              },
+              "short_brush_cleaning": {
+                "gt_segments": 1,
+                "pred_segments": 9,
+                "count_abs_error": 8,
+                "boundary_error_mean_frames": 2.0,
+                "boundary_error_median_frames": 2.0
+              },
+              "flush": {
+                "gt_segments": 6,
+                "pred_segments": 2,
+                "count_abs_error": 4,
+                "boundary_error_mean_frames": 4.75,
+                "boundary_error_median_frames": 4.75
+              },
+              "air_injection": {
+                "gt_segments": 1,
+                "pred_segments": 1,
+                "count_abs_error": 0,
+                "boundary_error_mean_frames": 34.0,
+                "boundary_error_median_frames": 34.0
+              }
+            }
+          }
+        },
+        "val_post": {
+          "frame": {
+            "accuracy": 0.6777137367915466,
+            "per_class": {
+              "idle": {
+                "support": 490,
+                "predicted": 232,
+                "precision": 0.6379310344827587,
+                "recall": 0.3020408163265306,
+                "frame_f1": 0.4099722991689751
+              },
+              "long_brush_insert": {
+                "support": 457,
+                "predicted": 195,
+                "precision": 0.9435897435897436,
+                "recall": 0.4026258205689278,
+                "frame_f1": 0.5644171779141105
+              },
+              "long_brush_withdraw": {
+                "support": 217,
+                "predicted": 521,
+                "precision": 0.3570057581573896,
+                "recall": 0.8571428571428571,
+                "frame_f1": 0.5040650406504065
+              },
+              "short_brush_cleaning": {
+                "support": 376,
+                "predicted": 579,
+                "precision": 0.6493955094991365,
+                "recall": 1.0,
+                "frame_f1": 0.7874345549738221
+              },
+              "flush": {
+                "support": 333,
+                "predicted": 328,
+                "precision": 0.9390243902439024,
+                "recall": 0.924924924924925,
+                "frame_f1": 0.9319213313161876
+              },
+              "air_injection": {
+                "support": 209,
+                "predicted": 227,
+                "precision": 0.920704845814978,
+                "recall": 1.0,
+                "frame_f1": 0.9587155963302753
+              }
+            },
+            "target_macro_precision": 0.76194404946103,
+            "target_macro_recall": 0.836938720527342,
+            "target_macro_frame_f1": 0.7493107402369603
+          },
+          "segment": {
+            "per_class": {
+              "long_brush_insert": {
+                "segment_precision@0.25": 0.18181818181818182,
+                "segment_recall@0.25": 0.18181818181818182,
+                "segment_f1@0.25": 0.18181818181818182,
+                "segment_precision@0.5": 0.18181818181818182,
+                "segment_recall@0.5": 0.18181818181818182,
+                "segment_f1@0.5": 0.18181818181818182
+              },
+              "long_brush_withdraw": {
+                "segment_precision@0.25": 0.30303030303030304,
+                "segment_recall@0.25": 0.3181818181818182,
+                "segment_f1@0.25": 0.3090909090909091,
+                "segment_precision@0.5": 0.21212121212121213,
+                "segment_recall@0.5": 0.22727272727272727,
+                "segment_f1@0.5": 0.21818181818181817
+              },
+              "short_brush_cleaning": {
+                "segment_precision@0.25": 0.2424242424242424,
+                "segment_recall@0.25": 0.2727272727272727,
+                "segment_f1@0.25": 0.2545454545454545,
+                "segment_precision@0.5": 0.2424242424242424,
+                "segment_recall@0.5": 0.2727272727272727,
+                "segment_f1@0.5": 0.2545454545454545
+              },
+              "flush": {
+                "segment_precision@0.25": 0.2727272727272727,
+                "segment_recall@0.25": 0.19090909090909092,
+                "segment_f1@0.25": 0.2196969696969697,
+                "segment_precision@0.5": 0.2727272727272727,
+                "segment_recall@0.5": 0.19090909090909092,
+                "segment_f1@0.5": 0.2196969696969697
+              },
+              "air_injection": {
+                "segment_precision@0.25": 0.045454545454545456,
+                "segment_recall@0.25": 0.09090909090909091,
+                "segment_f1@0.25": 0.0606060606060606,
+                "segment_precision@0.5": 0.045454545454545456,
+                "segment_recall@0.5": 0.09090909090909091,
+                "segment_f1@0.5": 0.0606060606060606
+              }
+            },
+            "target_macro_segment_precision@0.25": 0.20909090909090908,
+            "target_macro_segment_recall@0.25": 0.21090909090909088,
+            "target_macro_segment_f1@0.25": 0.20515151515151514,
+            "target_macro_segment_precision@0.5": 0.1909090909090909,
+            "target_macro_segment_recall@0.5": 0.19272727272727272,
+            "target_macro_segment_f1@0.5": 0.18696969696969695
+          },
+          "segment_quality": {
+            "total_gt_segments": 22,
+            "total_pred_segments": 27,
+            "total_count_abs_error": 13,
+            "boundary_error_mean_frames": 11.34375,
+            "boundary_error_median_frames": 10.0,
+            "per_class": {
+              "long_brush_insert": {
+                "gt_segments": 4,
+                "pred_segments": 3,
+                "count_abs_error": 1,
+                "boundary_error_mean_frames": 15.0,
+                "boundary_error_median_frames": 15.0
+              },
+              "long_brush_withdraw": {
+                "gt_segments": 5,
+                "pred_segments": 9,
+                "count_abs_error": 4,
+                "boundary_error_mean_frames": 8.75,
+                "boundary_error_median_frames": 9.0
+              },
+              "short_brush_cleaning": {
+                "gt_segments": 4,
+                "pred_segments": 8,
+                "count_abs_error": 4,
+                "boundary_error_mean_frames": 15.125,
+                "boundary_error_median_frames": 15.25
+              },
+              "flush": {
+                "gt_segments": 8,
+                "pred_segments": 5,
+                "count_abs_error": 3,
+                "boundary_error_mean_frames": 10.2,
+                "boundary_error_median_frames": 2.5
+              },
+              "air_injection": {
+                "gt_segments": 1,
+                "pred_segments": 2,
+                "count_abs_error": 1,
+                "boundary_error_mean_frames": 5.0,
+                "boundary_error_median_frames": 5.0
+              }
+            }
+          }
+        },
+        "test_post": {
+          "frame": {
+            "accuracy": 0.5284831846259437,
+            "per_class": {
+              "idle": {
+                "support": 398,
+                "predicted": 276,
+                "precision": 0.7789855072463768,
+                "recall": 0.5402010050251256,
+                "frame_f1": 0.6379821958456974
+              },
+              "long_brush_insert": {
+                "support": 572,
+                "predicted": 260,
+                "precision": 0.95,
+                "recall": 0.4318181818181818,
+                "frame_f1": 0.59375
+              },
+              "long_brush_withdraw": {
+                "support": 0,
+                "predicted": 332,
+                "precision": 0.0,
+                "recall": 0.0,
+                "frame_f1": 0.0
+              },
+              "short_brush_cleaning": {
+                "support": 111,
+                "predicted": 303,
+                "precision": 0.35313531353135313,
+                "recall": 0.963963963963964,
+                "frame_f1": 0.5169082125603864
+              },
+              "flush": {
+                "support": 261,
+                "predicted": 103,
+                "precision": 0.8349514563106796,
+                "recall": 0.32950191570881227,
+                "frame_f1": 0.4725274725274725
+              },
+              "air_injection": {
+                "support": 115,
+                "predicted": 183,
+                "precision": 0.6284153005464481,
+                "recall": 1.0,
+                "frame_f1": 0.7718120805369127
+              }
+            },
+            "target_macro_precision": 0.5533004140776961,
+            "target_macro_recall": 0.5450568122981916,
+            "target_macro_frame_f1": 0.4709995531249544
+          },
+          "segment": {
+            "per_class": {
+              "long_brush_insert": {
+                "segment_precision@0.25": 0.2857142857142857,
+                "segment_recall@0.25": 0.2857142857142857,
+                "segment_f1@0.25": 0.2857142857142857,
+                "segment_precision@0.5": 0.2857142857142857,
+                "segment_recall@0.5": 0.2857142857142857,
+                "segment_f1@0.5": 0.2857142857142857
+              },
+              "long_brush_withdraw": {
+                "segment_precision@0.25": 0.0,
+                "segment_recall@0.25": 0.0,
+                "segment_f1@0.25": 0.0,
+                "segment_precision@0.5": 0.0,
+                "segment_recall@0.5": 0.0,
+                "segment_f1@0.5": 0.0
+              },
+              "short_brush_cleaning": {
+                "segment_precision@0.25": 0.047619047619047616,
+                "segment_recall@0.25": 0.14285714285714285,
+                "segment_f1@0.25": 0.07142857142857142,
+                "segment_precision@0.5": 0.047619047619047616,
+                "segment_recall@0.5": 0.14285714285714285,
+                "segment_f1@0.5": 0.07142857142857142
+              },
+              "flush": {
+                "segment_precision@0.25": 0.2857142857142857,
+                "segment_recall@0.25": 0.17857142857142858,
+                "segment_f1@0.25": 0.19999999999999998,
+                "segment_precision@0.5": 0.2857142857142857,
+                "segment_recall@0.5": 0.17857142857142858,
+                "segment_f1@0.5": 0.19999999999999998
+              },
+              "air_injection": {
+                "segment_precision@0.25": 0.14285714285714285,
+                "segment_recall@0.25": 0.14285714285714285,
+                "segment_f1@0.25": 0.14285714285714285,
+                "segment_precision@0.5": 0.14285714285714285,
+                "segment_recall@0.5": 0.14285714285714285,
+                "segment_f1@0.5": 0.14285714285714285
+              }
+            },
+            "target_macro_segment_precision@0.25": 0.15238095238095237,
+            "target_macro_segment_recall@0.25": 0.15,
+            "target_macro_segment_f1@0.25": 0.13999999999999999,
+            "target_macro_segment_precision@0.5": 0.15238095238095237,
+            "target_macro_segment_recall@0.5": 0.15,
+            "target_macro_segment_f1@0.5": 0.13999999999999999
+          },
+          "segment_quality": {
+            "total_gt_segments": 14,
+            "total_pred_segments": 20,
+            "total_count_abs_error": 16,
+            "boundary_error_mean_frames": 9.333333333333334,
+            "boundary_error_median_frames": 4.25,
+            "per_class": {
+              "long_brush_insert": {
+                "gt_segments": 6,
+                "pred_segments": 5,
+                "count_abs_error": 1,
+                "boundary_error_mean_frames": 5.75,
+                "boundary_error_median_frames": 5.75
+              },
+              "long_brush_withdraw": {
+                "gt_segments": 0,
+                "pred_segments": 7,
+                "count_abs_error": 7,
+                "boundary_error_mean_frames": null,
+                "boundary_error_median_frames": null
+              },
+              "short_brush_cleaning": {
+                "gt_segments": 1,
+                "pred_segments": 5,
+                "count_abs_error": 4,
+                "boundary_error_mean_frames": 2.0,
+                "boundary_error_median_frames": 2.0
+              },
+              "flush": {
+                "gt_segments": 6,
+                "pred_segments": 2,
+                "count_abs_error": 4,
+                "boundary_error_mean_frames": 4.25,
+                "boundary_error_median_frames": 4.25
+              },
+              "air_injection": {
+                "gt_segments": 1,
+                "pred_segments": 1,
+                "count_abs_error": 0,
+                "boundary_error_mean_frames": 34.0,
+                "boundary_error_median_frames": 34.0
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "model": "bigru",
+      "feature_dim": 819,
+      "feature_method": "window_stats+business_priors+roi_rgb_v2+proxy_rgb_v4",
+      "feature_version": "clean_bbox_v2_top1_impute+center_window+business_priors+roi_rgb_v2_quality_smooth+proxy_rgb_v4",
+      "train_mode": "full_sequence",
+      "use_rgb": true,
+      "use_proxy": true,
+      "reason": "BiGRU 保留窗口统计特征以增强局部稳定性，同时使用 ROI/proxy RGB 弥补短刷和长刷弱检测。",
+      "train_samples": 14,
+      "model_path": "image_train\\output_v4\\models\\image_v4_bigru_offline_segmenter.pt",
+      "train": {
+        "history": [
+          {
+            "epoch": 1,
+            "lr": 0.002,
+            "train_loss": 1.665575,
+            "val_loss": 1.491899,
+            "val_accuracy": 0.399135,
+            "val_target_macro_frame_f1": 0.357498,
+            "best_epoch": 1
+          },
+          {
+            "epoch": 2,
+            "lr": 0.0019661,
+            "train_loss": 1.24753,
+            "val_loss": 1.590239,
+            "val_accuracy": 0.449568,
+            "val_target_macro_frame_f1": 0.410689,
+            "best_epoch": 2
+          },
+          {
+            "epoch": 3,
+            "lr": 0.0018667,
+            "train_loss": 1.174831,
+            "val_loss": 1.203787,
+            "val_accuracy": 0.442363,
+            "val_target_macro_frame_f1": 0.433436,
+            "best_epoch": 2
+          },
+          {
+            "epoch": 4,
+            "lr": 0.00170857,
+            "train_loss": 0.862044,
+            "val_loss": 0.992833,
+            "val_accuracy": 0.634486,
+            "val_target_macro_frame_f1": 0.710295,
+            "best_epoch": 4
+          },
+          {
+            "epoch": 5,
+            "lr": 0.0015025,
+            "train_loss": 0.671681,
+            "val_loss": 1.155269,
+            "val_accuracy": 0.647454,
+            "val_target_macro_frame_f1": 0.732807,
+            "best_epoch": 5
+          },
+          {
+            "epoch": 6,
+            "lr": 0.00126252,
+            "train_loss": 0.501598,
+            "val_loss": 1.17013,
+            "val_accuracy": 0.676273,
+            "val_target_macro_frame_f1": 0.746304,
+            "best_epoch": 6
+          },
+          {
+            "epoch": 7,
+            "lr": 0.001005,
+            "train_loss": 0.45753,
+            "val_loss": 1.270902,
+            "val_accuracy": 0.673871,
+            "val_target_macro_frame_f1": 0.740556,
+            "best_epoch": 6
+          },
+          {
+            "epoch": 8,
+            "lr": 0.00074748,
+            "train_loss": 0.410299,
+            "val_loss": 1.170273,
+            "val_accuracy": 0.674352,
+            "val_target_macro_frame_f1": 0.730453,
+            "best_epoch": 6
+          },
+          {
+            "epoch": 9,
+            "lr": 0.0005075,
+            "train_loss": 0.382343,
+            "val_loss": 1.208714,
+            "val_accuracy": 0.696446,
+            "val_target_macro_frame_f1": 0.747075,
+            "best_epoch": 9
+          },
+          {
+            "epoch": 10,
+            "lr": 0.00030143,
+            "train_loss": 0.362169,
+            "val_loss": 1.219978,
+            "val_accuracy": 0.699808,
+            "val_target_macro_frame_f1": 0.748242,
+            "best_epoch": 10
+          },
+          {
+            "epoch": 11,
+            "lr": 0.0001433,
+            "train_loss": 0.352978,
+            "val_loss": 1.23145,
+            "val_accuracy": 0.701729,
+            "val_target_macro_frame_f1": 0.749347,
+            "best_epoch": 11
+          },
+          {
+            "epoch": 12,
+            "lr": 4.39e-05,
+            "train_loss": 0.347058,
+            "val_loss": 1.234591,
+            "val_accuracy": 0.702209,
+            "val_target_macro_frame_f1": 0.749533,
+            "best_epoch": 12
+          }
+        ],
+        "best_epoch": 12,
+        "best_score": 0.702209,
+        "class_support_frames": {
+          "idle": 1550,
+          "long_brush_insert": 1476,
+          "long_brush_withdraw": 1080,
+          "short_brush_cleaning": 680,
+          "flush": 841,
+          "air_injection": 366
+        },
+        "stopped_epoch": 12
+      },
+      "postprocess_config": {
+        "prob_smooth": 1,
+        "min_segment": 8,
+        "merge_gap": 0,
+        "confidence_threshold": 0.0
+      },
+      "top_postprocess_configs": [
+        {
+          "config": {
+            "prob_smooth": 1,
+            "min_segment": 8,
+            "merge_gap": 0,
+            "confidence_threshold": 0.0
+          },
+          "score": 4.301068844080065,
+          "accuracy": 0.7050912584053795,
+          "target_macro_frame_f1": 0.7512186126592292,
+          "f1@0.25": 0.20303030303030303,
+          "f1@0.5": 0.16666666666666666,
+          "count_abs_error": 10
+        },
+        {
+          "config": {
+            "prob_smooth": 1,
+            "min_segment": 8,
+            "merge_gap": 0,
+            "confidence_threshold": 0.25
+          },
+          "score": 4.301068844080065,
+          "accuracy": 0.7050912584053795,
+          "target_macro_frame_f1": 0.7512186126592292,
+          "f1@0.25": 0.20303030303030303,
+          "f1@0.5": 0.16666666666666666,
+          "count_abs_error": 10
+        },
+        {
+          "config": {
+            "prob_smooth": 1,
+            "min_segment": 8,
+            "merge_gap": 2,
+            "confidence_threshold": 0.0
+          },
+          "score": 4.301068844080065,
+          "accuracy": 0.7050912584053795,
+          "target_macro_frame_f1": 0.7512186126592292,
+          "f1@0.25": 0.20303030303030303,
+          "f1@0.5": 0.16666666666666666,
+          "count_abs_error": 10
+        },
+        {
+          "config": {
+            "prob_smooth": 1,
+            "min_segment": 8,
+            "merge_gap": 2,
+            "confidence_threshold": 0.25
+          },
+          "score": 4.301068844080065,
+          "accuracy": 0.7050912584053795,
+          "target_macro_frame_f1": 0.7512186126592292,
+          "f1@0.25": 0.20303030303030303,
+          "f1@0.5": 0.16666666666666666,
+          "count_abs_error": 10
+        },
+        {
+          "config": {
+            "prob_smooth": 1,
+            "min_segment": 8,
+            "merge_gap": 4,
+            "confidence_threshold": 0.0
+          },
+          "score": 4.301068844080065,
+          "accuracy": 0.7050912584053795,
+          "target_macro_frame_f1": 0.7512186126592292,
+          "f1@0.25": 0.20303030303030303,
+          "f1@0.5": 0.16666666666666666,
+          "count_abs_error": 10
+        },
+        {
+          "config": {
+            "prob_smooth": 1,
+            "min_segment": 8,
+            "merge_gap": 4,
+            "confidence_threshold": 0.25
+          },
+          "score": 4.301068844080065,
+          "accuracy": 0.7050912584053795,
+          "target_macro_frame_f1": 0.7512186126592292,
+          "f1@0.25": 0.20303030303030303,
+          "f1@0.5": 0.16666666666666666,
+          "count_abs_error": 10
+        },
+        {
+          "config": {
+            "prob_smooth": 1,
+            "min_segment": 8,
+            "merge_gap": 8,
+            "confidence_threshold": 0.0
+          },
+          "score": 4.301068844080065,
+          "accuracy": 0.7050912584053795,
+          "target_macro_frame_f1": 0.7512186126592292,
+          "f1@0.25": 0.20303030303030303,
+          "f1@0.5": 0.16666666666666666,
+          "count_abs_error": 10
+        },
+        {
+          "config": {
+            "prob_smooth": 1,
+            "min_segment": 8,
+            "merge_gap": 8,
+            "confidence_threshold": 0.25
+          },
+          "score": 4.301068844080065,
+          "accuracy": 0.7050912584053795,
+          "target_macro_frame_f1": 0.7512186126592292,
+          "f1@0.25": 0.20303030303030303,
+          "f1@0.5": 0.16666666666666666,
+          "count_abs_error": 10
+        },
+        {
+          "config": {
+            "prob_smooth": 5,
+            "min_segment": 8,
+            "merge_gap": 0,
+            "confidence_threshold": 0.0
+          },
+          "score": 4.301016396813405,
+          "accuracy": 0.7050912584053795,
+          "target_macro_frame_f1": 0.751166165392569,
+          "f1@0.25": 0.20303030303030303,
+          "f1@0.5": 0.16666666666666666,
+          "count_abs_error": 10
+        },
+        {
+          "config": {
+            "prob_smooth": 5,
+            "min_segment": 8,
+            "merge_gap": 0,
+            "confidence_threshold": 0.25
+          },
+          "score": 4.301016396813405,
+          "accuracy": 0.7050912584053795,
+          "target_macro_frame_f1": 0.751166165392569,
+          "f1@0.25": 0.20303030303030303,
+          "f1@0.5": 0.16666666666666666,
+          "count_abs_error": 10
+        },
+        {
+          "config": {
+            "prob_smooth": 5,
+            "min_segment": 8,
+            "merge_gap": 2,
+            "confidence_threshold": 0.0
+          },
+          "score": 4.301016396813405,
+          "accuracy": 0.7050912584053795,
+          "target_macro_frame_f1": 0.751166165392569,
+          "f1@0.25": 0.20303030303030303,
+          "f1@0.5": 0.16666666666666666,
+          "count_abs_error": 10
+        },
+        {
+          "config": {
+            "prob_smooth": 5,
+            "min_segment": 8,
+            "merge_gap": 2,
+            "confidence_threshold": 0.25
+          },
+          "score": 4.301016396813405,
+          "accuracy": 0.7050912584053795,
+          "target_macro_frame_f1": 0.751166165392569,
+          "f1@0.25": 0.20303030303030303,
+          "f1@0.5": 0.16666666666666666,
+          "count_abs_error": 10
+        },
+        {
+          "config": {
+            "prob_smooth": 5,
+            "min_segment": 8,
+            "merge_gap": 4,
+            "confidence_threshold": 0.0
+          },
+          "score": 4.301016396813405,
+          "accuracy": 0.7050912584053795,
+          "target_macro_frame_f1": 0.751166165392569,
+          "f1@0.25": 0.20303030303030303,
+          "f1@0.5": 0.16666666666666666,
+          "count_abs_error": 10
+        },
+        {
+          "config": {
+            "prob_smooth": 5,
+            "min_segment": 8,
+            "merge_gap": 4,
+            "confidence_threshold": 0.25
+          },
+          "score": 4.301016396813405,
+          "accuracy": 0.7050912584053795,
+          "target_macro_frame_f1": 0.751166165392569,
+          "f1@0.25": 0.20303030303030303,
+          "f1@0.5": 0.16666666666666666,
+          "count_abs_error": 10
+        },
+        {
+          "config": {
+            "prob_smooth": 5,
+            "min_segment": 8,
+            "merge_gap": 8,
+            "confidence_threshold": 0.0
+          },
+          "score": 4.301016396813405,
+          "accuracy": 0.7050912584053795,
+          "target_macro_frame_f1": 0.751166165392569,
+          "f1@0.25": 0.20303030303030303,
+          "f1@0.5": 0.16666666666666666,
+          "count_abs_error": 10
+        },
+        {
+          "config": {
+            "prob_smooth": 5,
+            "min_segment": 8,
+            "merge_gap": 8,
+            "confidence_threshold": 0.25
+          },
+          "score": 4.301016396813405,
+          "accuracy": 0.7050912584053795,
+          "target_macro_frame_f1": 0.751166165392569,
+          "f1@0.25": 0.20303030303030303,
+          "f1@0.5": 0.16666666666666666,
+          "count_abs_error": 10
+        },
+        {
+          "config": {
+            "prob_smooth": 3,
+            "min_segment": 8,
+            "merge_gap": 0,
+            "confidence_threshold": 0.4
+          },
+          "score": 4.301010774946851,
+          "accuracy": 0.7055715658021133,
+          "target_macro_frame_f1": 0.7514862792696183,
+          "f1@0.25": 0.18484848484848485,
+          "f1@0.5": 0.16666666666666666,
+          "count_abs_error": 10
+        },
+        {
+          "config": {
+            "prob_smooth": 3,
+            "min_segment": 8,
+            "merge_gap": 2,
+            "confidence_threshold": 0.4
+          },
+          "score": 4.301010774946851,
+          "accuracy": 0.7055715658021133,
+          "target_macro_frame_f1": 0.7514862792696183,
+          "f1@0.25": 0.18484848484848485,
+          "f1@0.5": 0.16666666666666666,
+          "count_abs_error": 10
+        },
+        {
+          "config": {
+            "prob_smooth": 3,
+            "min_segment": 8,
+            "merge_gap": 4,
+            "confidence_threshold": 0.4
+          },
+          "score": 4.301010774946851,
+          "accuracy": 0.7055715658021133,
+          "target_macro_frame_f1": 0.7514862792696183,
+          "f1@0.25": 0.18484848484848485,
+          "f1@0.5": 0.16666666666666666,
+          "count_abs_error": 10
+        },
+        {
+          "config": {
+            "prob_smooth": 3,
+            "min_segment": 8,
+            "merge_gap": 8,
+            "confidence_threshold": 0.4
+          },
+          "score": 4.301010774946851,
+          "accuracy": 0.7055715658021133,
+          "target_macro_frame_f1": 0.7514862792696183,
+          "f1@0.25": 0.18484848484848485,
+          "f1@0.5": 0.16666666666666666,
+          "count_abs_error": 10
+        }
+      ],
+      "metrics": {
+        "val_raw": {
+          "frame": {
+            "accuracy": 0.7022094140249759,
+            "per_class": {
+              "idle": {
+                "support": 490,
+                "predicted": 417,
+                "precision": 0.5875299760191847,
+                "recall": 0.5,
+                "frame_f1": 0.5402425578831312
+              },
+              "long_brush_insert": {
+                "support": 457,
+                "predicted": 218,
+                "precision": 1.0,
+                "recall": 0.47702407002188185,
+                "frame_f1": 0.645925925925926
+              },
+              "long_brush_withdraw": {
+                "support": 217,
+                "predicted": 395,
+                "precision": 0.28860759493670884,
+                "recall": 0.5253456221198156,
+                "frame_f1": 0.37254901960784315
+              },
+              "short_brush_cleaning": {
+                "support": 376,
+                "predicted": 470,
+                "precision": 0.7531914893617021,
+                "recall": 0.9414893617021277,
+                "frame_f1": 0.8368794326241135
+              },
+              "flush": {
+                "support": 333,
+                "predicted": 352,
+                "precision": 0.9147727272727273,
+                "recall": 0.9669669669669669,
+                "frame_f1": 0.9401459854014599
+              },
+              "air_injection": {
+                "support": 209,
+                "predicted": 230,
+                "precision": 0.908695652173913,
+                "recall": 1.0,
+                "frame_f1": 0.9521640091116174
+              }
+            },
+            "target_macro_precision": 0.7730534927490103,
+            "target_macro_recall": 0.7821652041621585,
+            "target_macro_frame_f1": 0.7495328745341919
+          },
+          "segment": {
+            "per_class": {
+              "long_brush_insert": {
+                "segment_precision@0.25": 0.2727272727272727,
+                "segment_recall@0.25": 0.2727272727272727,
+                "segment_f1@0.25": 0.2727272727272727,
+                "segment_precision@0.5": 0.18181818181818182,
+                "segment_recall@0.5": 0.18181818181818182,
+                "segment_f1@0.5": 0.18181818181818182
+              },
+              "long_brush_withdraw": {
+                "segment_precision@0.25": 0.22727272727272727,
+                "segment_recall@0.25": 0.22727272727272727,
+                "segment_f1@0.25": 0.22727272727272727,
+                "segment_precision@0.5": 0.22727272727272727,
+                "segment_recall@0.5": 0.22727272727272727,
+                "segment_f1@0.5": 0.22727272727272727
+              },
+              "short_brush_cleaning": {
+                "segment_precision@0.25": 0.2424242424242424,
+                "segment_recall@0.25": 0.2727272727272727,
+                "segment_f1@0.25": 0.2545454545454545,
+                "segment_precision@0.5": 0.1515151515151515,
+                "segment_recall@0.5": 0.18181818181818182,
+                "segment_f1@0.5": 0.16363636363636364
+              },
+              "flush": {
+                "segment_precision@0.25": 0.18181818181818182,
+                "segment_recall@0.25": 0.13636363636363635,
+                "segment_f1@0.25": 0.1515151515151515,
+                "segment_precision@0.5": 0.18181818181818182,
+                "segment_recall@0.5": 0.13636363636363635,
+                "segment_f1@0.5": 0.1515151515151515
+              },
+              "air_injection": {
+                "segment_precision@0.25": 0.09090909090909091,
+                "segment_recall@0.25": 0.09090909090909091,
+                "segment_f1@0.25": 0.09090909090909091,
+                "segment_precision@0.5": 0.09090909090909091,
+                "segment_recall@0.5": 0.09090909090909091,
+                "segment_f1@0.5": 0.09090909090909091
+              }
+            },
+            "target_macro_segment_precision@0.25": 0.20303030303030303,
+            "target_macro_segment_recall@0.25": 0.2,
+            "target_macro_segment_f1@0.25": 0.1993939393939394,
+            "target_macro_segment_precision@0.5": 0.16666666666666669,
+            "target_macro_segment_recall@0.5": 0.16363636363636364,
+            "target_macro_segment_f1@0.5": 0.16303030303030303
+          },
+          "segment_quality": {
+            "total_gt_segments": 22,
+            "total_pred_segments": 22,
+            "total_count_abs_error": 12,
+            "boundary_error_mean_frames": 13.384615384615385,
+            "boundary_error_median_frames": 10.5,
+            "per_class": {
+              "long_brush_insert": {
+                "gt_segments": 4,
+                "pred_segments": 3,
+                "count_abs_error": 1,
+                "boundary_error_mean_frames": 26.166666666666668,
+                "boundary_error_median_frames": 26.5
+              },
+              "long_brush_withdraw": {
+                "gt_segments": 5,
+                "pred_segments": 9,
+                "count_abs_error": 4,
+                "boundary_error_mean_frames": 7.0,
+                "boundary_error_median_frames": 6.5
+              },
+              "short_brush_cleaning": {
+                "gt_segments": 4,
+                "pred_segments": 6,
+                "count_abs_error": 2,
+                "boundary_error_mean_frames": 15.125,
+                "boundary_error_median_frames": 15.5
+              },
+              "flush": {
+                "gt_segments": 8,
+                "pred_segments": 3,
+                "count_abs_error": 5,
+                "boundary_error_mean_frames": 1.75,
+                "boundary_error_median_frames": 1.75
+              },
+              "air_injection": {
+                "gt_segments": 1,
+                "pred_segments": 1,
+                "count_abs_error": 0,
+                "boundary_error_mean_frames": 10.5,
+                "boundary_error_median_frames": 10.5
+              }
+            }
+          }
+        },
+        "test_raw": {
+          "frame": {
+            "accuracy": 0.5964310226492794,
+            "per_class": {
+              "idle": {
+                "support": 398,
+                "predicted": 273,
+                "precision": 0.8315018315018315,
+                "recall": 0.5703517587939698,
+                "frame_f1": 0.676602086438152
+              },
+              "long_brush_insert": {
+                "support": 572,
+                "predicted": 343,
+                "precision": 0.9854227405247813,
+                "recall": 0.5909090909090909,
+                "frame_f1": 0.7387978142076502
+              },
+              "long_brush_withdraw": {
+                "support": 0,
+                "predicted": 281,
+                "precision": 0.0,
+                "recall": 0.0,
+                "frame_f1": 0.0
+              },
+              "short_brush_cleaning": {
+                "support": 111,
+                "predicted": 264,
+                "precision": 0.38257575757575757,
+                "recall": 0.9099099099099099,
+                "frame_f1": 0.5386666666666666
+              },
+              "flush": {
+                "support": 261,
+                "predicted": 112,
+                "precision": 0.7857142857142857,
+                "recall": 0.3371647509578544,
+                "frame_f1": 0.4718498659517426
+              },
+              "air_injection": {
+                "support": 115,
+                "predicted": 184,
+                "precision": 0.625,
+                "recall": 1.0,
+                "frame_f1": 0.7692307692307693
+              }
+            },
+            "target_macro_precision": 0.5557425567629649,
+            "target_macro_recall": 0.567596750355371,
+            "target_macro_frame_f1": 0.5037090232113657
+          },
+          "segment": {
+            "per_class": {
+              "long_brush_insert": {
+                "segment_precision@0.25": 0.42857142857142855,
+                "segment_recall@0.25": 0.42857142857142855,
+                "segment_f1@0.25": 0.42857142857142855,
+                "segment_precision@0.5": 0.42857142857142855,
+                "segment_recall@0.5": 0.42857142857142855,
+                "segment_f1@0.5": 0.42857142857142855
+              },
+              "long_brush_withdraw": {
+                "segment_precision@0.25": 0.0,
+                "segment_recall@0.25": 0.0,
+                "segment_f1@0.25": 0.0,
+                "segment_precision@0.5": 0.0,
+                "segment_recall@0.5": 0.0,
+                "segment_f1@0.5": 0.0
+              },
+              "short_brush_cleaning": {
+                "segment_precision@0.25": 0.047619047619047616,
+                "segment_recall@0.25": 0.14285714285714285,
+                "segment_f1@0.25": 0.07142857142857142,
+                "segment_precision@0.5": 0.047619047619047616,
+                "segment_recall@0.5": 0.14285714285714285,
+                "segment_f1@0.5": 0.07142857142857142
+              },
+              "flush": {
+                "segment_precision@0.25": 0.2857142857142857,
+                "segment_recall@0.25": 0.21428571428571427,
+                "segment_f1@0.25": 0.23809523809523808,
+                "segment_precision@0.5": 0.21428571428571427,
+                "segment_recall@0.5": 0.17857142857142858,
+                "segment_f1@0.5": 0.19047619047619047
+              },
+              "air_injection": {
+                "segment_precision@0.25": 0.14285714285714285,
+                "segment_recall@0.25": 0.14285714285714285,
+                "segment_f1@0.25": 0.14285714285714285,
+                "segment_precision@0.5": 0.14285714285714285,
+                "segment_recall@0.5": 0.14285714285714285,
+                "segment_f1@0.5": 0.14285714285714285
+              }
+            },
+            "target_macro_segment_precision@0.25": 0.18095238095238092,
+            "target_macro_segment_recall@0.25": 0.18571428571428572,
+            "target_macro_segment_f1@0.25": 0.17619047619047618,
+            "target_macro_segment_precision@0.5": 0.16666666666666666,
+            "target_macro_segment_recall@0.5": 0.17857142857142855,
+            "target_macro_segment_f1@0.5": 0.16666666666666666
+          },
+          "segment_quality": {
+            "total_gt_segments": 14,
+            "total_pred_segments": 11,
+            "total_count_abs_error": 9,
+            "boundary_error_mean_frames": 7.875,
+            "boundary_error_median_frames": 4.25,
+            "per_class": {
+              "long_brush_insert": {
+                "gt_segments": 6,
+                "pred_segments": 3,
+                "count_abs_error": 3,
+                "boundary_error_mean_frames": 2.8333333333333335,
+                "boundary_error_median_frames": 3.5
+              },
+              "long_brush_withdraw": {
+                "gt_segments": 0,
+                "pred_segments": 1,
+                "count_abs_error": 1,
+                "boundary_error_mean_frames": null,
+                "boundary_error_median_frames": null
+              },
+              "short_brush_cleaning": {
+                "gt_segments": 1,
+                "pred_segments": 3,
+                "count_abs_error": 2,
+                "boundary_error_mean_frames": 5.0,
+                "boundary_error_median_frames": 5.0
+              },
+              "flush": {
+                "gt_segments": 6,
+                "pred_segments": 3,
+                "count_abs_error": 3,
+                "boundary_error_mean_frames": 5.0,
+                "boundary_error_median_frames": 6.0
+              },
+              "air_injection": {
+                "gt_segments": 1,
+                "pred_segments": 1,
+                "count_abs_error": 0,
+                "boundary_error_mean_frames": 34.5,
+                "boundary_error_median_frames": 34.5
+              }
+            }
+          }
+        },
+        "val_post": {
+          "frame": {
+            "accuracy": 0.7050912584053795,
+            "per_class": {
+              "idle": {
+                "support": 490,
+                "predicted": 427,
+                "precision": 0.5878220140515222,
+                "recall": 0.5122448979591837,
+                "frame_f1": 0.5474372955288985
+              },
+              "long_brush_insert": {
+                "support": 457,
+                "predicted": 218,
+                "precision": 1.0,
+                "recall": 0.47702407002188185,
+                "frame_f1": 0.645925925925926
+              },
+              "long_brush_withdraw": {
+                "support": 217,
+                "predicted": 391,
+                "precision": 0.2915601023017903,
+                "recall": 0.5253456221198156,
+                "frame_f1": 0.375
+              },
+              "short_brush_cleaning": {
+                "support": 376,
+                "predicted": 464,
+                "precision": 0.7629310344827587,
+                "recall": 0.9414893617021277,
+                "frame_f1": 0.8428571428571429
+              },
+              "flush": {
+                "support": 333,
+                "predicted": 352,
+                "precision": 0.9147727272727273,
+                "recall": 0.9669669669669669,
+                "frame_f1": 0.9401459854014599
+              },
+              "air_injection": {
+                "support": 209,
+                "predicted": 230,
+                "precision": 0.908695652173913,
+                "recall": 1.0,
+                "frame_f1": 0.9521640091116174
+              }
+            },
+            "target_macro_precision": 0.7755919032462378,
+            "target_macro_recall": 0.7821652041621585,
+            "target_macro_frame_f1": 0.7512186126592292
+          },
+          "segment": {
+            "per_class": {
+              "long_brush_insert": {
+                "segment_precision@0.25": 0.2727272727272727,
+                "segment_recall@0.25": 0.2727272727272727,
+                "segment_f1@0.25": 0.2727272727272727,
+                "segment_precision@0.5": 0.18181818181818182,
+                "segment_recall@0.5": 0.18181818181818182,
+                "segment_f1@0.5": 0.18181818181818182
+              },
+              "long_brush_withdraw": {
+                "segment_precision@0.25": 0.22727272727272727,
+                "segment_recall@0.25": 0.22727272727272727,
+                "segment_f1@0.25": 0.22727272727272727,
+                "segment_precision@0.5": 0.22727272727272727,
+                "segment_recall@0.5": 0.22727272727272727,
+                "segment_f1@0.5": 0.22727272727272727
+              },
+              "short_brush_cleaning": {
+                "segment_precision@0.25": 0.2727272727272727,
+                "segment_recall@0.25": 0.2727272727272727,
+                "segment_f1@0.25": 0.2727272727272727,
+                "segment_precision@0.5": 0.18181818181818182,
+                "segment_recall@0.5": 0.18181818181818182,
+                "segment_f1@0.5": 0.18181818181818182
+              },
+              "flush": {
+                "segment_precision@0.25": 0.18181818181818182,
+                "segment_recall@0.25": 0.13636363636363635,
+                "segment_f1@0.25": 0.1515151515151515,
+                "segment_precision@0.5": 0.18181818181818182,
+                "segment_recall@0.5": 0.13636363636363635,
+                "segment_f1@0.5": 0.1515151515151515
+              },
+              "air_injection": {
+                "segment_precision@0.25": 0.09090909090909091,
+                "segment_recall@0.25": 0.09090909090909091,
+                "segment_f1@0.25": 0.09090909090909091,
+                "segment_precision@0.5": 0.09090909090909091,
+                "segment_recall@0.5": 0.09090909090909091,
+                "segment_f1@0.5": 0.09090909090909091
+              }
+            },
+            "target_macro_segment_precision@0.25": 0.20909090909090908,
+            "target_macro_segment_recall@0.25": 0.2,
+            "target_macro_segment_f1@0.25": 0.20303030303030303,
+            "target_macro_segment_precision@0.5": 0.17272727272727273,
+            "target_macro_segment_recall@0.5": 0.16363636363636364,
+            "target_macro_segment_f1@0.5": 0.16666666666666666
+          },
+          "segment_quality": {
+            "total_gt_segments": 22,
+            "total_pred_segments": 20,
+            "total_count_abs_error": 10,
+            "boundary_error_mean_frames": 13.384615384615385,
+            "boundary_error_median_frames": 10.5,
+            "per_class": {
+              "long_brush_insert": {
+                "gt_segments": 4,
+                "pred_segments": 3,
+                "count_abs_error": 1,
+                "boundary_error_mean_frames": 26.166666666666668,
+                "boundary_error_median_frames": 26.5
+              },
+              "long_brush_withdraw": {
+                "gt_segments": 5,
+                "pred_segments": 8,
+                "count_abs_error": 3,
+                "boundary_error_mean_frames": 7.0,
+                "boundary_error_median_frames": 6.5
+              },
+              "short_brush_cleaning": {
+                "gt_segments": 4,
+                "pred_segments": 5,
+                "count_abs_error": 1,
+                "boundary_error_mean_frames": 15.125,
+                "boundary_error_median_frames": 15.5
+              },
+              "flush": {
+                "gt_segments": 8,
+                "pred_segments": 3,
+                "count_abs_error": 5,
+                "boundary_error_mean_frames": 1.75,
+                "boundary_error_median_frames": 1.75
+              },
+              "air_injection": {
+                "gt_segments": 1,
+                "pred_segments": 1,
+                "count_abs_error": 0,
+                "boundary_error_mean_frames": 10.5,
+                "boundary_error_median_frames": 10.5
+              }
+            }
+          }
+        },
+        "test_post": {
+          "frame": {
+            "accuracy": 0.5950583390528483,
+            "per_class": {
+              "idle": {
+                "support": 398,
+                "predicted": 275,
+                "precision": 0.8254545454545454,
+                "recall": 0.5703517587939698,
+                "frame_f1": 0.674591381872214
+              },
+              "long_brush_insert": {
+                "support": 572,
+                "predicted": 343,
+                "precision": 0.9854227405247813,
+                "recall": 0.5909090909090909,
+                "frame_f1": 0.7387978142076502
+              },
+              "long_brush_withdraw": {
+                "support": 0,
+                "predicted": 281,
+                "precision": 0.0,
+                "recall": 0.0,
+                "frame_f1": 0.0
+              },
+              "short_brush_cleaning": {
+                "support": 111,
+                "predicted": 264,
+                "precision": 0.38257575757575757,
+                "recall": 0.9099099099099099,
+                "frame_f1": 0.5386666666666666
+              },
+              "flush": {
+                "support": 261,
+                "predicted": 110,
+                "precision": 0.7818181818181819,
+                "recall": 0.32950191570881227,
+                "frame_f1": 0.4636118598382749
+              },
+              "air_injection": {
+                "support": 115,
+                "predicted": 184,
+                "precision": 0.625,
+                "recall": 1.0,
+                "frame_f1": 0.7692307692307693
+              }
+            },
+            "target_macro_precision": 0.5549633359837441,
+            "target_macro_recall": 0.5660641833055626,
+            "target_macro_frame_f1": 0.5020614219886722
+          },
+          "segment": {
+            "per_class": {
+              "long_brush_insert": {
+                "segment_precision@0.25": 0.42857142857142855,
+                "segment_recall@0.25": 0.42857142857142855,
+                "segment_f1@0.25": 0.42857142857142855,
+                "segment_precision@0.5": 0.42857142857142855,
+                "segment_recall@0.5": 0.42857142857142855,
+                "segment_f1@0.5": 0.42857142857142855
+              },
+              "long_brush_withdraw": {
+                "segment_precision@0.25": 0.0,
+                "segment_recall@0.25": 0.0,
+                "segment_f1@0.25": 0.0,
+                "segment_precision@0.5": 0.0,
+                "segment_recall@0.5": 0.0,
+                "segment_f1@0.5": 0.0
+              },
+              "short_brush_cleaning": {
+                "segment_precision@0.25": 0.047619047619047616,
+                "segment_recall@0.25": 0.14285714285714285,
+                "segment_f1@0.25": 0.07142857142857142,
+                "segment_precision@0.5": 0.047619047619047616,
+                "segment_recall@0.5": 0.14285714285714285,
+                "segment_f1@0.5": 0.07142857142857142
+              },
+              "flush": {
+                "segment_precision@0.25": 0.2857142857142857,
+                "segment_recall@0.25": 0.17857142857142858,
+                "segment_f1@0.25": 0.19999999999999998,
+                "segment_precision@0.5": 0.2857142857142857,
+                "segment_recall@0.5": 0.17857142857142858,
+                "segment_f1@0.5": 0.19999999999999998
+              },
+              "air_injection": {
+                "segment_precision@0.25": 0.14285714285714285,
+                "segment_recall@0.25": 0.14285714285714285,
+                "segment_f1@0.25": 0.14285714285714285,
+                "segment_precision@0.5": 0.14285714285714285,
+                "segment_recall@0.5": 0.14285714285714285,
+                "segment_f1@0.5": 0.14285714285714285
+              }
+            },
+            "target_macro_segment_precision@0.25": 0.18095238095238092,
+            "target_macro_segment_recall@0.25": 0.17857142857142855,
+            "target_macro_segment_f1@0.25": 0.16857142857142854,
+            "target_macro_segment_precision@0.5": 0.18095238095238092,
+            "target_macro_segment_recall@0.5": 0.17857142857142855,
+            "target_macro_segment_f1@0.5": 0.16857142857142854
+          },
+          "segment_quality": {
+            "total_gt_segments": 14,
+            "total_pred_segments": 10,
+            "total_count_abs_error": 10,
+            "boundary_error_mean_frames": 8.571428571428571,
+            "boundary_error_median_frames": 5.0,
+            "per_class": {
+              "long_brush_insert": {
+                "gt_segments": 6,
+                "pred_segments": 3,
+                "count_abs_error": 3,
+                "boundary_error_mean_frames": 2.8333333333333335,
+                "boundary_error_median_frames": 3.5
+              },
+              "long_brush_withdraw": {
+                "gt_segments": 0,
+                "pred_segments": 1,
+                "count_abs_error": 1,
+                "boundary_error_mean_frames": null,
+                "boundary_error_median_frames": null
+              },
+              "short_brush_cleaning": {
+                "gt_segments": 1,
+                "pred_segments": 3,
+                "count_abs_error": 2,
+                "boundary_error_mean_frames": 5.0,
+                "boundary_error_median_frames": 5.0
+              },
+              "flush": {
+                "gt_segments": 6,
+                "pred_segments": 2,
+                "count_abs_error": 4,
+                "boundary_error_mean_frames": 6.0,
+                "boundary_error_median_frames": 6.0
+              },
+              "air_injection": {
+                "gt_segments": 1,
+                "pred_segments": 1,
+                "count_abs_error": 0,
+                "boundary_error_mean_frames": 34.5,
+                "boundary_error_median_frames": 34.5
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "analysis": [
+    "val raw frame accuracy 最好的模型是 `bigru`，ACC=0.7022。",
+    "val post frame accuracy 最好的模型是 `bigru`，ACC=0.7051；post 结果用于后续动作段输出。",
+    "test raw frame accuracy 最好的模型是 `bigru`，ACC=0.5964。",
+    "test post frame accuracy 最好的模型是 `bigru`，ACC=0.5951；post 结果用于后续动作段输出。",
+    "按本轮主目标 test raw frame accuracy 排序，`bigru` 最好，ACC=0.5964。",
+    "`long_brush_withdraw` 在当前 test split 中 GT 帧数为 0，但模型仍有预测：`ms_tcn` 误报 153 帧、`asformer` 误报 362 帧、`bigru` 误报 281 帧；这说明当前 split 类别分布不均衡，且长刷插入/拔出方向证据仍不稳定。",
+    "v4 训练选择 raw frame accuracy 做主目标，避免在切分片段数据上过度追逐段级后处理参数。",
+    "postprocess 仍会影响 ACC 和段级 F1；本轮默认按验证集 post frame accuracy 选择参数，segment F1/段数/边界误差作为附带约束。",
+    "新增 proxy RGB 特征维度较多，如果 test 明显低于 val，需要优先做特征组消融，而不是继续加复杂模型。"
+  ]
+}

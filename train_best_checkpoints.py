@@ -1,25 +1,11 @@
-"""Train best-known ActionMixed checkpoints for each offline segmenter.
+"""按每个模型各自的最佳 recipe 训练 ActionMixed 候选权重。
 
-This script is intentionally separate from ``run_pipeline.py``:
+本脚本与通用入口 ``run_pipeline.py`` 分开，专门用于交付候选权重：先把 ActionMixed
+转换为基础 FeatureStore，再按 ``BEST_RECIPES`` 增强特征/切分训练样本，最后在声明的
+validation split 上评估并写出统一报告。
 
-Input:
-    - ActionMixed dataset under ``input/modelscope/lhh010__cleansight-ActionMixed``.
-    - YOLO detection txt files + frame-level action labels from that dataset.
-
-Process:
-    1. Convert ActionMixed to the base FeatureStore-like npz format.
-    2. Apply the best feature recipe found in the previous experiment for each model.
-    3. Train the model with the matching training mode.
-    4. Evaluate on the declared validation split.
-
-Output:
-    - ``output_actionmixed_best_models/models/best_<model>_offline_segmenter.pt``
-    - ``output_actionmixed_best_models/best_model_report.json``
-    - ``output_actionmixed_best_models/best_model_report.md``
-
-The saved checkpoint contains feature_names, feature_version, normalizer
-parameters and the selected feature/training recipe. Downstream inference must
-use the same feature recipe before loading the corresponding weight file.
+checkpoint 会保存 feature_names、feature_version、归一化参数和 recipe。下游推理必须
+使用完全相同的特征构造方式，不能只按权重文件名猜测输入维度。
 """
 
 from __future__ import annotations
@@ -45,8 +31,16 @@ from run_optimization_experiments import (
 from run_pipeline import OfflineSegmenter
 
 
+# ============================ 集中参数区 ============================
+# 命令行仍可覆盖这些默认值；实验 recipe 只在 BEST_RECIPES 中维护，避免散落在函数内部。
+DEFAULT_DATASET_ROOT = Path("input/modelscope/lhh010__cleansight-ActionMixed")
+DEFAULT_OUTPUT_DIR = Path("output_actionmixed_best_models")
+DEFAULT_EPOCHS = 3
+DEFAULT_MODELS = ["ms_tcn", "asformer", "bigru"]
+
 BEST_RECIPES: dict[str, dict[str, str]] = {
-    # Best MS-TCN row from the optimization report.
+    # 从优化实验报告中挑出的“每个模型各自最优特征方式/训练方式”。
+    # 这里不再把所有模型都统一到同一套特征，而是按模型分别使用各自最优配置。
     "ms_tcn": {
         "feature_method": "v2",
         "train_mode": "full_sequence",
@@ -214,10 +208,10 @@ def write_markdown(report: dict[str, Any], path: Path) -> None:
 
 def make_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Train best checkpoints for ActionMixed offline models.")
-    parser.add_argument("--dataset-root", type=Path, default=Path("input/modelscope/lhh010__cleansight-ActionMixed"))
-    parser.add_argument("--out-dir", type=Path, default=Path("output_actionmixed_best_models"))
-    parser.add_argument("--epochs", type=int, default=3)
-    parser.add_argument("--models", nargs="+", default=["ms_tcn", "asformer", "bigru"], choices=sorted(BEST_RECIPES))
+    parser.add_argument("--dataset-root", type=Path, default=DEFAULT_DATASET_ROOT, help="ActionMixed 数据集根目录")
+    parser.add_argument("--out-dir", type=Path, default=DEFAULT_OUTPUT_DIR, help="权重、FeatureStore 和报告输出目录")
+    parser.add_argument("--epochs", type=int, default=DEFAULT_EPOCHS, help="每个模型的训练轮数")
+    parser.add_argument("--models", nargs="+", default=DEFAULT_MODELS, choices=sorted(BEST_RECIPES), help="要训练的模型子集")
     return parser
 
 

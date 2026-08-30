@@ -1,0 +1,60 @@
+{
+  "generated_dataset_root": "F:\\暑期实习\\offline-model\\yolo_image_train\\generated\\actionmixed_yolo_v03",
+  "output_root": "F:\\暑期实习\\offline-model\\yolo_image_train",
+  "versions": [
+    "v1",
+    "v2",
+    "v3",
+    "v4"
+  ],
+  "commands": [
+    [
+      "C:\\Users\\lenovo\\AppData\\Local\\Programs\\Python\\Python313\\python.exe",
+      "F:\\暑期实习\\offline-model\\image_train\\train_image_v1.py",
+      "--dataset-root",
+      "F:\\暑期实习\\offline-model\\yolo_image_train\\generated\\actionmixed_yolo_v03",
+      "--out-dir",
+      "F:\\暑期实习\\offline-model\\yolo_image_train\\output_v1",
+      "--epochs",
+      "3",
+      "--report-path",
+      "F:\\暑期实习\\offline-model\\yolo_image_train\\yolo_image_train_v1.md"
+    ],
+    [
+      "C:\\Users\\lenovo\\AppData\\Local\\Programs\\Python\\Python313\\python.exe",
+      "F:\\暑期实习\\offline-model\\image_train\\v2\\train_image_v2.py",
+      "--dataset-root",
+      "F:\\暑期实习\\offline-model\\yolo_image_train\\generated\\actionmixed_yolo_v03",
+      "--out-dir",
+      "F:\\暑期实习\\offline-model\\yolo_image_train\\output_v2",
+      "--epochs",
+      "8",
+      "--report-path",
+      "F:\\暑期实习\\offline-model\\yolo_image_train\\yolo_image_train_v2.md"
+    ],
+    [
+      "C:\\Users\\lenovo\\AppData\\Local\\Programs\\Python\\Python313\\python.exe",
+      "F:\\暑期实习\\offline-model\\image_train\\v3\\train_image_v3.py",
+      "--dataset-root",
+      "F:\\暑期实习\\offline-model\\yolo_image_train\\generated\\actionmixed_yolo_v03",
+      "--out-dir",
+      "F:\\暑期实习\\offline-model\\yolo_image_train\\output_v3",
+      "--epochs",
+      "8",
+      "--report-path",
+      "F:\\暑期实习\\offline-model\\yolo_image_train\\yolo_image_train_v3.md"
+    ],
+    [
+      "C:\\Users\\lenovo\\AppData\\Local\\Programs\\Python\\Python313\\python.exe",
+      "F:\\暑期实习\\offline-model\\image_train\\v4\\train_image_v4.py",
+      "--dataset-root",
+      "F:\\暑期实习\\offline-model\\yolo_image_train\\generated\\actionmixed_yolo_v03",
+      "--out-dir",
+      "F:\\暑期实习\\offline-model\\yolo_image_train\\output_v4",
+      "--epochs",
+      "12",
+      "--report-path",
+      "F:\\暑期实习\\offline-model\\yolo_image_train\\yolo_image_train_v4.md"
+    ]
+  ]
+}

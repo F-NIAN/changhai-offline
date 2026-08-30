@@ -90,6 +90,35 @@ output_actionmixed_optim_sliding/
 | 19 | `business_priors` | `sliding_window` | `ms_tcn` | 121 | 0.3375 | 0.1596 | 0.1238 | 0.1393 | 0.0437 | 0.0312 |
 | 20 | `v2` | `sliding_window` | `ms_tcn` | 113 | 0.2747 | 0.1514 | 0.0658 | 0.0911 | 0.0306 | 0.0306 |
 
+## 基于 113 维基线的扩展特征实验总结
+
+在 113 维基础上继续扩充特征，主要做了三类增强：
+
+- `window_stats`：对 hand / brush / syringe 等动作相关列做中心窗口均值统计，维度从 113 提升到 241。
+- `business_priors`：加入 8 个弱业务先验分数，维度提升到 121。
+- `window_stats+business_priors`：把窗口统计和业务先验同时叠加，维度提升到 249。
+
+从实验结果看，这些扩展特征确实比纯 113 维基线更有价值，尤其是对离线序列上下文建模更有效：
+
+| 扩展特征方式 | 典型最佳结果 | 说明 |
+|---|---|---|
+| `v2`（113 维基线） | `bigru + sliding_window`，ACC 0.7449，Frame-F1 0.5996，F1@0.25 0.1625 | 113 维基线本身已经很强，尤其在滑窗 BiGRU 上表现稳定。 |
+| `window_stats`（241 维） | `bigru + full_sequence`，ACC 0.6952，Frame-F1 0.5283，F1@0.25 0.1810 | 说明中心窗口统计对离线序列有明显增益。 |
+| `business_priors`（121 维） | `asformer + full_sequence`，ACC 0.6514，Frame-F1 0.5556，F1@0.25 0.1583 | 业务先验对 ASFormer 有一定帮助，但单独使用不如窗口统计稳定。 |
+| `window_stats+business_priors`（249 维） | `bigru + sliding_window`，ACC 0.7482，Frame-F1 0.5963，F1@0.25 0.1917 | 当前最优组合，兼顾时序上下文和业务先验。 |
+
+结论上看，单纯从 113 维扩展到更丰富的上下文/先验特征，整体是有收益的；而且最优结果并不是把所有模型都用同一种特征方式，而是每个模型各自对应不同的最佳组合。
+
+## 与训练代码的对齐情况
+
+当前训练脚本已经把三个模型分别切到各自的最佳组合：
+
+- `ms_tcn`：`v2 + full_sequence`
+- `asformer`：`business_priors + full_sequence`
+- `bigru`：`window_stats+business_priors + sliding_window`
+
+这与上面的实验结果是对齐的，说明后续训练/权重生成阶段已经按“每个模型各自最优特征方式”来配置。
+
 ## 最优配置逐类结果
 
 最优配置：

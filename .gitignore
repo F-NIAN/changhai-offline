@@ -7,3 +7,14 @@ output_actionmixed_full/
 output_actionmixed_optim_experiments/
 output_actionmixed_optim_smoke/
 input/modelscope/cleansight-ActionSequence/
+
+# RGB/ROI 实验：保留源码、顶层 Markdown 报告和精简 JSON，忽略可再生缓存/权重/逐帧产物。
+image_train/output_*/**
+!image_train/output_*/image_train_v*.json
+yolo_image_train/output_*/**
+!yolo_image_train/output_*/image_train_v*.json
+yolo_image_train/generated/
+yolo_image_train/weights/
+
+# 本地 YOLO 模型包体积较大，通过资产存储交付，不直接进入源码仓库。
+yolo/*.zip
